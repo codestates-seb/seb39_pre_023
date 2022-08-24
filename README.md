@@ -14,3 +14,24 @@
 
 데이터베이스 스키마 ver 0.1
 ![sql test](https://user-images.githubusercontent.com/80381715/186397292-5d30d873-46d4-4612-8ae5-2d7a976c0a41.png)
+
+* server Spring initializr dependency list
+
+1. Spring Web WEB
+
+2. Spring REST Docs
+
+3. Spring Data JPA
+
+4. H2 Database
+
+5. Lombok
+
+6. Spring Security
+
+7. OAuth2 Client
+
+8. MySQL Driver
+
+9. Validation
+
