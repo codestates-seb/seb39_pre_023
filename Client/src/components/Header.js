@@ -25,7 +25,7 @@ const Header = () => {
   return (
     <StyledHeader>
       <LogoLink className="logo">
-        <FontAwesomeIcon icon={faStackOverflow} />
+        <FontAwesomeIcon icon={faStackOverflow} size="2x" />
         Stack<b>OverFlow</b>
       </LogoLink>
       <form action="" className="search">
