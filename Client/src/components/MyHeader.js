@@ -3,8 +3,24 @@ import styled from 'styled-components';
 import { faStackOverflow } from '@fortawesome/fontawesome-free-brands';
 import { faBars, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import MyButton from './MyButton';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const MyHeader = () => {
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    axios
+      .get(`http://115.40.230.109:8080/api/answer/1`)
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <Container>
       <FontAwesomeIcon icon={faBars} className="menubar" />
@@ -19,7 +35,7 @@ const MyHeader = () => {
       </div>
       <form>
         <FontAwesomeIcon icon={faMagnifyingGlass} className="magnifying" />
-        <input type="text" placeholder="Search..." />
+        <input type="text" placeholder="Search..." data={data} />
       </form>
       <BtnWapper>
         <MyButton text={`Log in`} type={'skyblue'} onClick={() => {}} />

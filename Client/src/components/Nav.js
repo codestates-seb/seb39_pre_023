@@ -49,11 +49,7 @@ function Nav() {
         Public
         <li className="question">
           <Link to="/question">
-            <FontAwesomeIcon
-              className="earth"
-              icon={faEarthAmerica}
-              size="1.5x"
-            />
+            <FontAwesomeIcon className="earth" icon={faEarthAmerica} />
             Questions
           </Link>
         </li>
