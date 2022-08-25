@@ -3,8 +3,22 @@ import styled from 'styled-components';
 import { faStackOverflow } from '@fortawesome/fontawesome-free-brands';
 import { faBars, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import MyButton from './MyButton';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const MyHeader = () => {
+  const [data, setData] = useState('');
+  useEffect(() => {
+    axios
+      .get(`115.40.230.109:8080/api/answer/1`)
+      .then((res) => {
+        setData(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <Container>
       <FontAwesomeIcon icon={faBars} className="menubar" />
