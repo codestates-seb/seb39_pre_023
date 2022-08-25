@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import Footer from './components/Footer';
-import Header from './components/Header';
+import MyFooter from './components/MyFooter';
+import MyHeader from './components/MyHeader';
 import Nav from './components/Nav';
 import MyPage from './pages/MyPage/MyPage';
 import EditQuestion from './pages/Question/EditQuestion';
@@ -15,7 +15,7 @@ import SignUp from './pages/Sign/SingUp';
 function App() {
   return (
     <div className="App">
-      <Header />
+      <MyHeader />
       <Nav />
       <Routes>
         <Route path="/" element={<QuestionList />} />
@@ -27,7 +27,7 @@ function App() {
         <Route path="/questionedit/:id" element={<EditQuestion />} />
         <Route path="/questionwrite" element={<PostQuestion />} />
       </Routes>
-      <Footer />
+      <MyFooter />
     </div>
   );
 }
