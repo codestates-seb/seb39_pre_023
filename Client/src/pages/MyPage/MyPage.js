@@ -1,5 +1,6 @@
+import Nav from '../../components/Nav';
 const MyPage = () => {
-  return <div>마이페이지</div>;
+  return <Nav />;
 };
 
 export default MyPage;

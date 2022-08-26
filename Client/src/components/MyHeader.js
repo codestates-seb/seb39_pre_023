@@ -3,22 +3,26 @@ import styled from 'styled-components';
 import { faStackOverflow } from '@fortawesome/fontawesome-free-brands';
 import { faBars, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import MyButton from './MyButton';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+axios.defaults.withCredentials = false;
 
 const MyHeader = () => {
-  const [data, setData] = useState('');
-  useEffect(() => {
-    axios
-      .get(`115.40.230.109:8080/api/answer/1`)
-      .then((res) => {
-        setData(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const navigate = useNavigate();
+
+  // const [data, setData] = useState('');
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://115.40.230.109:8080/api/users/1`)
+  //     .then((res) => {
+  //       setData(res.data);
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
   return (
     <Container>
       <FontAwesomeIcon icon={faBars} className="menubar" />
@@ -36,9 +40,23 @@ const MyHeader = () => {
         <input type="text" placeholder="Search..." />
       </form>
       <BtnWapper>
-        <MyButton text={`Log in`} type={'skyblue'} onClick={() => {}} />
-        <MyButton text={`Sign up`} type={'blue'} onClick={() => {}} />
+        <MyButton
+          text={`Log in`}
+          type={'skyblue'}
+          onClick={() => {
+            navigate('/login');
+          }}
+        />
+        <MyButton
+          text={`Sign up`}
+          type={'blue'}
+          onClick={() => {
+            navigate('/signup');
+          }}
+        />
       </BtnWapper>
+      {/* <h1>{data.writerId}</h1>
+      <h1>{data.postContent}</h1> */}
     </Container>
   );
 };
