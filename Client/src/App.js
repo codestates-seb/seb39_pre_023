@@ -1,8 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import MyFooter from './components/MyFooter';
 import MyHeader from './components/MyHeader';
-import Nav from './components/Nav';
 import MyPage from './pages/MyPage/MyPage';
 import EditQuestion from './pages/Question/EditQuestion';
 import PostQuestion from './pages/Question/PostQuestion';
@@ -16,7 +14,6 @@ function App() {
   return (
     <div className="App">
       <MyHeader />
-      <Nav />
       <Routes>
         <Route path="/" element={<QuestionList />} />
         <Route path="/login" element={<Login />} />
@@ -27,7 +24,6 @@ function App() {
         <Route path="/questionedit/:id" element={<EditQuestion />} />
         <Route path="/questionwrite" element={<PostQuestion />} />
       </Routes>
-      <MyFooter />
     </div>
   );
 }
