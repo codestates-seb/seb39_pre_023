@@ -70,3 +70,7 @@ bootJar {
 		into 'static/docs'     // (10-3)
 	}
 }
+
+jar {
+	enabled = false
+}
