@@ -1,4 +1,4 @@
-package com.team23.PreProject.user.entitiy;
+package com.team23.PreProject.user.entity;
 
 public class user_entity {
 }
