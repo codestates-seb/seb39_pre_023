@@ -45,6 +45,13 @@ public class MainController {
     }
 
     @CrossOrigin
+    @GetMapping(value = "/api/test/answer/{uid}")
+    public ResponseEntity answer_read_json_test(@PathVariable String uid) {
+        System.out.println("uid = "+uid+" answer_read" + LocalDate.now() +" "+ LocalTime.now().format(DateTimeFormatter.ofPattern("HH시 mm분 ss초")));
+        return new ResponseEntity(answerService.read_test(uid),HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @PutMapping(value = "/api/answer/{uid}")
     public ResponseEntity answer_update(@PathVariable String uid) {
         System.out.println("uid = "+uid+" answer_update" + LocalDate.now() +" "+ LocalTime.now().format(DateTimeFormatter.ofPattern("HH시 mm분 ss초")));
@@ -98,11 +105,5 @@ public class MainController {
         System.out.println("uid = "+uid+" profile_pic_delete" + LocalDate.now() +" "+ LocalTime.now().format(DateTimeFormatter.ofPattern("HH시 mm분 ss초")));
         return new ResponseEntity(profileService.delete(uid),HttpStatus.OK);
     }
-
-
-
-
-
-
 
 }

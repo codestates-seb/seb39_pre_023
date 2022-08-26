@@ -12,4 +12,17 @@ import lombok.Setter;
 public class ResponseDto {
     public String request;
     public String parameter;
+    public String postId;
+    public String postName;
+    public String postContent;
+    public String createAt;
+    public String modifiedAt;
+    public String writerId;
+
+    public ResponseDto(String request,String parameter)
+    {
+        this.request = request;
+        this.parameter=parameter;
+    }
+
 }
