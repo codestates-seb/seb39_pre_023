@@ -7,7 +7,7 @@ import javax.persistence.Id;
 public class tag_entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int tag_id;
+    Integer tag_id;
     String tag_name;
     String tag_description;
     String stub_questions;

@@ -8,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 public class post_controller {
@@ -43,6 +46,12 @@ public class post_controller {
 //
 //        return new ResponseEntity("insert Test!",HttpStatus.CREATED);
 //    }
+
+    @GetMapping(value = "/")
+    public ResponseEntity comment_read() {
+        System.out.println("main page request " + LocalDate.now() +" "+ LocalTime.now().format(DateTimeFormatter.ofPattern("HH시 mm분 ss초")));
+        return new ResponseEntity("main page ",HttpStatus.OK);
+    }
 
     @PostMapping("/DBtest/post")
     public ResponseEntity post_test(@RequestBody post test)

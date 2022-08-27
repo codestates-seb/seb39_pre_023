@@ -1,11 +1,9 @@
 package com.team23.PreProject.post.entity;
 
+import com.team23.PreProject.user.entity.member;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -19,7 +17,7 @@ public class post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer postId;
        //FK
-    Integer user_id = null;
+    
     Integer comment_id = null ;
     Integer answer_id= null ;
     Integer post_vote_id= null ;
@@ -35,8 +33,9 @@ public class post {
 
     LocalDateTime write_date;
     LocalDateTime modified_date;
-
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    member member;
 
 
 
