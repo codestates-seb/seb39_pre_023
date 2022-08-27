@@ -13,20 +13,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+
 public class post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer POST_ID;
-    public post(Integer post_id,int user_id){
-        this.POST_ID = post_id;
-        this.user_id = user_id;
-    }
-
-
-
-
-    //FK
+    Integer postId;
+       //FK
     Integer user_id = null;
     Integer comment_id = null ;
     Integer answer_id= null ;

@@ -5,6 +5,10 @@ import com.team23.PreProject.post.repository.post_repository;
 import com.team23.PreProject.user.entity.member;
 import com.team23.PreProject.user.repository.user_repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,14 +25,6 @@ public class post_service {
         user_repository.save(new member("password","nick name","email",null,null,null));
     }
     public void insert_test(post test){
-//        int user_id;
-//
-//        String password;
-//        String nick_name;
-//        String email;
-//        String profile_id;
-//        String comment_id;
-//        String answer_id;
 
             System.out.println("============================================ post input");
 
@@ -37,9 +33,13 @@ public class post_service {
 
     }
 
-    public List<post> findAllPost(){
-        return post_repository.findAll();
+    public Page<post> findAllPost(int page, int size){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("postId").descending());//정렬은 객체 속성 기준 - 대소문자 확인
+        Page<post> post_list = post_repository.findAll(pageable);
+
+        return post_list;
     }
+
 
 
 

@@ -7,13 +7,13 @@ CREATE TABLE `member` (
   `nick_name` varchar(255),
   `email` varchar(255),
   `profile_id` varchar(255),
-  `post_id` int,
+  `PostId` int,
   `comment_id` int,
   `answer_id` int
 );
 
 CREATE TABLE `post` (
-  `post_id` int PRIMARY KEY auto_increment,
+  `PostId` int PRIMARY KEY auto_increment,
   `post_content` varchar(255),
   `user_id` int,
   `post_name` varchar(255),
@@ -34,7 +34,7 @@ CREATE TABLE `comment` (
   `comment_date` TIMESTAMP,
   `comment_modified` boolean,
   `user_id` int,
-  `post_id` int,
+  `PostId` int,
   `answer_id` int
 );
 
@@ -47,13 +47,13 @@ CREATE TABLE `answer` (
   `is_accepted` boolean,
   `score` int,
   `answer_vote_id` int,
-  `post_id` int
+  `PostId` int
 );
 
 CREATE TABLE `post_vote` (
   `post_vote_id` int PRIMARY KEY auto_increment,
   `user_id` int,
-  `post_id` int,
+  `PostId` int,
   `post_vote_up` boolean,
   `post_vote_down` boolean
 );
@@ -117,19 +117,19 @@ ALTER TABLE `post_vote` ADD FOREIGN KEY (`user_id`) REFERENCES `member` (`user_i
 
 ALTER TABLE `answer_vote` ADD FOREIGN KEY (`user_id`) REFERENCES `member` (`user_id`);
 
-ALTER TABLE `post_vote` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
+ALTER TABLE `post_vote` ADD FOREIGN KEY (`PostId`) REFERENCES `post` (`PostId`);
 
 ALTER TABLE `answer_vote` ADD FOREIGN KEY (`answer_id`) REFERENCES `answer` (`answer_id`);
 
-ALTER TABLE `comment` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
+ALTER TABLE `comment` ADD FOREIGN KEY (`PostId`) REFERENCES `post` (`PostId`);
 
 ALTER TABLE `comment` ADD FOREIGN KEY (`answer_id`) REFERENCES `answer` (`answer_id`);
 
-ALTER TABLE `answer` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
+ALTER TABLE `answer` ADD FOREIGN KEY (`PostId`) REFERENCES `post` (`PostId`);
 
 ALTER TABLE `answer` ADD FOREIGN KEY (`answer_vote_id`) REFERENCES `answer_vote` (`answer_vote_id`);
 
-ALTER TABLE `member` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
+ALTER TABLE `member` ADD FOREIGN KEY (`PostId`) REFERENCES `post` (`PostId`);
 
 ALTER TABLE `member` ADD FOREIGN KEY (`comment_id`) REFERENCES `comment` (`comment_id`);
 
