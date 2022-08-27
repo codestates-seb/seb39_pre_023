@@ -1,8 +1,8 @@
 
 drop all objects;
 
-CREATE TABLE `user` (
-  `user_id` int PRIMARY KEY,
+CREATE TABLE `member` (
+  `user_id` int PRIMARY KEY auto_increment,
   `password` varchar(255),
   `nick_name` varchar(255),
   `email` varchar(255),
@@ -13,7 +13,7 @@ CREATE TABLE `user` (
 );
 
 CREATE TABLE `post` (
-  `post_id` int PRIMARY KEY,
+  `post_id` int PRIMARY KEY auto_increment,
   `post_content` varchar(255),
   `user_id` int,
   `post_name` varchar(255),
@@ -29,7 +29,7 @@ CREATE TABLE `post` (
 );
 
 CREATE TABLE `comment` (
-  `comment_id` int PRIMARY KEY,
+  `comment_id` int PRIMARY KEY auto_increment,
   `comment_content` varchar(255),
   `comment_date` TIMESTAMP,
   `comment_modified` boolean,
@@ -39,7 +39,7 @@ CREATE TABLE `comment` (
 );
 
 CREATE TABLE `answer` (
-  `answer_id` int PRIMARY KEY,
+  `answer_id` int PRIMARY KEY auto_increment,
   `answer_content` varchar(255),
   `user_id` int,
   `write_date` datetime,
@@ -51,7 +51,7 @@ CREATE TABLE `answer` (
 );
 
 CREATE TABLE `post_vote` (
-  `post_vote_id` int PRIMARY KEY,
+  `post_vote_id` int PRIMARY KEY auto_increment,
   `user_id` int,
   `post_id` int,
   `post_vote_up` boolean,
@@ -59,7 +59,7 @@ CREATE TABLE `post_vote` (
 );
 
 CREATE TABLE `answer_vote` (
-  `answer_vote_id` int PRIMARY KEY,
+  `answer_vote_id` int PRIMARY KEY auto_increment,
   `answer_id` int,
   `user_id` int,
   `answer_vote_up` boolean,
@@ -67,14 +67,14 @@ CREATE TABLE `answer_vote` (
 );
 
 CREATE TABLE `tag` (
-  `tag_id` int PRIMARY KEY,
+  `tag_id` int PRIMARY KEY auto_increment,
   `tag_name` varchar(255),
   `tag_description` varchar(255),
   `stub_questions` int
 );
 
 CREATE TABLE `profile` (
-  `profile_id` int PRIMARY KEY,
+  `profile_id` int PRIMARY KEY auto_increment,
   `user_id` int,
   `stub_reputation` int,
   `stub_reached` int,
@@ -85,7 +85,7 @@ CREATE TABLE `profile` (
 );
 
 CREATE TABLE `tag_profile` (
-  `tag_profile_id` int PRIMARY KEY,
+  `tag_profile_id` int PRIMARY KEY auto_increment,
   `user_id` int,
   `tag_id` int,
   `tag_score` int,
@@ -94,28 +94,28 @@ CREATE TABLE `tag_profile` (
 );
 
 CREATE TABLE `log` (
-  `log_id` int PRIMARY KEY,
+  `log_id` int PRIMARY KEY auto_increment,
   `log_content` varchar(255),
   `log_date` datetime
 );
 
-ALTER TABLE `post` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ALTER TABLE `post` ADD FOREIGN KEY (`user_id`) REFERENCES `member` (`user_id`);
 
-ALTER TABLE `comment` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ALTER TABLE `comment` ADD FOREIGN KEY (`user_id`) REFERENCES `member` (`user_id`);
 
-ALTER TABLE `answer` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ALTER TABLE `answer` ADD FOREIGN KEY (`user_id`) REFERENCES `member` (`user_id`);
 
-ALTER TABLE `profile` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ALTER TABLE `profile` ADD FOREIGN KEY (`user_id`) REFERENCES `member` (`user_id`);
 
-ALTER TABLE `user` ADD FOREIGN KEY (`profile_id`) REFERENCES `profile` (`profile_id`);
+ALTER TABLE `member` ADD FOREIGN KEY (`profile_id`) REFERENCES `profile` (`profile_id`);
 
-ALTER TABLE `tag_profile` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ALTER TABLE `tag_profile` ADD FOREIGN KEY (`user_id`) REFERENCES `member` (`user_id`);
 
 ALTER TABLE `tag_profile` ADD FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`);
 
-ALTER TABLE `post_vote` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ALTER TABLE `post_vote` ADD FOREIGN KEY (`user_id`) REFERENCES `member` (`user_id`);
 
-ALTER TABLE `answer_vote` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ALTER TABLE `answer_vote` ADD FOREIGN KEY (`user_id`) REFERENCES `member` (`user_id`);
 
 ALTER TABLE `post_vote` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
 
@@ -129,11 +129,11 @@ ALTER TABLE `answer` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
 
 ALTER TABLE `answer` ADD FOREIGN KEY (`answer_vote_id`) REFERENCES `answer_vote` (`answer_vote_id`);
 
-ALTER TABLE `user` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
+ALTER TABLE `member` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
 
-ALTER TABLE `user` ADD FOREIGN KEY (`comment_id`) REFERENCES `comment` (`comment_id`);
+ALTER TABLE `member` ADD FOREIGN KEY (`comment_id`) REFERENCES `comment` (`comment_id`);
 
-ALTER TABLE `user` ADD FOREIGN KEY (`answer_id`) REFERENCES `answer` (`answer_id`);
+ALTER TABLE `member` ADD FOREIGN KEY (`answer_id`) REFERENCES `answer` (`answer_id`);
 
 ALTER TABLE `post` ADD FOREIGN KEY (`comment_id`) REFERENCES `comment` (`comment_id`);
 
