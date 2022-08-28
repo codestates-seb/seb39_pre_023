@@ -2,7 +2,6 @@ package com.team23.PreProject.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.team23.PreProject.member_post.entitiy.member_post;
-import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.profile.entity.profile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,11 +18,14 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name="MEMBER")
+
+
 public class member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MEMBER_ID")
-    Integer member_id;
+    @Column(name = "MEMBER_ID",nullable = false)
+    Integer memberId;
+
     @Column(name = "PASSWORD")
     String Password;
     @Column(name = "NICKNAME")

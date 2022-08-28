@@ -25,9 +25,9 @@ import java.util.List;
 public class post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POST_ID")
+    @Column(name = "POST_ID",nullable = false)
     Integer postId = null;
-
+    //엔티티 필드명은 소문자 시작, camelcase 사용하기
     @Column(name = "POST_NAME")
     String post_name;
     @Column(name = "POST_CONTENT")

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class member_controller {
     @Autowired
     com.team23.PreProject.member.service.member_service member_service;
-    @PostMapping("/createMember")
+    @PostMapping("DBtest/createMember")
     public ResponseEntity insertMember(@RequestBody member_create_dto member_dto)
     {
         member member = member_service.insert_member(member_dto);
