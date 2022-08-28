@@ -27,10 +27,7 @@ public class post_service {
     @Autowired
     member_post_repository member_post_repository;
 
-    public void insert_member(){
 
-        member_repository.save(new member("Password","nick name","Email",null,null,null));
-    }
 
     public post insert_test(post_insert_dto test){
 

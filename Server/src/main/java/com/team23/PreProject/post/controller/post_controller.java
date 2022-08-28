@@ -2,6 +2,7 @@ package com.team23.PreProject.post.controller;
 
 import com.team23.PreProject.member.entity.member;
 import com.team23.PreProject.member.repository.member_repository;
+import com.team23.PreProject.member.service.member_service;
 import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.member_post.repository.member_post_repository;
 import com.team23.PreProject.post.dto.post_insert_dto;
@@ -26,6 +27,8 @@ public class post_controller {
     member_repository member_repository;
     @Autowired
     member_post_repository member_post_repository;
+    @Autowired
+    member_service member_service;
 //    @GetMapping("/DBtest")
 //    public ResponseEntity test(
 //                               @RequestParam(value="member_id", required=false, defaultValue= "1") int member_id,
@@ -79,12 +82,7 @@ public class post_controller {
         return new ResponseEntity(post_list,HttpStatus.OK);
     }
 
-    @GetMapping("/DBtest/insertMember")
-    public ResponseEntity init(){
-        System.out.println("member inserted");
-        post_service.insert_member();
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
+
 
 
 

@@ -47,6 +47,12 @@ public class member {
         this.answer_id = answ;
 
     }//"Password","nick name","Email",null,null,null)
+    public member(String password, String nickName,String email)
+    {
+        this.Password = password;
+        this.NickName = nickName;
+        this.Email = email;
+    }
 
 //    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "member")
 //    List<post> Posts = new ArrayList<>();
