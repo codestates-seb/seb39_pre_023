@@ -1,7 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.7.3'
 	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
-	id "org.asciidoctor.jvm.convert" version "3.3.2"    // (1)
+	//id "org.asciidoctor.jvm.convert" version "3.3.2"    // (1)
 	id 'java'
 }
 
@@ -13,16 +13,16 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-	asciidoctorExtensions
+	//asciidoctorExtensions
 }
 
 repositories {
 	mavenCentral()
 }
 
-ext {
-	set('snippetsDir', file("build/generated-snippets"))
-}
+//ext {
+//	set('snippetsDir', file("build/generated-snippets"))
+//}
 
 
 dependencies {
@@ -36,43 +36,43 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'org.springframework.security:spring-security-test'
+	//testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	//testImplementation 'org.springframework.security:spring-security-test'
 	// https://mvnrepository.com/artifact/org.javassist/javassist
 	implementation 'org.javassist:javassist:3.15.0-GA'
 
 
 
-	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	//asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
 tasks.named('test') {
-	outputs.dir snippetsDir
+	//outputs.dir snippetsDir
 	useJUnitPlatform()
 }
 
-asciidoctor {
-	configurations 'asciidoctorExtensions'
-	dependsOn test
-	attributes 'snippets': snippetsDir
-	inputs.dir snippetsDir
-}
+//asciidoctor {
+//	configurations 'asciidoctorExtensions'
+//	dependsOn test
+//	attributes 'snippets': snippetsDir
+//	inputs.dir snippetsDir
+//}
 
-task copyDocument(type: Copy) {
-	dependsOn asciidoctor            // (8-1)
-	from file("${asciidoctor.outputDir}")   // (8-2)
-	into file("src/main/resources/static/docs")   // (8-3)
-}
+//task copyDocument(type: Copy) {
+//	dependsOn asciidoctor            // (8-1)
+//	from file("${asciidoctor.outputDir}")   // (8-2)
+//	into file("src/main/resources/static/docs")   // (8-3)
+//}
 
-build {
-	dependsOn copyDocument  // (9)
-}
-bootJar {
-	dependsOn copyDocument    // (10-1)
-	from("${asciidoctor.outputDir}") {  // (10-2)
-		into 'static/docs'     // (10-3)
-	}
-}
+//build {
+//	dependsOn copyDocument  // (9)
+//}
+//bootJar {
+//	dependsOn copyDocument    // (10-1)
+//	from("${asciidoctor.outputDir}") {  // (10-2)
+//		into 'static/docs'     // (10-3)
+//	}
+//}
 
 jar {
 	enabled = false
