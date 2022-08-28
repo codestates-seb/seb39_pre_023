@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,9 +31,6 @@ public class post_service {
 
 
     public post insert_test(post_insert_dto test){
-
-
-
             System.out.println("\n\n============================================ json parse");
             System.out.println("test "+test.getPost_content());
             System.out.println("test "+test.getMember_id());
@@ -85,6 +83,23 @@ public class post_service {
     public Page<post> findAllPost(int page, int size){
         Pageable pageable = PageRequest.of(page, size, Sort.by("postId").descending());
         Page<post> post_list = post_repository.findAll(pageable);
+
+        return post_list;
+    }
+
+    public Page<post> findPostByMember(int page, int size,Integer member_id){
+        //유저 정보 먼저 찾기
+        member member = member_repository.findById(member_id).get();
+        //
+        List<Integer> post_ids = new ArrayList<>();
+
+        for(member_post member_post: member.getMember_posts()){
+            post_ids.add(member_post.getPost().getPostId());
+
+        }
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("postId").descending());
+        Page<post> post_list = post_repository.findByPostIdIn(post_ids,pageable);
 
         return post_list;
     }

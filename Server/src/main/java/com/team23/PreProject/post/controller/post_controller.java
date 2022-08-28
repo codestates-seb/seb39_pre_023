@@ -82,6 +82,16 @@ public class post_controller {
         return new ResponseEntity(post_list,HttpStatus.OK);
     }
 
+    @GetMapping("/DBtest/findPost/{user_id}")
+    public ResponseEntity findAll(@RequestParam(required = false, value = "page", defaultValue = "0") Integer page,
+                                  @RequestParam(required = false, value = "size", defaultValue = "15") Integer size,
+                                    @PathVariable Integer user_id)
+    {
+        System.out.println("find post by user_id");
+        Page post_list =post_service.findPostByMember(page,size,user_id);
+        return new ResponseEntity(post_list,HttpStatus.OK);
+    }
+
 
 
 
