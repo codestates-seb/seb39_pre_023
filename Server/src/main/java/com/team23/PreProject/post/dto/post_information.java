@@ -1,6 +1,6 @@
 package com.team23.PreProject.post.dto;
 
-import com.team23.PreProject.tag.entity.tag_entity;
+import com.team23.PreProject.tag.entity.tag;
 import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
@@ -10,14 +10,14 @@ import java.util.Date;
 public class post_information{
     int score;
     int answersCount;
-    String postName;
+    String post_name;
     boolean isQuestion;
     String partOfPost;
     int views;
-    int user_id;
+    int member_id;
     int stub_user_reputation;
-    Date writeDate;
-    ArrayList<tag_entity> tagList;
+    Date write_date;
+    ArrayList<tag> tagList;
 
 
 }

@@ -1,6 +1,7 @@
 package com.team23.PreProject.profile.entity;
 
-import com.team23.PreProject.user.entity.member;
+
+import com.team23.PreProject.member.entity.member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,7 @@ public class profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer profile_id;
     @OneToOne(mappedBy = "profile")
-    member member;
+    com.team23.PreProject.member.entity.member member;
+
+
 }

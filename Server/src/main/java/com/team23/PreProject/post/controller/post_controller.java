@@ -1,5 +1,10 @@
 package com.team23.PreProject.post.controller;
 
+import com.team23.PreProject.member.entity.member;
+import com.team23.PreProject.member.repository.member_repository;
+import com.team23.PreProject.member_post.entitiy.member_post;
+import com.team23.PreProject.member_post.repository.member_post_repository;
+import com.team23.PreProject.post.dto.post_insert_dto;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.service.post_service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +22,13 @@ import java.time.format.DateTimeFormatter;
 public class post_controller {
     @Autowired
     post_service post_service;
+    @Autowired
+    member_repository member_repository;
+    @Autowired
+    member_post_repository member_post_repository;
 //    @GetMapping("/DBtest")
 //    public ResponseEntity test(
-//                               @RequestParam(value="user_id", required=false, defaultValue= "1") int user_id,
+//                               @RequestParam(value="member_id", required=false, defaultValue= "1") int member_id,
 //                               @RequestParam(value="view_count", required=false, defaultValue= "0") int view_count,
 //                               @RequestParam(value="comment_id", required=false, defaultValue= "1") Integer comment_id,
 //                               @RequestParam(value="answer_id", required=false, defaultValue= "1") int answer_id,
@@ -41,7 +50,7 @@ public class post_controller {
 //
 //        Integer post_id =1;
 //
-//        post test = post.builder().post_content(post_content).post_name(post_name).post_vote_id(null).answer_id(null).modified_date(modified_date).write_date(write_date).score(0).user_id(user_id).is_answered(false).comment_id(null).view_count(1).answer_id(null).build();
+//        post test = post.builder().post_content(post_content).post_name(post_name).post_vote_id(null).answer_id(null).modified_date(modified_date).write_date(write_date).score(0).member_id(member_id).is_answered(false).comment_id(null).view_count(1).answer_id(null).build();
 //        post_service.insert_test(test);
 //
 //        return new ResponseEntity("insert Test!",HttpStatus.CREATED);
@@ -54,17 +63,12 @@ public class post_controller {
     }
 
     @PostMapping("/DBtest/post")
-    public ResponseEntity post_test(@RequestBody post test)
+    public ResponseEntity post_test(@RequestBody post_insert_dto test)
     {
 
-        LocalDateTime write_date = LocalDateTime.now();
-        LocalDateTime modified_date = LocalDateTime.now();
-        test.setWrite_date(write_date);
-        test.setModified_date(modified_date);
+        post post = post_service.insert_test(test);
 
-        post_service.insert_test(test);
-
-        return new ResponseEntity("insert Test!",HttpStatus.CREATED);
+        return new ResponseEntity(post,HttpStatus.CREATED);
     }
 
     @GetMapping("/DBtest/findAllPost")

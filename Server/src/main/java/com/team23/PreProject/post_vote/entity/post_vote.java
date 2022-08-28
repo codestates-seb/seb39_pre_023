@@ -18,7 +18,7 @@ public class post_vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer post_vote_id;
-    Integer user_id;
+    Integer member_id;
     Integer post_id;
     boolean post_vote_up = false;
     boolean post_vote_down = false;
