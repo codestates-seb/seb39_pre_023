@@ -6,6 +6,7 @@ import com.team23.PreProject.member.service.member_service;
 import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.member_post.repository.member_post_repository;
 import com.team23.PreProject.post.dto.post_insert_dto;
+import com.team23.PreProject.post.dto.post_update_dto;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.service.post_service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,9 +88,23 @@ public class post_controller {
                                   @RequestParam(required = false, value = "size", defaultValue = "15") Integer size,
                                     @PathVariable Integer user_id)
     {
-        System.out.println("find post by user_id");
+        System.out.println("find post by user_id "+LocalDateTime.now());
         Page post_list =post_service.findPostByMember(page,size,user_id);
         return new ResponseEntity(post_list,HttpStatus.OK);
+    }
+
+    @PutMapping("/DBtest/update/{post_id}")
+
+    public ResponseEntity updatePost(@PathVariable Integer post_id,
+                                     @RequestBody post_update_dto dto
+                                     )
+    {
+        System.out.println("update post content "+LocalDateTime.now());
+        post post = post_service.updatePost(post_id,dto);
+        if(post!=null)
+            return new ResponseEntity(post,HttpStatus.OK);
+        else
+            return new ResponseEntity("error while update post",HttpStatus.CONFLICT);
     }
 
 

@@ -5,6 +5,7 @@ import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.member_post.repository.member_post_repository;
 import com.team23.PreProject.post.dto.post_insert_dto;
+import com.team23.PreProject.post.dto.post_update_dto;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.repository.post_repository;
 
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,6 +107,20 @@ public class post_service {
     }
 
 
+    public post updatePost(Integer post_id, post_update_dto dto) {
+        try{
+            post post = post_repository.findById(post_id).get();
+            post.setModified_date(LocalDateTime.now());
+            post.setPost_content(dto.getPost_content());
+            post.setPost_name(dto.getPost_name());
+            post_repository.save(post);
+            return post;
+        }catch(Exception e)
+        {
+            return null;
+        }
 
 
+
+    }
 }
