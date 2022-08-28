@@ -5,9 +5,7 @@ import com.team23.PreProject.member.entity.member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class member_controller {
@@ -20,5 +18,17 @@ public class member_controller {
 
         return new ResponseEntity(member,HttpStatus.CREATED);
     }
+
+    @GetMapping("DBtest/findMember/{member_id}")
+    public ResponseEntity findMember(@PathVariable Integer member_id)
+    {
+        member member = member_service.findMemberById(member_id);
+
+        if(member!=null)
+        return new ResponseEntity(member,HttpStatus.FOUND);
+        else
+            return new ResponseEntity("not found",HttpStatus.NOT_FOUND);
+    }
+
 
 }

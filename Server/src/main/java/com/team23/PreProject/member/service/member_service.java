@@ -6,6 +6,8 @@ import com.team23.PreProject.member.repository.member_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class member_service {
     @Autowired
@@ -16,5 +18,18 @@ public class member_service {
         return member;
 
     }
+
+    public member findMemberById(Integer member_id){
+        try {
+            member member = member_repository.findById(member_id).get();
+            return member;
+        }catch (NoSuchElementException e)
+        {
+            return null;
+        }
+
+
+    }
+
 
 }
