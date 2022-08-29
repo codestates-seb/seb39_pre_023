@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/answer")
+@RequestMapping
 public class answer_controller {
 
     @Autowired
@@ -27,7 +27,7 @@ public class answer_controller {
     @Autowired
     answer_mapper mapper;
 
-    @PostMapping("/{questionId}")
+    @PostMapping("DBtest/createAnswer/{questionId}")
     public ResponseEntity postanswer(@PathVariable("questionId") Integer questionId,
                                      @RequestBody answer_dto.Post RequestBody) {
 
@@ -40,8 +40,8 @@ public class answer_controller {
     }
 
     // 정렬 기준 쿼리파라미터로 받아서 설정하는 기능 추후 추가 예정
-    @GetMapping("/{questionId}")
-    public ResponseEntity getanswers(@PathVariable("questionId") Integer questionId, @Positive @RequestParam int page) {
+    @GetMapping("DBtest/findAnswers/{questionId}")
+    public ResponseEntity getanswers(@PathVariable("questionId") Integer questionId, @Positive @RequestParam(defaultValue="1") int page) {
         Page<answer> pageanswers = answerService.findAnswers(questionId, page-1);
         List<answer> answers = pageanswers.getContent();
         return new ResponseEntity<>( new MultiResponseDto(mapper.answersToanswerResponseDto(answers),pageanswers) , HttpStatus.OK);
