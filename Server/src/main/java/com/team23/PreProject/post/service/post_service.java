@@ -4,6 +4,7 @@ import com.team23.PreProject.member.entity.member;
 import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.member_post.repository.member_post_repository;
+import com.team23.PreProject.post.dto.post_all_dto;
 import com.team23.PreProject.post.dto.post_insert_dto;
 import com.team23.PreProject.post.dto.post_update_dto;
 import com.team23.PreProject.post.entity.post;
@@ -82,11 +83,13 @@ public class post_service {
 
     }
 
-    public Page<post> findAllPost(int page, int size){
+    public post_all_dto findAllPost(int page, int size){
         Pageable pageable = PageRequest.of(page, size, Sort.by("postId").descending());
         Page<post> post_list = post_repository.findAll(pageable);
+        Long count = post_repository.count();
 
-        return post_list;
+        post_all_dto dto = new post_all_dto(post_list,count);
+        return dto;
     }
 
     public Page<post> findPostByMember(int page, int size,Integer member_id){

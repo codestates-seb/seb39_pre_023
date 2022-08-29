@@ -1,6 +1,7 @@
 package com.team23.PreProject.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.profile.entity.profile;
 import lombok.AllArgsConstructor;
@@ -84,7 +85,7 @@ public class member {
 //    @JoinColumn(name = "answer_id")
 //    List<answer_entity> answers = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "PROFILE_ID")
     profile profile;
 

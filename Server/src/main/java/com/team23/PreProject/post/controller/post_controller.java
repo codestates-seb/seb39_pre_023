@@ -5,6 +5,7 @@ import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member.service.member_service;
 import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.member_post.repository.member_post_repository;
+import com.team23.PreProject.post.dto.post_all_dto;
 import com.team23.PreProject.post.dto.post_insert_dto;
 import com.team23.PreProject.post.dto.post_update_dto;
 import com.team23.PreProject.post.entity.post;
@@ -90,7 +91,9 @@ public class post_controller {
     public ResponseEntity findAll(@RequestParam(required = false, value = "page", defaultValue = "0") Integer page,
                                   @RequestParam(required = false, value = "size", defaultValue = "15") Integer size){
         System.out.println("find all request");
-        Page post_list =post_service.findAllPost(page,size);
+        post_all_dto post_list =post_service.findAllPost(page,size);
+
+
         return new ResponseEntity(post_list,HttpStatus.OK);
     }
 

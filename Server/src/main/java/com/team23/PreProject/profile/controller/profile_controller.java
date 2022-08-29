@@ -1,5 +1,7 @@
 package com.team23.PreProject.profile.controller;
 
+import com.team23.PreProject.profile.entity.profile;
+import com.team23.PreProject.profile.service.profile_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,14 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 @RestController
 public class profile_controller {
+    @Autowired
+    profile_service profile_service;
+    @GetMapping("/DBtest/getProfile/{member_id}")
+    public ResponseEntity getMemberProfile(@PathVariable Integer member_id)
+    {
+        profile profile = profile_service.findProfile(member_id);
+        return new ResponseEntity<>(profile,HttpStatus.FOUND);
+    }
 
 
 }
