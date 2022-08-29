@@ -8,6 +8,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,9 +44,9 @@ public class post {
 //    Integer member_post_id;
 
     @Column(name = "WRITE_DATE")
-    LocalDateTime write_date = LocalDateTime.now();
+    ZonedDateTime write_date = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
     @Column(name = "MODIFIED_DATE")
-    LocalDateTime modified_date = LocalDateTime.now();;
+    ZonedDateTime modified_date = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));;
 
 //    @ManyToOne(fetch = FetchType.EAGER,optional = false)
 //    @JoinColumn(name = "MEMBER_ID")

@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,7 +122,7 @@ public class post_service {
         try{
             post post = post_repository.findById(post_id).get();
 
-            post.setModified_date(LocalDateTime.now());
+            post.setModified_date(ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
             post.setPost_content(dto.getPost_content());
             post.setPost_name(dto.getPost_name());
             post_repository.save(post);

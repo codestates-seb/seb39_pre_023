@@ -11,6 +11,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class member {
     @Column(name = "MEMBER_ID",nullable = false)
     Integer memberId;
     @Column(name = "sign_in_date")
-    LocalDateTime signInDate=LocalDateTime.now();
+    ZonedDateTime signInDate= ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
     @Column(name = "PASSWORD")
     String Password;
     @Column(name = "NICKNAME")

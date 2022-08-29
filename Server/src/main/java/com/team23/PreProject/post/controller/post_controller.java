@@ -16,9 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 @RestController
@@ -50,8 +48,8 @@ public class post_controller {
 //                               )
 //    {
 //
-//        write_date = LocalDateTime.now();
-//        modified_date = LocalDateTime.now();
+//        write_date = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+//        modified_date = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
 //
 //        Integer post_id =1;
 //
@@ -105,7 +103,7 @@ public class post_controller {
     {
         if(member_id == 1)
             return new ResponseEntity("you tried to access deleted user", HttpStatus.CONFLICT);
-        System.out.println("find post by user_id "+LocalDateTime.now());
+        System.out.println("find post by user_id "+ ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
         Page post_list =post_service.findPostByMember(page,size,member_id);
         return new ResponseEntity(post_list,HttpStatus.OK);
     }
@@ -119,7 +117,7 @@ public class post_controller {
         if(member_post_repository.findByPostPostId(post_id).getMember().getMemberId()==1)
             return new ResponseEntity("you tried access deleted user",HttpStatus.CONFLICT);
 
-        System.out.println("update post content "+LocalDateTime.now());
+        System.out.println("update post content "+ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
         post post = post_service.updatePost(post_id,dto);
         if(post!=null)
             return new ResponseEntity(post,HttpStatus.OK);
@@ -133,7 +131,7 @@ public class post_controller {
         if(member_post_repository.findByPostPostId(post_id).getMember().getMemberId()==1)
             return new ResponseEntity("you tried access deleted user",HttpStatus.CONFLICT);
 
-        System.out.println("deleted post content "+LocalDateTime.now());
+        System.out.println("deleted post content "+ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
         boolean deleted = false;
         deleted = post_service.deletePost(post_id);
 

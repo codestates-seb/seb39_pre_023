@@ -10,6 +10,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @NoArgsConstructor
 @Entity
@@ -40,10 +42,10 @@ public class profile {
     String about = "blank";
 
     @Column(name = "SIGN_IN_DATE")
-    LocalDateTime signInDate = LocalDateTime.now();
+    ZonedDateTime signInDate = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
 
     @Column(name="LAST_VISIT")
-    LocalDateTime lastVisit = LocalDateTime.now();
+    ZonedDateTime lastVisit = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
 
     @Column(name="LOCATION")
     String location="not selected";
