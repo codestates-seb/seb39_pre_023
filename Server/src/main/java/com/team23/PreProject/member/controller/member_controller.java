@@ -15,6 +15,10 @@ public class member_controller {
     @PostMapping("DBtest/createMember")
     public ResponseEntity insertMember(@RequestBody member_create_dto member_dto)
     {
+        if(member_service.findMemberById(1)==null)
+        {
+            this.createDeletedMember();
+        }
         member member = member_service.insert_member(member_dto);
 
         return new ResponseEntity(member,HttpStatus.CREATED);
@@ -23,6 +27,10 @@ public class member_controller {
     @GetMapping("DBtest/findMember/{member_id}")
     public ResponseEntity findMember(@PathVariable Integer member_id)
     {
+//        if(member_id == 1)
+//        {
+//            return new ResponseEntity("not found",HttpStatus.NOT_FOUND);
+//        }
         member member = member_service.findMemberById(member_id);
 
         if(member!=null)
@@ -41,6 +49,12 @@ public class member_controller {
         else
             return new ResponseEntity("passwored not changed",HttpStatus.CONFLICT);
     }//updatePassword end
+
+    @GetMapping("DBtest/createDeletedMember")
+    public ResponseEntity createDeletedMember()
+    {
+        return new ResponseEntity(member_service.createDeltedMember(),HttpStatus.CREATED);
+    }
 
 
 }

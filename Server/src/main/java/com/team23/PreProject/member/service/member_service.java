@@ -60,6 +60,16 @@ public class member_service {
         else
             return "passwored not changed";
 
+    }//updatePassword
+
+    public member createDeltedMember(){
+        member member = new member();
+        member.setMemberId(0);
+        member.setNickName("deleted");
+        member.setPassword("deleted");
+        member.setEmail("deleted");
+        member = member_repository.save(member);
+        return member;
     }
 
 
