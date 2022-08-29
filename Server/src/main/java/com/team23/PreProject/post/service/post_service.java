@@ -137,4 +137,16 @@ public class post_service {
 
         return result;
     }//del end
+
+    public post getPost(Integer post_id)
+    {
+        try{
+            post post = post_repository.findById(post_id).get();
+            return post;
+        }catch(Exception e){
+            return null;
+        }
+
+    }//get end
+
 }

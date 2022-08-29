@@ -66,6 +66,17 @@ public class post_controller {
         return new ResponseEntity("main page ",HttpStatus.OK);
     }
 
+    @GetMapping("/DBtest/getPost")
+    public ResponseEntity getPost(@RequestParam Integer post_id)
+
+    {
+
+        post post = post_service.getPost(post_id);
+        if(post==null)
+            return new ResponseEntity("not found",HttpStatus.NOT_FOUND);
+        return new ResponseEntity(post,HttpStatus.FOUND);
+    }
+
     @PostMapping("/DBtest/post")
     public ResponseEntity post_test(@RequestBody post_insert_dto test)
     {
