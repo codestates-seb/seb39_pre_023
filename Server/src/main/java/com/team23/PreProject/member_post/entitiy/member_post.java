@@ -16,7 +16,7 @@ public class member_post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="member_post_id",nullable = false)
     Integer memberPostId;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)//casecade 잘못 적용되면 member까지 삭제가 진행된다
     @JsonManagedReference
     @JoinColumn(name = "member_id")
     member member;

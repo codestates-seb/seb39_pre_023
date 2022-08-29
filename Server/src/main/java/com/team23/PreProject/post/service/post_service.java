@@ -120,7 +120,21 @@ public class post_service {
             return null;
         }
 
-
-
     }
+
+    public boolean deletePost(Integer post_id){
+        boolean result = false;
+        try {
+            post post = post_repository.findById(post_id).get();
+
+            post_repository.delete(post);
+            result = true;
+        }catch(Exception e)
+        {
+
+        }
+
+
+        return result;
+    }//del end
 }

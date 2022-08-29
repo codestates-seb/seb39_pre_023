@@ -107,6 +107,24 @@ public class post_controller {
             return new ResponseEntity("error while update post",HttpStatus.CONFLICT);
     }
 
+    @DeleteMapping("/DBtest/delete/{post_id}")
+    public ResponseEntity deletePost(@PathVariable Integer post_id                                     )
+    {
+        System.out.println("deleted post content "+LocalDateTime.now());
+        boolean deleted = false;
+        deleted = post_service.deletePost(post_id);
+
+        if(deleted)
+        {
+            return new ResponseEntity("deleted success",HttpStatus.CONFLICT);
+        }
+        else
+        {
+            return new ResponseEntity("deleted fail",HttpStatus.CONFLICT);
+        }
+
+    }
+
 
 
 
