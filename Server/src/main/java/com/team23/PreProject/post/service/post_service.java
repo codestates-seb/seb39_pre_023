@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,7 +35,8 @@ public class post_service {
 
 
 
-    public post insert_test(post_insert_dto test){
+    public ResponseEntity insert_test(post_insert_dto test){
+
             System.out.println("\n\n============================================ json parse");
             System.out.println("test "+test.getPost_content());
             System.out.println("test "+test.getMember_id());
@@ -79,7 +82,7 @@ public class post_service {
             post_repository.save(post);
             System.out.println("============================================ update post entity end\n\n");
 
-            return post;
+            return new ResponseEntity(post,HttpStatus.CREATED);
 
     }
 
@@ -93,6 +96,7 @@ public class post_service {
     }
 
     public Page<post> findPostByMember(int page, int size,Integer member_id){
+
         //유저 정보 먼저 찾기
         member member = member_repository.findById(member_id).get();
         //
@@ -111,8 +115,11 @@ public class post_service {
 
 
     public post updatePost(Integer post_id, post_update_dto dto) {
+
+
         try{
             post post = post_repository.findById(post_id).get();
+
             post.setModified_date(LocalDateTime.now());
             post.setPost_content(dto.getPost_content());
             post.setPost_name(dto.getPost_name());

@@ -70,7 +70,7 @@ public class member_service {
 
     }//updatePassword
 
-    public member createDeltedMember(){
+    public member createdeletedMember(){
         member member = new member();
         member.setMemberId(0);
         member.setNickName("deleted");

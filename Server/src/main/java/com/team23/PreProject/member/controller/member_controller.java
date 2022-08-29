@@ -46,6 +46,8 @@ public class member_controller {
     public ResponseEntity updatePassword(@RequestParam Integer member_id,
                                          @RequestBody member_password_update_dto dto)
     {
+        if(member_id == 1)
+            return new ResponseEntity("you tried to access deleted user",HttpStatus.CONFLICT);
         String result = member_service.updatePassword(member_id,dto.getElder(),dto.getNewer());
         if(result.equals("passwored changed"))
             return new ResponseEntity("passwored changed",HttpStatus.OK);
@@ -53,15 +55,13 @@ public class member_controller {
             return new ResponseEntity("passwored not changed",HttpStatus.CONFLICT);
     }//updatePassword end
 
-    @GetMapping("DBtest/createDeletedMember")
-    public ResponseEntity createDeletedMember()
-    {
-        return new ResponseEntity(member_service.createDeltedMember(),HttpStatus.CREATED);
-    }//createDeletedMember
+
 
     @PostMapping("DBtest/deleteMember")
     public ResponseEntity deleteMember(@RequestParam Integer member_id)
     {
+        if(member_id == 1)
+            return new ResponseEntity("you tried to access deleted user",HttpStatus.CONFLICT);
         String result = member_service.deleteMember(member_id);
 
         if(result.equals("delete suc"))

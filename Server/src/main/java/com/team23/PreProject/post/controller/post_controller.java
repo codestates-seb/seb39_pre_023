@@ -81,10 +81,11 @@ public class post_controller {
     @PostMapping("/DBtest/post")
     public ResponseEntity post_test(@RequestBody post_insert_dto test)
     {
+        if(test.getMember_id() == 1)
+            return new ResponseEntity("you tried to access deleted user", HttpStatus.CONFLICT);
 
-        post post = post_service.insert_test(test);
 
-        return new ResponseEntity(post,HttpStatus.CREATED);
+        return post_service.insert_test(test);
     }
 
     @GetMapping("/DBtest/findAllPost")
@@ -97,13 +98,15 @@ public class post_controller {
         return new ResponseEntity(post_list,HttpStatus.OK);
     }
 
-    @GetMapping("/DBtest/findPost/{user_id}")
+    @GetMapping("/DBtest/findPost/{member_id}")
     public ResponseEntity findAll(@RequestParam(required = false, value = "page", defaultValue = "0") Integer page,
                                   @RequestParam(required = false, value = "size", defaultValue = "15") Integer size,
-                                    @PathVariable Integer user_id)
+                                    @PathVariable Integer member_id)
     {
+        if(member_id == 1)
+            return new ResponseEntity("you tried to access deleted user", HttpStatus.CONFLICT);
         System.out.println("find post by user_id "+LocalDateTime.now());
-        Page post_list =post_service.findPostByMember(page,size,user_id);
+        Page post_list =post_service.findPostByMember(page,size,member_id);
         return new ResponseEntity(post_list,HttpStatus.OK);
     }
 
@@ -113,6 +116,9 @@ public class post_controller {
                                      @RequestBody post_update_dto dto
                                      )
     {
+        if(member_post_repository.findByPostPostId(post_id).getMember().getMemberId()==1)
+            return new ResponseEntity("you tried access deleted user",HttpStatus.CONFLICT);
+
         System.out.println("update post content "+LocalDateTime.now());
         post post = post_service.updatePost(post_id,dto);
         if(post!=null)
@@ -124,6 +130,9 @@ public class post_controller {
     @DeleteMapping("/DBtest/delete/{post_id}")
     public ResponseEntity deletePost(@PathVariable Integer post_id                                     )
     {
+        if(member_post_repository.findByPostPostId(post_id).getMember().getMemberId()==1)
+            return new ResponseEntity("you tried access deleted user",HttpStatus.CONFLICT);
+
         System.out.println("deleted post content "+LocalDateTime.now());
         boolean deleted = false;
         deleted = post_service.deletePost(post_id);
