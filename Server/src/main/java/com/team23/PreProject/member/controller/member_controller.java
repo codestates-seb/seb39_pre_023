@@ -3,10 +3,13 @@ package com.team23.PreProject.member.controller;
 import com.team23.PreProject.member.dto.member_create_dto;
 import com.team23.PreProject.member.dto.member_password_update_dto;
 import com.team23.PreProject.member.entity.member;
+import com.team23.PreProject.post.entity.post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class member_controller {
@@ -17,7 +20,7 @@ public class member_controller {
     {
         if(member_service.findMemberById(1)==null)
         {
-            this.createDeletedMember();
+            member member = member_service.insert_member(new member_create_dto("deleted","deleted","deleted"));
         }
         member member = member_service.insert_member(member_dto);
 
@@ -54,7 +57,18 @@ public class member_controller {
     public ResponseEntity createDeletedMember()
     {
         return new ResponseEntity(member_service.createDeltedMember(),HttpStatus.CREATED);
-    }
+    }//createDeletedMember
+
+    @PostMapping("DBtest/deleteMember")
+    public ResponseEntity deleteMember(@RequestParam Integer member_id)
+    {
+        String result = member_service.deleteMember(member_id);
+
+        if(result.equals("delete suc"))
+            return new ResponseEntity(result,HttpStatus.OK);
+        else
+            return new ResponseEntity(result,HttpStatus.CONFLICT);
+    }//deleteMember
 
 
 }

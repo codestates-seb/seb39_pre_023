@@ -3,11 +3,16 @@ package com.team23.PreProject.member.service;
 import com.team23.PreProject.member.dto.member_create_dto;
 import com.team23.PreProject.member.entity.member;
 import com.team23.PreProject.member.repository.member_repository;
+import com.team23.PreProject.member_post.entitiy.member_post;
+import com.team23.PreProject.post.entity.post;
+import com.team23.PreProject.post.repository.post_repository;
 import com.team23.PreProject.profile.entity.profile;
 import com.team23.PreProject.profile.repository.profile_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -16,6 +21,9 @@ public class member_service {
     member_repository member_repository;
     @Autowired
     profile_repository profile_repository;
+
+    @Autowired
+    post_repository post_repository;
     public member insert_member(member_create_dto dto){
         member member = new member(dto.getPassword(),dto.getNickName(),dto.getEmail());
         profile profile = new profile();
@@ -73,4 +81,36 @@ public class member_service {
     }
 
 
+    public String deleteMember(Integer member_id) {
+        if(member_id == 1)
+            return "delete fail";
+        member member = member_repository.findById(member_id).get();
+
+        member_repository.delete(member);
+
+        List<Integer> post_ids = new ArrayList<>();
+        member deleted = member_repository.findById(1).get();
+        List<member_post> member_posts = member.getMember_posts();
+
+        for(member_post member_post: member_posts){
+
+            member_post.setMember(deleted);
+
+        }
+
+        deleted.setMember_posts(member_posts);
+        member_repository.save(deleted);
+
+
+        try{
+            member = member_repository.findById(member_id).get();
+            return "delete fail";
+        }catch(Exception e){
+            return "delete suc";
+        }
+
+
+
+
+    }
 }

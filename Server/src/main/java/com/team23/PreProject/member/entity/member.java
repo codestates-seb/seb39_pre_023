@@ -85,7 +85,7 @@ public class member {
 //    @JoinColumn(name = "answer_id")
 //    List<answer_entity> answers = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PROFILE_ID")
     profile profile;
 
