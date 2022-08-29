@@ -25,7 +25,7 @@ public class member_service {
     @Autowired
     post_repository post_repository;
     public member insert_member(member_create_dto dto){
-        member member = new member(dto.getPassword(),dto.getNickName(),dto.getEmail());
+        member member = new member(dto.getPassword(),dto.getNickName(),dto.getId());
         profile profile = new profile();
         //멤버 생성
         member = member_repository.save(member);
@@ -75,7 +75,7 @@ public class member_service {
         member.setMemberId(0);
         member.setNickName("deleted");
         member.setPassword("deleted");
-        member.setEmail("deleted");
+        member.setId("deleted");
         member = member_repository.save(member);
         return member;
     }

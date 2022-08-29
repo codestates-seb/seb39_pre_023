@@ -5,13 +5,13 @@ CREATE TABLE `member` (
   `member_id` int PRIMARY KEY AUTO_INCREMENT,
   `password` varchar(255),
   `nickname` varchar(255),
-  `email` varchar(255),
+  `id` varchar(255),
   `profile_id` varchar(255),
   --`post_id` int,
   `comment_id` int,
-  `sign_in_date` datetime,
+  `sign_in_date` datetime
   --`member_post_id` int,
-  `answer_id` int
+
 );
 
 CREATE TABLE `post` (
@@ -127,7 +127,7 @@ ALTER TABLE `answer` ADD FOREIGN KEY (`answer_vote_id`) REFERENCES `answerVote` 
 
 ALTER TABLE `member` ADD FOREIGN KEY (`comment_id`) REFERENCES `comment` (`comment_id`);
 
-ALTER TABLE `member` ADD FOREIGN KEY (`answer_id`) REFERENCES `answer` (`answer_id`);
+--ALTER TABLE `member` ADD FOREIGN KEY (`answer_id`) REFERENCES `answer` (`answer_id`);
 
 --ALTER TABLE `post` ADD FOREIGN KEY (`comment_id`) REFERENCES `comment` (`comment_id`);
 

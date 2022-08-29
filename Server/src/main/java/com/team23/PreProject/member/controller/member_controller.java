@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 
 @RestController
 public class member_controller {
@@ -22,6 +23,8 @@ public class member_controller {
         {
             member member = member_service.insert_member(new member_create_dto("deleted","deleted","deleted"));
         }
+        Random rd = new Random();
+        member_dto.setNickName("nickname"+rd.nextInt(10000));
         member member = member_service.insert_member(member_dto);
 
         return new ResponseEntity(member,HttpStatus.CREATED);

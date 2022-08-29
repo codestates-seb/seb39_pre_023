@@ -36,7 +36,7 @@ public class post {
     String post_content;
     @Column(name = "VIEW_COUNT")
     Integer view_count = 1;
-    @Column(name = "IS_ANSWERED")
+    @Column(name = "IS_answerED")
     boolean is_answered = false;
     @Column(name = "SCORE")
     Integer score = 0;

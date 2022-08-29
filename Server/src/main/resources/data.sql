@@ -1,4 +1,4 @@
-INSERT INTO member (password,nickname,email,profile_id,comment_id,sign_in_date,answer_id)
+INSERT INTO member (password,nickname,id,profile_id,comment_id,sign_in_date,answer_id)
 VALUES ('deleted','deleted','deleted',null,null,'2022-08-29 08:38:57.099659',null);
 
 INSERT INTO post (post_content,post_name,write_date,modified_date,view_count,is_answered,score)
@@ -16,8 +16,8 @@ VALUES ('post test 1 cotent','post test 1 name','2022-08-29 08:38:57.099659','20
 INSERT INTO post (post_content,post_name,write_date,modified_date,view_count,is_answered,score)
 VALUES ('post test 1 cotent','post test 1 name','2022-08-29 08:38:57.099659','2022-08-29 08:38:57.099659',1,false,0);
 
-INSERT INTO member (password,nickname,email,profile_id,comment_id,sign_in_date,answer_id)
-VALUES ('password','nickname1','email1',null,null,'2022-08-29 08:38:57.099659',null);
+INSERT INTO member (password,nickname,id,profile_id,comment_id,sign_in_date,answer_id)
+VALUES ('password','nickname1','Id1',null,null,'2022-08-29 08:38:57.099659',null);
 
 
 INSERT INTO member_post (member_id,post_id)

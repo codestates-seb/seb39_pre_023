@@ -2,6 +2,7 @@ package com.team23.PreProject.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.team23.PreProject.answer.entity.answer;
 import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.profile.entity.profile;
 import lombok.AllArgsConstructor;
@@ -35,30 +36,37 @@ public class member {
     String Password;
     @Column(name = "NICKNAME")
     String NickName;
-    @Column(name = "EMAIL")
-    String Email;
+    @Column(name = "ID")
+    String Id;
     //String profile_id;
     @Column(name = "COMMENT_ID")
     String comment_id;
-    @Column(name = "ANSWER_ID")
-    String answer_id;
-//    @Column(name = "MEMBER_POST_ID")
-//    Integer member_post_id;
-    public member(String Password, String nick,String Email,profile pf, String com,String answ)
+//    @Column(name = "answer_ID")
+//    String answer_id;
+
+    @OneToMany(mappedBy = "member")
+    List<answer> answers = new ArrayList<>();
+
+    public void addAnswer(answer answer)
+    {
+        this.answers.add(answer);
+    }
+
+    public member(String Password, String nick,String Id,profile pf, String com)
     {
         this.Password = Password;
         this.NickName = nick;
-        this.Email = Email;
+        this.Id = Id;
         this.profile=pf;
         this.comment_id=com;
-        this.answer_id = answ;
 
-    }//"Password","nick name","Email",null,null,null)
-    public member(String password, String nickName,String email)
+
+    }//"Password","nick name","Id",null,null,null)
+    public member(String password, String nickName,String Id)
     {
         this.Password = password;
         this.NickName = nickName;
-        this.Email = email;
+        this.Id = Id;
     }
 
 //    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "member")
