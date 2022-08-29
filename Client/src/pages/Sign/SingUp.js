@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MyButton from '../../components/MyButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/fontawesome-free-brands';
+// import { faGoogle } from '@fortawesome/fontawesome-free-brands';
 import {
   faQuestionCircle,
   faCheckToSlot,
@@ -44,7 +44,7 @@ const SignUp = () => {
       </MsgContatiner>
       <SignupContainer>
         <BtnWrapper>
-          <FontAwesomeIcon icon={faGoogle} className="gglogo" />
+          {/* <FontAwesomeIcon icon={faGoogle} className="gglogo" /> */}
           <MyButton
             text={'Sign up with Google'}
             type={'default'}
@@ -93,18 +93,18 @@ const Container = styled.div`
 `;
 const MsgContatiner = styled.div`
   margin-right: 40px;
+  height: 300px;
   .title {
-    font-size: 35px;
-    margin-bottom: 20px;
+    font-size: 25px;
+    margin-bottom: 10px;
   }
   .sentence {
-    font-size: 25px;
+    font-size: 16px;
     margin-left: 10px;
     color: #4c4e51;
   }
   .footer {
-    margin-top: 20px;
-    font-size: 18px;
+    font-size: 14px;
     color: #6c757e;
   }
   .icon {
@@ -114,7 +114,7 @@ const MsgContatiner = styled.div`
 const SentenceContatiner = styled.div`
   display: flex;
   flex-direction: column;
-  height: 300px;
+  height: 200px;
   justify-content: space-around;
 `;
 const SignupContainer = styled.div`
@@ -122,7 +122,6 @@ const SignupContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 450px;
   height: 700px;
 `;
 const SignupBox = styled.div`
@@ -132,44 +131,47 @@ const SignupBox = styled.div`
   justify-content: center;
   align-items: center;
   padding: 30px;
-  height: 600px;
+  width: 315px;
+  height: 450px;
   border-radius: 10px;
   position: relative;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   input:first-of-type {
   }
   button:first-of-type {
-    width: 88px;
+    width: 58px;
     position: absolute;
-    top: 88px;
-    left: 330px;
-    font-size: 16px;
-    height: 40px;
+    top: 48px;
+
+    left: 240px;
+    font-size: 12px;
+    height: 35px;
     border: none;
   }
   > span {
-    font-size: 25px;
+    font-size: 16px;
     font-weight: 700;
     text-align: left;
-    margin-right: 350px;
+    margin-right: 260px;
+    margin-bottom: 5px;
   }
   span:nth-of-type(2) {
-    margin-right: 270px;
+    margin-right: 210px;
   }
   span:nth-of-type(3) {
-    margin-right: 270px;
+    margin-right: 180px;
     width: 100px;
     white-space: nowrap;
   }
   input {
-    height: 40px;
-    font-size: 18px;
+    height: 35px;
+    font-size: 14px;
     color: #363b3f;
     text-indent: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border: 1px solid #d5d7d9;
     border-radius: 5px;
-    width: 380px;
+    width: 280px;
   }
   input:focus {
     border: 1px solid cornflowerblue;
@@ -178,12 +180,14 @@ const SignupBox = styled.div`
     box-shadow: 0 0 0 5px #cde9fe;
   }
   button {
-    font-size: 18px;
-    width: 380px;
+    font-size: 14px;
+    width: 280px;
+    margin: 20px 0;
   }
   p {
-    margin: 10px;
     color: #7f868d;
+    font-size: 14px;
+    width: 280px;
   }
 `;
 const LoginBox = styled.div`
@@ -192,12 +196,14 @@ const LoginBox = styled.div`
   width: 250px;
   justify-content: space-around;
   p {
-    font-size: 18px;
+    font-size: 14px;
   }
   span {
-    font-size: 18px;
+    font-size: 14px;
     color: #3b79c8;
     margin-left: 10px;
+  }
+  a {
     text-decoration: none;
   }
 `;
@@ -207,12 +213,13 @@ const BtnWrapper = styled.div`
   button {
     color: #44484c;
     border: 1px solid #d7d9dc;
-    width: 450px;
-    font-size: 18px;
+    width: 315px;
+    height: 38px;
+    font-size: 14px;
   }
   .gglogo {
     position: absolute;
-    right: 310px;
-    top: 15px;
+    right: 230px;
+    top: 12px;
   }
 `;
