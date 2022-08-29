@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface profile_repository extends JpaRepository<profile, Integer> {
-    profile findByMemberMemberId(Integer member_id);
+    //profile findByMemberMemberId(Integer member_id);
 }

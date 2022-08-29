@@ -4,8 +4,11 @@ import com.team23.PreProject.member.dto.member_create_dto;
 import com.team23.PreProject.member.entity.member;
 import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member_post.entitiy.member_post;
+import com.team23.PreProject.member_post.repository.member_post_repository;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.repository.post_repository;
+import com.team23.PreProject.post_vote.entity.post_vote;
+import com.team23.PreProject.post_vote.repository.post_vote_repository;
 import com.team23.PreProject.profile.entity.profile;
 import com.team23.PreProject.profile.repository.profile_repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +27,19 @@ public class member_service {
 
     @Autowired
     post_repository post_repository;
+
+    @Autowired
+    post_vote_repository post_vote_repository;
+    @Autowired
+    member_post_repository member_post_repository;
+
     public member insert_member(member_create_dto dto){
         member member = new member(dto.getPassword(),dto.getNickName(),dto.getId());
         profile profile = new profile();
         //멤버 생성
         member = member_repository.save(member);
         //프로필 생성
-        profile.setMember(member);
+        //profile.setMember(member);
         profile.setDisplayname(member.getNickName());
         profile = profile_repository.save(profile);
         //멤버 수정
@@ -70,36 +79,53 @@ public class member_service {
 
     }//updatePassword
 
-    public member createdeletedMember(){
-        member member = new member();
-        member.setMemberId(0);
-        member.setNickName("deleted");
-        member.setPassword("deleted");
-        member.setId("deleted");
-        member = member_repository.save(member);
-        return member;
-    }
-
 
     public String deleteMember(Integer member_id) {
         if(member_id == 1)
             return "delete fail";
         member member = member_repository.findById(member_id).get();
 
-        member_repository.delete(member);
-
-        List<Integer> post_ids = new ArrayList<>();
         member deleted = member_repository.findById(1).get();
-        List<member_post> member_posts = member.getMember_posts();
+        //post vote -> delted 연결
+        List<post_vote> post_votes;
+        post_votes = member.getPost_votes();
 
+        for(post_vote post_vote : post_votes)
+        {
+            post_vote.setMember(deleted);
+            post_vote_repository.flush();
+        }
+
+        System.out.println("================================post vote flush()\n\n");
+
+        //post vote -> delted 연결
+//        profile profile;
+//        profile = member.getProfile();
+//
+//
+//        profile_repository.delete(profile);
+//        System.out.println("================================profile flush()\n\n");
+
+
+
+
+        //List<Integer> post_ids = new ArrayList<>();
+
+        List<member_post> member_posts = member.getMember_posts();
+        member.setMember_posts(null);
         for(member_post member_post: member_posts){
 
             member_post.setMember(deleted);
+            member_post_repository.flush();
 
         }
 
         deleted.setMember_posts(member_posts);
-        member_repository.save(deleted);
+        System.out.println("================================member_post flush()\n\n");
+
+
+        member_repository.flush();
+        member_repository.delete(member);
 
 
         try{

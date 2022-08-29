@@ -41,8 +41,12 @@ VALUES (100,100,null,'about','2022-08-29 08:38:57.099659','2022-08-29 08:38:57.0
 INSERT INTO profile (stub_reputation,stub_reached,profile_image_link,about,sign_in_date,last_visit,location,displayname)
 VALUES (100,100,null,'about','2022-08-29 08:38:57.099659','2022-08-29 08:38:57.099659','not selected','nickname1');
 
-UPDATE member SET profile_id = 1 WHERE member.member_id = 2;
+UPDATE member SET profile_id = 1 WHERE member.member_id = 1;
 
-UPDATE profile SET member_id = 2 WHERE profile.profile_id = 2;
+--UPDATE profile SET member_id = 1 WHERE profile.profile_id = 1;
+
+UPDATE member SET profile_id = 2 WHERE member.member_id = 2;
+
+--UPDATE profile SET member_id = 2 WHERE profile.profile_id = 2;
 
 

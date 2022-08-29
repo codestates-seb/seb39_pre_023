@@ -21,16 +21,17 @@ import java.time.ZonedDateTime;
 public class profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer profile_id;
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="MEMBER_ID")
-    @JsonIgnore
-    member member = new member();
-
-    public void setMember(member member)
-    {
-        this.member = member;
-    }
+    @Column(name = "PROFILE_ID")
+    Integer profileId;
+//    @OneToOne(orphanRemoval = true)
+//    @JoinColumn(name="MEMBER_ID")
+//    @JsonIgnore
+//    member member = new member();
+//
+//    public void setMember(member member)
+//    {
+//        this.member = member;
+//    }
 
     @Column(name="STUB_REPUTATION")
     Integer stubReputation = 0;
@@ -52,5 +53,7 @@ public class profile {
 
     @Column(name = "DISPLAYNAME")
     String displayname = "displayname";
+    @Column(name = "ANSWERS")
+    Integer answers = 100;
 
 }

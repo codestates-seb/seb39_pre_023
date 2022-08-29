@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team23.PreProject.answer.entity.answer;
 import com.team23.PreProject.member_post.entitiy.member_post;
+import com.team23.PreProject.post_vote.entity.post_vote;
 import com.team23.PreProject.profile.entity.profile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -95,9 +96,17 @@ public class member {
 //    @JoinColumn(name = "answer_id")
 //    List<answer_entity> answers = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "PROFILE_ID")
     profile profile;
+
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    List<post_vote> post_votes = new ArrayList<>();
+
+    public void addPost_vote(post_vote post_vote){
+        this.post_votes.add(post_vote);
+    }
 
 
 

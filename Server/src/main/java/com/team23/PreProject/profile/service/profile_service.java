@@ -15,7 +15,7 @@ public class profile_service {
     @Autowired
     member_repository member_Repository;
     public profile findProfile(Integer member_id) {
-        profile profile = profile_repository.findByMemberMemberId(member_id);
+        profile profile = member_Repository.findById(member_id).get().getProfile();
         return profile;
     }
 
@@ -25,7 +25,7 @@ public class profile_service {
         profile.setLocation(dto.getLocation());
         if(!dto.getDisplayname().equals("")) {
             profile.setDisplayname(dto.getDisplayname());
-            member member = member_Repository.findById(profile.getMember().getMemberId()).get();
+            member member = member_Repository.findByProfileProfileId(profile_id);
             member.setNickName(dto.getDisplayname());
             member_Repository.save(member);
 

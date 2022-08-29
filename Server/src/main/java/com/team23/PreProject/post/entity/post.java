@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.team23.PreProject.member.entity.member;
 
 import com.team23.PreProject.member_post.entitiy.member_post;
+import com.team23.PreProject.post_vote.entity.post_vote;
 import lombok.*;
 
 import javax.persistence.*;
@@ -62,6 +63,15 @@ public class post {
         this.member_posts.add(member_post);
 
     }
+
+    @OneToMany(mappedBy = "post",cascade = CascadeType.PERSIST)
+    @JsonBackReference
+    List<post_vote> post_votes = new ArrayList<>();
+
+    public void addPost_Vote(post_vote post_vote){
+        this.post_votes.add(post_vote);
+    }
+
 
 
 

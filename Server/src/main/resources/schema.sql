@@ -64,8 +64,7 @@ CREATE TABLE `postVote` (
   `post_vote_id` int PRIMARY KEY AUTO_INCREMENT,
   `member_id` int,
   `post_id` int,
-  `post_vote_up` boolean,
-  `post_vote_down` boolean
+  `score` int
 );
 
 CREATE TABLE `answerVote` (
@@ -85,7 +84,7 @@ CREATE TABLE `tag` (
 
 CREATE TABLE `profile` (
   `profile_id` int PRIMARY KEY AUTO_INCREMENT,
-  `member_id` int,
+ -- `member_id` int,
   `stub_reputation` int,
   `stub_reached` int,
   `profile_image_link` varchar(255),
@@ -93,7 +92,8 @@ CREATE TABLE `profile` (
   `sign_in_date` datetime,
   `last_visit` datetime,
   `location` varchar(50),
-  `displayname` varchar(50)
+  `displayname` varchar(50),
+  `answers` int default 100
 );
 
 --ALTER TABLE `post` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
@@ -102,7 +102,7 @@ ALTER TABLE `comment` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`member
 
 ALTER TABLE `answer` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
 
-ALTER TABLE `profile` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
+--ALTER TABLE `profile` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
 
 ALTER TABLE `member` ADD FOREIGN KEY (`profile_id`) REFERENCES `profile` (`profile_id`);
 
