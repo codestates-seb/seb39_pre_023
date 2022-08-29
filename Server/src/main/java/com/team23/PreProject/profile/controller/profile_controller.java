@@ -1,5 +1,6 @@
 package com.team23.PreProject.profile.controller;
 
+import com.team23.PreProject.profile.dto.profile_update_dto;
 import com.team23.PreProject.profile.entity.profile;
 import com.team23.PreProject.profile.service.profile_service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,21 @@ import java.time.format.DateTimeFormatter;
 public class profile_controller {
     @Autowired
     profile_service profile_service;
-    @GetMapping("/DBtest/getProfile/{member_id}")
-    public ResponseEntity getMemberProfile(@PathVariable Integer member_id)
+    @GetMapping("/DBtest/getProfile")
+    public ResponseEntity getMemberProfile(@RequestParam Integer member_id)
     {
         profile profile = profile_service.findProfile(member_id);
         return new ResponseEntity<>(profile,HttpStatus.FOUND);
+    }
+
+    @PutMapping("/DBtest/updateProfile")
+    public ResponseEntity updateProfile(@RequestParam Integer profile_id,
+                                        @RequestBody profile_update_dto dto){
+
+        profile profile = profile_service.update(profile_id,dto);
+
+        return new ResponseEntity(profile,HttpStatus.OK);
+
     }
 
 

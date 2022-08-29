@@ -1,6 +1,7 @@
 package com.team23.PreProject.member.controller;
 
 import com.team23.PreProject.member.dto.member_create_dto;
+import com.team23.PreProject.member.dto.member_password_update_dto;
 import com.team23.PreProject.member.entity.member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,17 @@ public class member_controller {
         else
             return new ResponseEntity("not found",HttpStatus.NOT_FOUND);
     }
+
+    @PostMapping("DBtest/updatePassword")
+    public ResponseEntity updatePassword(@RequestParam Integer member_id,
+                                         @RequestBody member_password_update_dto dto)
+    {
+        String result = member_service.updatePassword(member_id,dto.getElder(),dto.getNewer());
+        if(result.equals("passwored changed"))
+            return new ResponseEntity("passwored changed",HttpStatus.OK);
+        else
+            return new ResponseEntity("passwored not changed",HttpStatus.CONFLICT);
+    }//updatePassword end
 
 
 }

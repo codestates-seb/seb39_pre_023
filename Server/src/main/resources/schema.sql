@@ -91,7 +91,9 @@ CREATE TABLE `profile` (
   `profile_image_link` varchar(255),
   `about` varchar(255),
   `sign_in_date` datetime,
-  `last_visit` datetime
+  `last_visit` datetime,
+  `location` varchar(50),
+  `displayname` varchar(50)
 );
 
 --ALTER TABLE `post` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);

@@ -23,7 +23,7 @@ public class profile {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="MEMBER_ID")
     @JsonIgnore
-    member member;
+    member member = new member();
 
     public void setMember(member member)
     {
@@ -45,5 +45,10 @@ public class profile {
     @Column(name="LAST_VISIT")
     LocalDateTime lastVisit = LocalDateTime.now();
 
+    @Column(name="LOCATION")
+    String location="not selected";
+
+    @Column(name = "DISPLAYNAME")
+    String displayname = "displayname";
 
 }

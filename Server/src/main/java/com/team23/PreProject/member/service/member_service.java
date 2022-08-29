@@ -23,6 +23,7 @@ public class member_service {
         member = member_repository.save(member);
         //프로필 생성
         profile.setMember(member);
+        profile.setDisplayname(member.getNickName());
         profile = profile_repository.save(profile);
         //멤버 수정
         member.setProfile(profile);
@@ -45,6 +46,19 @@ public class member_service {
             return null;
         }
 
+
+    }//findMemberById end
+
+    public String updatePassword(Integer member_id, String elder, String newer ){
+        member member = member_repository.findById(member_id).get();
+        if(member.getPassword().equals(elder)&&!newer.equals(""))
+        {
+            member.setPassword(newer);
+            member_repository.save(member);
+            return "passwored changed";
+        }
+        else
+            return "passwored not changed";
 
     }
 
