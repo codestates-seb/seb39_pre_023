@@ -10,10 +10,13 @@ import QuestionDetail from './pages/Question/QuestionDetail';
 import QuestionList from './pages/Question/QuestionList';
 import Login from './pages/Sign/Login';
 import Logout from './pages/Sign/Logout';
-import SignUp from './pages/Sign/SingUp';
+import SignUp from './pages/Sign/SignUp';
+import axios from 'axios';
 
+axios.defaults.withCredentials = false;
 function App() {
   const [viewModal, setModal] = useState(false);
+
   return (
     <div className="App">
       <MyHeader viewModal={viewModal} setModal={setModal} />
