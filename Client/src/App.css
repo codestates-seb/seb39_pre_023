@@ -8,10 +8,12 @@
 .MyButton {
   cursor: pointer;
   border: none;
-  padding: 12px 12px;
-  font-size: 15px;
+  padding: 5px;
+  font-size: 14px;
   white-space: nowrap;
   border-radius: 3px;
+  width: 68px;
+  height: 30px;
 }
 .MyButton_orange {
   background-color: #da680b;
