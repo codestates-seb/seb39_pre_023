@@ -6,6 +6,79 @@ import EditProfile from './EditProfile';
 import ChangePassWord from './ChangePassword';
 import DeleteProfile from './DeleteProfile';
 /* eslint-disable react/prop-types */
+import axios from 'axios';
+axios.defaults.withCredentials = false;
+const MySettings = ({
+  setIsProfile,
+  nickname,
+  setNickname,
+  location,
+  setLocation,
+  about,
+  setAbout,
+}) => {
+  const [isToggle1, setIsToggle1] = useState(false);
+  const [isToggle2, setIsToggle2] = useState(false);
+  const [isToggle3, setIsToggle3] = useState(false);
+  return (
+    <Container>
+      <Wrapper>
+        <div className="titleWrapper">
+          <div className="title">Edit your profile</div>
+          <FontAwesomeIcon
+            icon={isToggle1 ? faAngleLeft : faAngleDown}
+            className="toggle"
+            onClick={() => {
+              setIsToggle1(!isToggle1);
+            }}
+          />
+        </div>
+        {isToggle1 ? (
+          <div></div>
+        ) : (
+          <EditProfile
+            setIsProfile={setIsProfile}
+            nickname={nickname}
+            setNickname={setNickname}
+            location={location}
+            setLocation={setLocation}
+            about={about}
+            setAbout={setAbout}
+          />
+        )}
+      </Wrapper>
+      <Wrapper>
+        <div className="titleWrapper">
+          <div className="title">Change Password</div>
+          <FontAwesomeIcon
+            icon={isToggle2 ? faAngleLeft : faAngleDown}
+            className="toggle"
+            onClick={() => {
+              setIsToggle2(!isToggle2);
+            }}
+          />
+        </div>
+        {isToggle2 ? <div></div> : <ChangePassWord />}
+      </Wrapper>
+      <Wrapper>
+        <div className="titleWrapper">
+          <div className="title">Delete Profile</div>
+          <FontAwesomeIcon
+            icon={isToggle3 ? faAngleLeft : faAngleDown}
+            className="toggle"
+            onClick={() => {
+              setIsToggle3(!isToggle3);
+            }}
+          />
+        </div>
+        {isToggle3 ? <div></div> : <DeleteProfile />}
+      </Wrapper>
+    </Container>
+  );
+};
+
+export default MySettings;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,53 +122,3 @@ const Wrapper = styled.div`
     font-size: 25px;
   }
 `;
-const MySettings = ({ setIsProfile }) => {
-  const [isToggle1, setIsToggle1] = useState(false);
-  const [isToggle2, setIsToggle2] = useState(false);
-  const [isToggle3, setIsToggle3] = useState(false);
-  return (
-    <Container>
-      <Wrapper>
-        <div className="titleWrapper">
-          <div className="title">Edit your profile</div>
-          <FontAwesomeIcon
-            icon={isToggle1 ? faAngleLeft : faAngleDown}
-            className="toggle"
-            onClick={() => {
-              setIsToggle1(!isToggle1);
-            }}
-          />
-        </div>
-        {isToggle1 ? <div></div> : <EditProfile setIsProfile={setIsProfile} />}
-      </Wrapper>
-      <Wrapper>
-        <div className="titleWrapper">
-          <div className="title">Change Password</div>
-          <FontAwesomeIcon
-            icon={isToggle2 ? faAngleLeft : faAngleDown}
-            className="toggle"
-            onClick={() => {
-              setIsToggle2(!isToggle2);
-            }}
-          />
-        </div>
-        {isToggle2 ? <div></div> : <ChangePassWord />}
-      </Wrapper>
-      <Wrapper>
-        <div className="titleWrapper">
-          <div className="title">Delete Profile</div>
-          <FontAwesomeIcon
-            icon={isToggle3 ? faAngleLeft : faAngleDown}
-            className="toggle"
-            onClick={() => {
-              setIsToggle3(!isToggle3);
-            }}
-          />
-        </div>
-        {isToggle3 ? <div></div> : <DeleteProfile />}
-      </Wrapper>
-    </Container>
-  );
-};
-
-export default MySettings;

@@ -1,4 +1,83 @@
 import styled from 'styled-components';
+import MyListItem from './MyListItem';
+/* eslint-disable react/prop-types */
+import axios from 'axios';
+axios.defaults.withCredentials = false;
+const MyProfile = ({ answers, questions, reputation, reached, about }) => {
+  return (
+    <Container>
+      <StatsWrapper className="statsBox">
+        <div className="title">Stats</div>
+        <div className="container">
+          <div className="statsWrapper">
+            <div className="score">{reputation}</div>
+            <div>reputation</div>
+          </div>
+          <div className="statsWrapper">
+            <div className="score">{reached}</div>
+            <div>reached</div>
+          </div>
+          <div className="statsWrapper">
+            <div className="score">{answers.length}</div>
+            <div>answers</div>
+          </div>
+          <div className="statsWrapper">
+            <div className="score">{questions.length}</div>
+            <div>questions</div>
+          </div>
+        </div>
+      </StatsWrapper>
+      <Wrapper>
+        <div className="title">About</div>
+        <div className="box">{about}</div>
+      </Wrapper>
+      <Wrapper>
+        <div className="title">{answers.legnth} Answers</div>
+        <div className={answers.length === 0 ? 'box listbox' : 'box'}>
+          {answers.length === 0 ? (
+            <div>You have not answered any questions.</div>
+          ) : (
+            <>
+              {answers.map((el) => (
+                <li key={el.post_id}>
+                  <div>{el.post_name}</div>
+                  <div>{el.modified_date}</div>
+                </li>
+              ))}
+            </>
+          )}
+        </div>
+      </Wrapper>
+      <Wrapper>
+        <div className="title">{questions.legnth} questions</div>
+        <div className={questions.length === 0 ? 'box listbox' : 'box'}>
+          {questions.length == 0 ? (
+            <div>You have not asked any questions.</div>
+          ) : (
+            <>
+              {questions.map((el) => {
+                const date = new Date(
+                  String(el.modified_date)
+                ).toLocaleDateString();
+                return (
+                  <MyListItem
+                    key={el.post_id}
+                    title={el.post_name}
+                    content={el.post_content}
+                    date={date}
+                    postId={el.post_id}
+                  />
+                );
+              })}
+            </>
+          )}
+        </div>
+      </Wrapper>
+    </Container>
+  );
+};
+
+export default MyProfile;
 
 const Container = styled.div`
   display: flex;
@@ -26,7 +105,6 @@ const StatsWrapper = styled.div`
     margin: 20px;
   }
 `;
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -38,70 +116,11 @@ const Wrapper = styled.div`
     margin-top: 10px;
     padding-top: 20px;
     padding-left: 20px;
+    padding-bottom: 10px;
   }
   .listbox {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-bottom: 20px;
   }
-  /* 질문, 답변 리스트 존재할때 css 처리해줘야함 */
 `;
-
-const MyProfile = () => {
-  const answers = [];
-  const questions = [];
-  return (
-    <Container>
-      <StatsWrapper className="statsBox">
-        <div className="title">Stats</div>
-        <div className="container">
-          <div className="statsWrapper">
-            <div className="score">1</div>
-            <div>reputation</div>
-          </div>
-          <div className="statsWrapper">
-            <div className="score">0</div>
-            <div>reached</div>
-          </div>
-          <div className="statsWrapper">
-            <div className="score">0</div>
-            <div>answers</div>
-          </div>
-          <div className="statsWrapper">
-            <div className="score">0</div>
-            <div>questions</div>
-          </div>
-        </div>
-      </StatsWrapper>
-      <Wrapper>
-        <div className="title">About</div>
-        <div className="box">hello world</div>
-      </Wrapper>
-      <Wrapper>
-        <div className="title">0 Answers</div>
-        {/* answers 배열 길이 0 이면 "you have not...." */}
-        <div className={answers.length === 0 ? 'box listbox' : 'box'}>
-          {answers.length === 0 ? (
-            <div>you have not answered any questions</div>
-          ) : (
-            <div></div>
-          )}
-        </div>
-      </Wrapper>
-      <Wrapper>
-        <div className="title">0 questions</div>
-        <div className={questions.length === 0 ? 'box listbox' : 'box'}>
-          {questions.length == 0 ? (
-            <div>you have not asked any questions</div>
-          ) : (
-            <div></div>
-          )}
-        </div>
-      </Wrapper>
-    </Container>
-  );
-};
-
-export default MyProfile;

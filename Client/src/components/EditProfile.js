@@ -1,69 +1,62 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import MyButton from './MyButton';
+import MyProfileImg from './MyProfileImg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 /* eslint-disable react/prop-types */
 
-const EditProfile = ({ setIsProfile }) => {
-  const [preview, setPreview] = useState(null);
+axios.defaults.withCredentials = false;
+const EditProfile = ({
+  setIsProfile,
+  nickname,
+  setNickname,
+  location,
+  setLocation,
+  about,
+  setAbout,
+}) => {
   const [isSaved, setIsSaved] = useState(false);
-  const imgInput = useRef(null);
-  const onChangeImgBtnClick = (e) => {
-    e.preventDefault();
-    imgInput.current.click();
+  const onChangeNickname = (e) => {
+    setNickname(e.target.value);
   };
-  const onChangePreview = (e) => {
-    e.preventDefault();
-    setPreview(URL.createObjectURL(e.target.files[0]));
-    console.log(e.target.files[0]);
+  const onChangeLocation = (e) => {
+    setLocation(e.target.value);
   };
-  const onDeletePreview = () => {
-    setPreview(URL.revokeObjectURL(preview));
+  const onChangeAbout = (e) => {
+    setAbout(e.target.value);
+  };
+
+  const onEditProfile = () => {
+    axios
+      .put(`http://3.39.180.45:56178/DBtest/updateProfile?profile_id=2`, {
+        displayname: nickname,
+        location: location,
+        about: about,
+      })
+      .then((res) => {
+        setIsSaved(!isSaved);
+        console.log(res.data);
+        console.log('put작동');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <Container>
-      <ImgContainer>
-        <ImgWrapper>
-          <h4>Profile image</h4>
-          <img
-            src={
-              preview === undefined
-                ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2iFvPbCvVHMQrdGkTuAPa1I2JS2-tHFhTKg&usqp=CAU'
-                : preview
-            }
-            alt="profileImage"
-          ></img>
-          <input
-            type="file"
-            ref={imgInput}
-            accept="image/*"
-            onChange={(e) => onChangePreview(e)}
-            style={{ display: 'none' }}
-          ></input>
-          <button onClick={(e) => onChangeImgBtnClick(e)} className="changeImg">
-            Change picture
-          </button>
-        </ImgWrapper>
-        <div className="deleteBtnWrapper">
-          <button
-            className="deleteBtn"
-            onClick={() => {
-              onDeletePreview();
-            }}
-          >
-            Delete image
-          </button>
-        </div>
-      </ImgContainer>
+      <MyProfileImg />
       <InputContainer>
         <h4>Display name</h4>
-        <input type="text"></input>
+        <input value={nickname} required onChange={onChangeNickname}></input>
         <h4>Location</h4>
-        <input type="text"></input>
+        <input value={location} onChange={onChangeLocation}></input>
         <h4>About me</h4>
-        <input type="textarea"></input>
-        <div>About내용상태그잡채뿌리기</div>
+        <textarea value={about} onChange={onChangeAbout}></textarea>
+        <div className="aboutWrapper">
+          <p className="about">{about}</p>
+        </div>
       </InputContainer>
       <BtnContainer>
         {isSaved ? (
@@ -76,7 +69,7 @@ const EditProfile = ({ setIsProfile }) => {
           <MyButton
             text={'Save profile'}
             onClick={() => {
-              setIsSaved(!isSaved);
+              onEditProfile();
             }}
             type={'blue'}
           />
@@ -104,57 +97,7 @@ const Container = styled.h3`
   border-radius: 5px;
   max-width: 1040px;
 `;
-const ImgContainer = styled.div`
-  display: flex;
-  .deleteBtnWrapper {
-    margin-top: 186px;
-    display: flex;
-    flex-direction: column;
-  }
-  .deleteBtn {
-    cursor: pointer;
-    width: 100px;
-    height: 35px;
-    padding: 5px 5px;
-    background-color: #0a95ff;
-    color: white;
-    border: 1px solid #0a95ff;
-    border-radius: 5px;
-  }
-  .deleteBtn:hover {
-    background-color: #066ac8;
-  }
-`;
-const ImgWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 185px;
-  div {
-    font-weight: 400;
-    font-size: 16px;
-  }
-  img {
-    width: 165px;
-    height: 165px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-  }
-  .changeImg {
-    background-color: #535960;
-    border: 1px solid #535960;
-    color: white;
-    width: 165px;
-    height: 32px;
-    padding: 5px;
-    cursor: pointer;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-  }
-  .changeImg:hover {
-    background-color: #2e3438;
-    border-color: #2e3438;
-  }
-`;
+
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -170,19 +113,37 @@ const InputContainer = styled.div`
     border: 1px solid #d5d7d9;
     border-radius: 3px;
   }
-  input:nth-of-type(3) {
-    width: 780px;
-    margin-bottom: 10px;
-  }
   input:focus {
     border: 1px solid cornflowerblue;
     border-radius: 2px;
     outline: none;
     box-shadow: 0 0 0 3px #cde9fe;
   }
-  div {
+  textarea {
+    width: 750px;
+    min-height: 150px;
+    padding: 10px;
+    border: 1px solid #d5d7d9;
+    border-radius: 3px;
+
+    font-size: 14px;
+  }
+  textarea:focus {
+    border: 1px solid cornflowerblue;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: 0 0 0 3px #cde9fe;
+  }
+  .aboutWrapper {
+    width: 71%;
+  }
+  .about {
+    margin-top: 10px;
+    margin-left: 10px;
     font-weight: 400;
     font-size: 14px;
+    display: block;
+    word-wrap: break-word;
   }
 `;
 const BtnContainer = styled.div`

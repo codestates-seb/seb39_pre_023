@@ -3,6 +3,64 @@ import MySettings from './MySettings';
 import MyProfile from './MyProfile';
 import { useState } from 'react';
 /* eslint-disable react/prop-types */
+import axios from 'axios';
+axios.defaults.withCredentials = false;
+const MyContent = ({
+  reputation,
+  reached,
+  answers,
+  questions,
+  about,
+  setAbout,
+  nickname,
+  setNickname,
+  location,
+  setLocation,
+}) => {
+  const [isProfile, setIsProfile] = useState(true);
+  return (
+    <Container>
+      <Top>
+        <button
+          onClick={() => setIsProfile(true)}
+          className={isProfile ? 'active' : 'deActive'}
+        >
+          Profile
+        </button>
+        <button
+          onClick={() => setIsProfile(false)}
+          className={isProfile ? 'deActive' : 'active'}
+        >
+          Settings
+        </button>
+      </Top>
+      <Bottom>
+        {isProfile ? (
+          <MyProfile
+            reputation={reputation}
+            reached={reached}
+            answers={answers}
+            questions={questions}
+            about={about}
+          />
+        ) : (
+          <MySettings
+            setIsProfile={setIsProfile}
+            nickname={nickname}
+            setNickname={setNickname}
+            location={location}
+            setLocation={setLocation}
+            about={about}
+            setAbout={setAbout}
+          />
+        )}
+      </Bottom>
+    </Container>
+  );
+};
+
+export default MyContent;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -42,29 +100,3 @@ const Top = styled.div`
 const Bottom = styled.div`
   display: flex;
 `;
-const MyContent = () => {
-  const [isProfile, setIsProfile] = useState(true);
-  return (
-    <Container>
-      <Top>
-        <button
-          onClick={() => setIsProfile(true)}
-          className={isProfile ? 'active' : 'deActive'}
-        >
-          Profile
-        </button>
-        <button
-          onClick={() => setIsProfile(false)}
-          className={isProfile ? 'deActive' : 'active'}
-        >
-          Settings
-        </button>
-      </Top>
-      <Bottom>
-        {isProfile ? <MyProfile /> : <MySettings setIsProfile={setIsProfile} />}
-      </Bottom>
-    </Container>
-  );
-};
-
-export default MyContent;
