@@ -1,6 +1,118 @@
 import styled from 'styled-components';
 import MyButton from './MyButton';
-const SignupBox = styled.div`
+import axios from 'axios';
+import { useState } from 'react';
+axios.defaults.withCredentials = false;
+
+const ChangePassWord = () => {
+  const [currentPW, setCurrentPW] = useState('');
+  const [newPW, setNewPW] = useState('');
+  const [newRePW, setNewRePW] = useState('');
+  const [checkMsg1, setCheck1] = useState();
+  const [checkMsg2, setCheck2] = useState();
+  const [checkMsg3, setCheck3] = useState();
+
+  const isValidPassword = (str) => {
+    let regExp =
+      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+    return regExp.test(str);
+  };
+  const onCurrentPW = (e) => {
+    setCurrentPW(e.target.value);
+    isValidPassword(e.target.value)
+      ? setCheck1(<p>비밀번호가 조건에 만족합니다</p>)
+      : setCheck1(
+          <p>8 ~ 16자 사이의 영문, 숫자, 특수문자를 최소 한가지씩 조합하세요</p>
+        );
+  };
+  const onNewPW = (e) => {
+    setNewPW(e.target.value);
+    if (currentPW === e.target.value) {
+      setCheck2(<p>현재 비밀번호와 같습니다</p>);
+    } else if (
+      currentPW !== e.target.value &&
+      isValidPassword(e.target.value)
+    ) {
+      setCheck2(<p>비밀번호가 조건에 만족합니다</p>);
+    } else if (
+      currentPW !== e.target.value &&
+      !isValidPassword(e.target.value)
+    ) {
+      setCheck2(
+        <p>8 ~ 16자 사이의 영문, 숫자, 특수문자를 최소 한가지씩 조합하세요</p>
+      );
+    }
+  };
+  const onNewRePW = (e) => {
+    setNewRePW(e.target.value);
+    if (currentPW === e.target.value && newPW === e.target.value) {
+      setCheck3(<p>현재 비밀번호와 같아 비밀번호가 변경되지 않습니다</p>);
+    } else if (newPW === e.target.value) {
+      setCheck3(<p>비밀번호가 일치합니다</p>);
+    } else {
+      setCheck3(<p>비밀번호가 일치하지 않습니다</p>);
+    }
+  };
+  const onSubmitNewPW = (e) => {
+    e.preventDefault();
+    if (currentPW === newPW && newPW === newRePW) {
+      return;
+    } else if (!currentPW || !newPW || !newRePW) {
+      return;
+    }
+    if (currentPW !== newPW && newPW === newRePW) {
+      axios
+        .post(`http://3.39.180.45:56178/DBtest/updatePassword?member_id=3`, {
+          newer: newRePW,
+          elder: currentPW,
+        })
+        .then((res) => {
+          console.log(res.data);
+          console.log('pw변경성공');
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    }
+  };
+  return (
+    <Container>
+      <form>
+        <div>
+          <span>Current password</span>
+          <input
+            type="password"
+            value={currentPW}
+            onChange={onCurrentPW}
+          ></input>
+          {checkMsg1}
+        </div>
+        <div>
+          <span>New password</span>
+          <input type="password" value={newPW} onChange={onNewPW}></input>
+          {checkMsg2}
+        </div>
+        <div>
+          <span>New password (again)</span>
+          <input type="password" value={newRePW} onChange={onNewRePW}></input>
+          {checkMsg3}
+        </div>
+        <p>
+          Passwords must contain at least eight characters, including at least 1
+          letter and 1 number.
+        </p>
+        <MyButton
+          text={'Change PassWord'}
+          type={'blue'}
+          onClick={(e) => onSubmitNewPW(e)}
+        />
+      </form>
+    </Container>
+  );
+};
+export default ChangePassWord;
+
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
@@ -11,15 +123,22 @@ const SignupBox = styled.div`
   border-radius: 5px;
   min-width: 350px;
   max-width: 1040px;
+  form {
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+  }
   span {
     margin-top: 10px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     margin-right: 180px;
+    margin-bottom: 5px;
     white-space: nowrap;
   }
   input {
-    height: 40px;
+    height: 35px;
     min-width: 350px;
     font-size: 14px;
     color: #363b3f;
@@ -41,27 +160,10 @@ const SignupBox = styled.div`
     margin: 20px 0;
   }
   p {
-    margin-top: 20px;
+    margin-left: 3px;
+    margin-top: 5px;
+    margin-bottom: 10px;
     color: #7f868d;
     font-size: 14px;
   }
 `;
-
-const ChangePassWord = () => {
-  return (
-    <SignupBox>
-      <span>Current password</span>
-      <input type="text"></input>
-      <span>New password</span>
-      <input type="password"></input>
-      <span>New password (again)</span>
-      <input type="password"></input>
-      <p>
-        Passwords must contain at least eight characters, including at least 1
-        letter and 1 number.
-      </p>
-      <MyButton text={'Change PassWord'} type={'blue'} onClick={() => {}} />
-    </SignupBox>
-  );
-};
-export default ChangePassWord;
