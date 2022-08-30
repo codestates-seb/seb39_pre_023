@@ -7,4 +7,6 @@ import java.util.Map;
 
 public interface member_repository extends JpaRepository<member,Integer> {
     member findByProfileProfileId(Integer profile_id);
+
+    member findByid(String id);
 }

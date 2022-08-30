@@ -6,10 +6,12 @@ import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.member_post.repository.member_post_repository;
 import com.team23.PreProject.post.dto.post_all_dto;
 import com.team23.PreProject.post.dto.post_insert_dto;
+import com.team23.PreProject.post.dto.post_profile_dto;
 import com.team23.PreProject.post.dto.post_update_dto;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.repository.post_repository;
 
+import com.team23.PreProject.profile.entity.profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -89,6 +91,11 @@ public class post_service {
     }
 
     public post_all_dto findAllPost(int page, int size){
+        if(size==-1 || page ==-1)
+        {
+            page = 0;
+            size = (int) post_repository.count();
+        }
         Pageable pageable = PageRequest.of(page, size, Sort.by("postId").descending());
         Page<post> post_list = post_repository.findAll(pageable);
         Long count = post_repository.count();
@@ -99,6 +106,8 @@ public class post_service {
 
     public Page<post> findPostByMember(int page, int size,Integer member_id){
 
+
+
         //유저 정보 먼저 찾기
         member member = member_repository.findById(member_id).get();
         //
@@ -107,6 +116,11 @@ public class post_service {
         for(member_post member_post: member.getMember_posts()){
             post_ids.add(member_post.getPost().getPostId());
 
+        }
+        if(size==-1 || page ==-1)
+        {
+            page = 0;
+            size = (int) post_ids.size();
         }
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("postId").descending());
@@ -150,14 +164,24 @@ public class post_service {
         return result;
     }//del end
 
-    public post getPost(Integer post_id)
+    public post_profile_dto getPost(Integer post_id)
     {
         try{
             post post = post_repository.findById(post_id).get();
             post.setView_count(post.getView_count()+1);
             post_repository.flush();
-            return post;
+
+            member member = member_post_repository.findByPostPostId(post_id).getMember();
+            post_profile_dto dto;
+            if(member.getMemberId()==1)
+            {
+                dto = new post_profile_dto(post,null);
+            }
+            dto = new post_profile_dto(post,member.getProfile());
+            return dto;
         }catch(Exception e){
+
+
             return null;
         }
 

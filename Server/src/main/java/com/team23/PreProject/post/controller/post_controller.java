@@ -7,6 +7,7 @@ import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.member_post.repository.member_post_repository;
 import com.team23.PreProject.post.dto.post_all_dto;
 import com.team23.PreProject.post.dto.post_insert_dto;
+import com.team23.PreProject.post.dto.post_profile_dto;
 import com.team23.PreProject.post.dto.post_update_dto;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.service.post_service;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @RestController
 public class post_controller {
@@ -70,10 +72,10 @@ public class post_controller {
 
     {
 
-        post post = post_service.getPost(post_id);
-        if(post==null)
+        post_profile_dto dto = post_service.getPost(post_id);
+        if(dto==null)
             return new ResponseEntity("not found",HttpStatus.NOT_FOUND);
-        return new ResponseEntity(post,HttpStatus.FOUND);
+        return new ResponseEntity(dto,HttpStatus.FOUND);
     }
 
     @PostMapping("/DBtest/post")
@@ -101,8 +103,10 @@ public class post_controller {
                                   @RequestParam(required = false, value = "size", defaultValue = "15") Integer size,
                                     @PathVariable Integer member_id)
     {
+
         if(member_id == 1)
             return new ResponseEntity("you tried to access deleted user", HttpStatus.CONFLICT);
+
         System.out.println("find post by user_id "+ ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
         Page post_list =post_service.findPostByMember(page,size,member_id);
         return new ResponseEntity(post_list,HttpStatus.OK);

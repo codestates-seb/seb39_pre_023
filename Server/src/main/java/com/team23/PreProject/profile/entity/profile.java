@@ -40,7 +40,7 @@ public class profile {
     Integer stubReached = 0;
 
     @Column(name = "ABOUT")
-    String about = "blank";
+    String about = "hello world";
 
     @Column(name = "SIGN_IN_DATE")
     ZonedDateTime signInDate = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
@@ -49,7 +49,7 @@ public class profile {
     ZonedDateTime lastVisit = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
 
     @Column(name="LOCATION")
-    String location="not selected";
+    String location="location";
 
     @Column(name = "DISPLAYNAME")
     String displayname = "displayname";

@@ -9,6 +9,7 @@ CREATE TABLE `member` (
   `profile_id` varchar(255),
   --`post_id` int,
   `comment_id` int,
+  `role` varchar(50),
   `sign_in_date` datetime
   --`member_post_id` int,
 

@@ -19,13 +19,16 @@ public class profile_controller {
     public ResponseEntity getMemberProfile(@RequestParam Integer member_id)
     {
         profile profile = profile_service.findProfile(member_id);
-        return new ResponseEntity<>(profile,HttpStatus.FOUND);
+        return new ResponseEntity<>(profile,HttpStatus.OK);
     }
 
     @PutMapping("/DBtest/updateProfile")
     public ResponseEntity updateProfile(@RequestParam Integer profile_id,
                                         @RequestBody profile_update_dto dto){
-
+        if(profile_id==1)
+        {
+            return new ResponseEntity("you tried to access deleted user",HttpStatus.CONFLICT);
+        }
         profile profile = profile_service.update(profile_id,dto);
 
         return new ResponseEntity(profile,HttpStatus.OK);

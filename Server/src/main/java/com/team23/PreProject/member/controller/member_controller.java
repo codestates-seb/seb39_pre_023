@@ -60,7 +60,7 @@ public class member_controller {
 
 
 
-    @PostMapping("DBtest/deleteMember")
+    @DeleteMapping("DBtest/deleteMember")
     public ResponseEntity deleteMember(@RequestParam Integer member_id)
     {
         if(member_id == 1)
@@ -72,6 +72,17 @@ public class member_controller {
         else
             return new ResponseEntity(result,HttpStatus.CONFLICT);
     }//deleteMember
+
+    @GetMapping("DBtest/checkExistId")
+    public ResponseEntity checkId(@RequestParam String id)
+    {
+        boolean result = false;
+        result = member_service.checkExistId(id);
+        if(result)
+            return new ResponseEntity("false",HttpStatus.OK);
+        else
+            return new ResponseEntity("true",HttpStatus.OK);
+    }
 
 
 }

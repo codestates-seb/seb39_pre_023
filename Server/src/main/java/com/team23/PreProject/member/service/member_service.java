@@ -139,4 +139,18 @@ public class member_service {
 
 
     }
+
+    public boolean checkExistId(String id) {
+        member member =  member_repository.findByid(id);
+        boolean result;
+        if(member == null)
+        {
+            result = false;
+
+        }
+        else
+            result = true;
+
+        return result;
+    }
 }

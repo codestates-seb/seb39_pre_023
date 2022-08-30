@@ -36,12 +36,14 @@ public class member {
     @Column(name = "PASSWORD")
     String Password;
     @Column(name = "NICKNAME")
-    String NickName;
+    String nickName;
     @Column(name = "ID")
-    String Id;
+    String id;
     //String profile_id;
     @Column(name = "COMMENT_ID")
     String comment_id;
+    @Column(name = "ROLE")
+    String role;
 //    @Column(name = "answer_ID")
 //    String answer_id;
 
@@ -56,8 +58,8 @@ public class member {
     public member(String Password, String nick,String Id,profile pf, String com)
     {
         this.Password = Password;
-        this.NickName = nick;
-        this.Id = Id;
+        this.nickName = nick;
+        this.id = Id;
         this.profile=pf;
         this.comment_id=com;
 
@@ -66,8 +68,8 @@ public class member {
     public member(String password, String nickName,String Id)
     {
         this.Password = password;
-        this.NickName = nickName;
-        this.Id = Id;
+        this.nickName = nickName;
+        this.id = Id;
     }
 
 //    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "member")
