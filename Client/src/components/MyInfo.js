@@ -1,7 +1,15 @@
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCakeCandles,
+  faLocationDot,
+} from '@fortawesome/free-solid-svg-icons';
+/* eslint-disable react/prop-types */
 
-// 부모컴포에서 img Sr, displayname, 가입일, location만 내려받기
-const MyInfo = () => {
+const MyInfo = ({ nickname, location, signupDate }) => {
+  let sign = new Date(String(signupDate)).getTime();
+  let today = new Date().getTime();
+  let dateFromSign = Math.ceil((today - sign) / 1000 / 60 / 60 / 24);
   return (
     <Container>
       <Left>
@@ -12,9 +20,15 @@ const MyInfo = () => {
         ></img>
       </Left>
       <Right>
-        <div className="displayname">doyeondo</div>
-        <div className="signupdate">Member for 6 days</div>
-        <div className="location">south korea</div>
+        <div className="displayname">{nickname}</div>
+        <div className="wrapper">
+          <FontAwesomeIcon icon={faCakeCandles} className="icon" />
+          <span className="signupdate">Member for {dateFromSign} days</span>
+        </div>
+        <div className="wrapper">
+          <FontAwesomeIcon icon={faLocationDot} className="icon" />
+          <span className="location">{location}</span>
+        </div>
       </Right>
     </Container>
   );
@@ -41,7 +55,7 @@ const Left = styled.div`
 const Right = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 15px;
   color: gray;
   font-weight: 400;
   margin-top: 5px;
@@ -51,5 +65,12 @@ const Right = styled.div`
     color: black;
     margin-top: 10px;
     margin-bottom: 40px;
+  }
+  .wrapper {
+    display: flex;
+    width: 150px;
+    span {
+      margin-left: 10px;
+    }
   }
 `;
