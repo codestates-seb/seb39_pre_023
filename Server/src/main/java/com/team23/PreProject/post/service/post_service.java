@@ -154,6 +154,8 @@ public class post_service {
     {
         try{
             post post = post_repository.findById(post_id).get();
+            post.setView_count(post.getView_count()+1);
+            post_repository.flush();
             return post;
         }catch(Exception e){
             return null;
