@@ -39,7 +39,7 @@ public class post_service {
 
 
 
-    public ResponseEntity insert_test(post_insert_dto test){
+    public post insert_test(post_insert_dto test){
 
             System.out.println("\n\n============================================ json parse");
             System.out.println("test "+test.getPost_content());
@@ -86,7 +86,7 @@ public class post_service {
             post_repository.save(post);
             System.out.println("============================================ update post entity end\n\n");
 
-            return new ResponseEntity(post,HttpStatus.CREATED);
+            return post;
 
     }
 

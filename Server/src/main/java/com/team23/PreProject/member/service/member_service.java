@@ -12,6 +12,7 @@ import com.team23.PreProject.post_vote.repository.post_vote_repository;
 import com.team23.PreProject.profile.entity.profile;
 import com.team23.PreProject.profile.repository.profile_repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,9 +33,12 @@ public class member_service {
     post_vote_repository post_vote_repository;
     @Autowired
     member_post_repository member_post_repository;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public member insert_member(member_create_dto dto){
         member member = new member(dto.getPassword(),dto.getNickName(),dto.getId());
+        member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
         profile profile = new profile();
         //멤버 생성
         member = member_repository.save(member);
@@ -44,6 +48,7 @@ public class member_service {
         profile = profile_repository.save(profile);
         //멤버 수정
         member.setProfile(profile);
+        member.setRoles("ROLE_USER");
         //멤버 업데이트
         member_repository.save(member);
 

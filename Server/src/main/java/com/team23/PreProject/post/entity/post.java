@@ -1,6 +1,7 @@
 package com.team23.PreProject.post.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+//import com.fasterxml.jackson.annotation.JsonBackReference ;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team23.PreProject.member.entity.member;
 
 import com.team23.PreProject.member_post.entitiy.member_post;
@@ -51,11 +52,11 @@ public class post {
 
 //    @ManyToOne(fetch = FetchType.EAGER,optional = false)
 //    @JoinColumn(name = "MEMBER_ID")
-//    @JsonBackReference
+//    //@JsonBackReference 
 //    member member;
 
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonIgnore
     List<member_post> member_posts = new ArrayList<>();
 
 
@@ -65,7 +66,7 @@ public class post {
     }
 
     @OneToMany(mappedBy = "post",cascade = CascadeType.PERSIST)
-    @JsonBackReference
+    @JsonIgnore
     List<post_vote> post_votes = new ArrayList<>();
 
     public void addPost_Vote(post_vote post_vote){

@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class member_create_dto {
     String Password;
-    String nickName="nick";
+    String nickName="stub_nick111";
     String Id;
 
 }

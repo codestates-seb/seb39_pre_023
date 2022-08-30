@@ -7,6 +7,7 @@ import com.team23.PreProject.post.entity.post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,10 @@ import java.util.Random;
 public class member_controller {
     @Autowired
     com.team23.PreProject.member.service.member_service member_service;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
     @PostMapping("DBtest/createMember")
     public ResponseEntity insertMember(@RequestBody member_create_dto member_dto)
     {
@@ -82,6 +87,13 @@ public class member_controller {
             return new ResponseEntity("false",HttpStatus.OK);
         else
             return new ResponseEntity("true",HttpStatus.OK);
+    }
+
+    @GetMapping("DBtest/jwtTest")
+    public ResponseEntity jwtTest()
+    {
+
+            return new ResponseEntity("sucess",HttpStatus.OK);
     }
 
 

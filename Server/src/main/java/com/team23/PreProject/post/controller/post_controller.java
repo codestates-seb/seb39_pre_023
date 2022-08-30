@@ -5,10 +5,7 @@ import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member.service.member_service;
 import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.member_post.repository.member_post_repository;
-import com.team23.PreProject.post.dto.post_all_dto;
-import com.team23.PreProject.post.dto.post_insert_dto;
-import com.team23.PreProject.post.dto.post_profile_dto;
-import com.team23.PreProject.post.dto.post_update_dto;
+import com.team23.PreProject.post.dto.*;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.service.post_service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,9 +80,11 @@ public class post_controller {
     {
         if(test.getMember_id() == 1)
             return new ResponseEntity("you tried to access deleted user", HttpStatus.CONFLICT);
+        post post = post_service.insert_test(test);
 
-
-        return post_service.insert_test(test);
+        post_create_dto dto = new post_create_dto(post.getPostId(),post.getPost_content(),post.getPost_content(),post.getWrite_date(),post.getModified_date());
+        System.out.println("dto created");
+        return new ResponseEntity(dto,HttpStatus.CREATED);
     }
 
     @GetMapping("/DBtest/findAllPost")

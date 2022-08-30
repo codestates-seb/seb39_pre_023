@@ -1,6 +1,6 @@
 package com.team23.PreProject.answer.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+//import com.fasterxml.jackson.annotation.JsonBackReference ;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.member.entity.member;
 import lombok.*;
@@ -43,12 +43,12 @@ public class answer {
 //    @OneToMany(mappedBy = "answer")
 //    private List<answerVote> answerVotes = new ArrayList<>();
 
-    @JsonBackReference
+    ////@JsonBackReference 
     @ManyToOne
     @JoinColumn(name = "POST_ID")
     private post post;
 
-    @JsonBackReference
+    ////@JsonBackReference 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private member member;

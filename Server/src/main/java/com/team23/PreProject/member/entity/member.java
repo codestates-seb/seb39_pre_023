@@ -1,6 +1,6 @@
 package com.team23.PreProject.member.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+//import com.fasterxml.jackson.annotation.JsonBackReference ;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team23.PreProject.answer.entity.answer;
 import com.team23.PreProject.member_post.entitiy.member_post;
@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor
@@ -43,7 +44,14 @@ public class member {
     @Column(name = "COMMENT_ID")
     String comment_id;
     @Column(name = "ROLE")
-    String role;
+    String roles;
+
+    public List<String> getRoleList() {
+        if(this.roles.length() > 0) {
+            return Arrays.asList(this.roles.split(","));
+        }
+        return new ArrayList<>();
+    }
 //    @Column(name = "answer_ID")
 //    String answer_id;
 
@@ -79,7 +87,7 @@ public class member {
 //    @JoinColumn(name="POST_ID")
 //    post post;
     @OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonIgnore
     List<member_post> member_posts = new ArrayList<>();
 
 
