@@ -9,6 +9,7 @@ const MyProfileImg = () => {
   const onChangeImgBtnClick = (e) => {
     e.preventDefault();
     imgInput.current.click();
+    console.log("test");
   };
   const onChangePreview = (e) => {
     e.preventDefault();
