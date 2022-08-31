@@ -2,6 +2,8 @@ package com.team23.PreProject.post.entity;
 
 //import com.fasterxml.jackson.annotation.JsonBackReference ;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.team23.PreProject.answer.entity.answer;
+import com.team23.PreProject.comment.entity.comment;
 import com.team23.PreProject.member.entity.member;
 
 import com.team23.PreProject.member_post.entitiy.member_post;
@@ -73,7 +75,21 @@ public class post {
         this.post_votes.add(post_vote);
     }
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<comment> comments = new ArrayList<>();
 
+    public void addComments(comment comment)
+    {
+        this.comments.add(comment);
+    }
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<answer> answers = new ArrayList<>();
+
+    public void addAnswers(answer answer)
+    {
+        this.answers.add(answer);
+    }
 
 
 

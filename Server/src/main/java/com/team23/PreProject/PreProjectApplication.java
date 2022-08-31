@@ -27,6 +27,7 @@ public class PreProjectApplication {
 		SpringApplication.run(PreProjectApplication.class, args);
 	}
 
+
 	@Bean
 	public CommandLineRunner test(member_controller mem_cont, post_controller post_cont) {
 		return args -> {

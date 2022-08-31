@@ -11,6 +11,7 @@ import com.team23.PreProject.post_vote.entity.post_vote;
 import com.team23.PreProject.post_vote.repository.post_vote_repository;
 import com.team23.PreProject.profile.entity.profile;
 import com.team23.PreProject.profile.repository.profile_repository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+
 public class member_service {
     @Autowired
     member_repository member_repository;
     @Autowired
     profile_repository profile_repository;
-
     @Autowired
+
     post_repository post_repository;
 
     @Autowired
@@ -102,19 +104,6 @@ public class member_service {
         }
 
         System.out.println("================================post vote flush()\n\n");
-
-        //post vote -> delted 연결
-//        profile profile;
-//        profile = member.getProfile();
-//
-//
-//        profile_repository.delete(profile);
-//        System.out.println("================================profile flush()\n\n");
-
-
-
-
-        //List<Integer> post_ids = new ArrayList<>();
 
         List<member_post> member_posts = member.getMember_posts();
         member.setMember_posts(null);

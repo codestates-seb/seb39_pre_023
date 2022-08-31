@@ -25,8 +25,6 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name="MEMBER")
-
-
 public class member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,9 +38,9 @@ public class member {
     String nickName;
     @Column(name = "ID")
     String id;
-    //String profile_id;
-    @Column(name = "COMMENT_ID")
-    String comment_id;
+
+//    @Column(name = "COMMENT_ID")
+//    String comment_id;
     @Column(name = "ROLE")
     String roles;
 
@@ -69,7 +67,7 @@ public class member {
         this.nickName = nick;
         this.id = Id;
         this.profile=pf;
-        this.comment_id=com;
+        //this.comment_id=com;
 
 
     }//"Password","nick name","Id",null,null,null)

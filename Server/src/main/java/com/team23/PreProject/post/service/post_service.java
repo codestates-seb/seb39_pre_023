@@ -83,7 +83,7 @@ public class post_service {
 
             //post 업데이트
             System.out.println("============================================ update post entity");
-            post_repository.save(post);
+            post_repository.flush();
             System.out.println("============================================ update post entity end\n\n");
 
             return post;

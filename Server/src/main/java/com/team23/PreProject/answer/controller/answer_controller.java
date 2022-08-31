@@ -20,33 +20,42 @@ import java.util.List;
 @RequestMapping
 public class answer_controller {
 
-    @Autowired
-    answer_service answerService;
+    private final answer_service answerService;
 
-
-    @Autowired
-    answer_mapper mapper;
+    private final answer_mapper mapper;
 
     @PostMapping("DBtest/createAnswer/{questionId}")
-    public ResponseEntity postanswer(@PathVariable("questionId") Integer questionId,
+    public ResponseEntity postAnswer(@PathVariable("questionId") Integer questionId,
                                      @RequestBody answer_dto.Post RequestBody) {
-
-
-        answer answer = mapper.answerPostToanswer(RequestBody);
+        answer answer = mapper.answerPostToAnswer(RequestBody);
         Integer memberId = RequestBody.getMemberId();
 
-        answer savedanswer = answerService.createAnswer(questionId, memberId, answer);
-        return new ResponseEntity<>(savedanswer.getAnswerId(), HttpStatus.CREATED);
+        answer savedAnswer = answerService.createAnswer(questionId, memberId, answer);
+        return new ResponseEntity<>(savedAnswer.getAnswerId(), HttpStatus.CREATED);
     }
 
     // 정렬 기준 쿼리파라미터로 받아서 설정하는 기능 추후 추가 예정
     @GetMapping("DBtest/findAnswers/{questionId}")
-    public ResponseEntity getanswers(@PathVariable("questionId") Integer questionId, @Positive @RequestParam(defaultValue="1") int page) {
-        Page<answer> pageanswers = answerService.findAnswers(questionId, page-1);
-        List<answer> answers = pageanswers.getContent();
-        return new ResponseEntity<>( new MultiResponseDto(mapper.answersToanswerResponseDto(answers),pageanswers) , HttpStatus.OK);
+    public ResponseEntity getAnswers(@PathVariable("questionId") Integer questionId,
+                                     @Positive @RequestParam(defaultValue="1") int page) {
+        Page<answer> pageAnswers = answerService.findAnswers(questionId, page-1);
+        List<answer> answers = pageAnswers.getContent();
+        return new ResponseEntity<>( new MultiResponseDto(mapper.answersToAnswerResponseDto(answers),pageAnswers) , HttpStatus.OK);
+    }
+    @PutMapping("DBtest/updateAnswer/{answerId}")
+    public ResponseEntity putAnswer(@PathVariable("answerId") Integer answerId, @RequestBody answer_dto.Post requestBody) {
+        String content = requestBody.getContent();
+        answer changedAnswer = answerService.updateAnswer(answerId, content);
+        answer_dto.Response response = mapper.answerToAnswerResponseDto(changedAnswer);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
+    @DeleteMapping("DBtest/deleteAnswer/{answerId}")
+    public ResponseEntity deleteAnswer(@PathVariable("answerId") Integer answerId){
+        answerService.deleteAnswer(answerId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
+
 

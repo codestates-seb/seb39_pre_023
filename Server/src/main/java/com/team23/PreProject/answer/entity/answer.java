@@ -1,6 +1,8 @@
 package com.team23.PreProject.answer.entity;
 
-//import com.fasterxml.jackson.annotation.JsonBackReference ;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.team23.PreProject.answer_vote.entity.answer_vote;
+import com.team23.PreProject.comment.entity.comment;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.member.entity.member;
 import lombok.*;
@@ -21,7 +23,7 @@ public class answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ANSWER_ID")
-    private long answerId;
+    private Integer answerId;
 
     @Column(name="answer_CONTENT")
     private String answer_content;
@@ -40,15 +42,16 @@ public class answer {
     @Column(name="SCORE")
     private long score = 0;
 
-//    @OneToMany(mappedBy = "answer")
-//    private List<answerVote> answerVotes = new ArrayList<>();
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
+    private List<comment> comments = new ArrayList<>();
 
-    ////@JsonBackReference 
+    @OneToMany(mappedBy = "answer")
+    private List<answer_vote> answerVotes = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "POST_ID")
     private post post;
 
-    ////@JsonBackReference 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private member member;

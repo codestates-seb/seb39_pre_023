@@ -8,6 +8,7 @@ import com.team23.PreProject.member_post.repository.member_post_repository;
 import com.team23.PreProject.post.dto.*;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.service.post_service;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -19,15 +20,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class post_controller {
-    @Autowired
-    post_service post_service;
-    @Autowired
-    member_repository member_repository;
-    @Autowired
-    member_post_repository member_post_repository;
-    @Autowired
-    member_service member_service;
+    private final post_service post_service;
+    private final member_repository member_repository;
+    private final member_post_repository member_post_repository;
+    private final member_service member_service;
 
     @GetMapping(value = "/")
     public ResponseEntity comment_read() {

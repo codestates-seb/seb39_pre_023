@@ -3,7 +3,9 @@ package com.team23.PreProject.member.controller;
 import com.team23.PreProject.member.dto.member_create_dto;
 import com.team23.PreProject.member.dto.member_password_update_dto;
 import com.team23.PreProject.member.entity.member;
+import com.team23.PreProject.member.service.member_service;
 import com.team23.PreProject.post.entity.post;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,10 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
+
 public class member_controller {
     @Autowired
-    com.team23.PreProject.member.service.member_service member_service;
+    member_service member_service;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 

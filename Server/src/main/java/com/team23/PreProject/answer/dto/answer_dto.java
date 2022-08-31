@@ -11,9 +11,17 @@ public class answer_dto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Post{
-        private String answer_content;
+        private String content;
         private Integer memberId;
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class Put{
+        private String content;
+    }
+
     @Getter
     @Builder
     @AllArgsConstructor
@@ -25,6 +33,7 @@ public class answer_dto {
         private LocalDateTime modified_date;
         private boolean isAccepted;
         private long memberId;
-     //   private String profileImageLink;
+        private String id;
+        //   private String profileImageLink;
     }
 }

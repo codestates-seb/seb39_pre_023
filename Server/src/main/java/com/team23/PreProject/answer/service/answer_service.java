@@ -18,19 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class answer_service {
-    @Autowired
-    answer_repository answer_repository;
-    @Autowired
-    post_repository post_repository;
-    @Autowired
-    member_repository member_repository;
+    private final answer_repository answer_repository;
+    private final post_repository post_repository;
+    private final member_repository member_repository;
 
 
 
     public answer createAnswer(Integer postId, Integer memberId, answer answer){
-        System.out.println("=========="+memberId);
-
-
         post findPost = post_repository.findById(postId).orElseThrow();
         member findMember = member_repository.findById(memberId).orElseThrow();
         findMember.addAnswer(answer);
@@ -43,5 +37,15 @@ public class answer_service {
         post findPost = post_repository.findById(questionId).orElseThrow();
         return answer_repository.findAllByPost(findPost, PageRequest.of(page, 30,
                 Sort.by("score").descending()));
+    }
+
+    public answer updateAnswer(Integer answerId, String content) {
+        answer answer = answer_repository.findById(answerId).orElseThrow();
+        answer.setAnswer_content(content);
+        return answer;
+    }
+
+    public void deleteAnswer(Integer answerId){
+        answer_repository.deleteById(answerId);
     }
 }

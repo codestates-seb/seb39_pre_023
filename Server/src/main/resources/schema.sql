@@ -46,6 +46,7 @@ CREATE TABLE `comment` (
   `comment_modified_date` boolean,
   `member_id` int,
   `post_id` int,
+  `is_updated` boolean,
   `answer_id` int
 );
 
