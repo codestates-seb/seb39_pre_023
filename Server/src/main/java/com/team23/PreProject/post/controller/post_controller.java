@@ -28,35 +28,6 @@ public class post_controller {
     member_post_repository member_post_repository;
     @Autowired
     member_service member_service;
-//    @GetMapping("/DBtest")
-//    public ResponseEntity test(
-//                               @RequestParam(value="member_id", required=false, defaultValue= "1") int member_id,
-//                               @RequestParam(value="view_count", required=false, defaultValue= "0") int view_count,
-//                               @RequestParam(value="comment_id", required=false, defaultValue= "1") Integer comment_id,
-//                               @RequestParam(value="answer_id", required=false, defaultValue= "1") int answer_id,
-//                               @RequestParam(value="score", required=false, defaultValue= "0") int score,
-//                               @RequestParam(value="post_vote_id", required=false, defaultValue= "1") int post_vote_id,
-//                               @RequestParam(value="tag_id", required=false, defaultValue= "0") int tag_id,
-//                               @RequestParam(value="post_content", required=false, defaultValue= "post_content") String post_content,
-//
-//                               @RequestParam(value="write_date",required = false) LocalDateTime write_date,
-//                               @RequestParam(value="modified_date",required = false) LocalDateTime modified_date,
-//                               @RequestParam(value="is_answered",required = false,defaultValue = "false") boolean is_answered,
-//                               @RequestParam(value="post_name",required = false,defaultValue = "post_name") String post_name
-//
-//                               )
-//    {
-//
-//        write_date = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-//        modified_date = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-//
-//        Integer post_id =1;
-//
-//        post test = post.builder().post_content(post_content).post_name(post_name).post_vote_id(null).answer_id(null).modified_date(modified_date).write_date(write_date).score(0).member_id(member_id).is_answered(false).comment_id(null).view_count(1).answer_id(null).build();
-//        post_service.insert_test(test);
-//
-//        return new ResponseEntity("insert Test!",HttpStatus.CREATED);
-//    }
 
     @GetMapping(value = "/")
     public ResponseEntity comment_read() {

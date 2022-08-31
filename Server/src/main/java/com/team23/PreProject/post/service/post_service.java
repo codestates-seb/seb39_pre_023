@@ -78,7 +78,7 @@ public class post_service {
             //post.setMember_post_id(member_post.getMember_post_id());
             //member 업데이트
             System.out.println("============================================ update member entity");
-            member_repository.save(member);
+            member_repository.flush();
             System.out.println("============================================ update member entity end\n\n");
 
             //post 업데이트
@@ -152,8 +152,15 @@ public class post_service {
         boolean result = false;
         try {
             post post = post_repository.findById(post_id).get();
-
+            post.setMember_posts(null);
+            post_repository.flush();
+            member_post member_post = member_post_repository.findByPostPostId(post_id);
+            member_post.setPost(null);
+            member_post.setMember(null);
+            member_post_repository.flush();
+            member_post_repository.delete(member_post);
             post_repository.delete(post);
+
             result = true;
         }catch(Exception e)
         {

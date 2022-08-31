@@ -86,7 +86,8 @@ public class member {
 //    @ManyToOne
 //    @JoinColumn(name="POST_ID")
 //    post post;
-    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
+    //@OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonIgnore
     List<member_post> member_posts = new ArrayList<>();
 
