@@ -11,6 +11,7 @@ public class answer_dto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Post{
+        private Integer postId;
         private String content;
         private Integer memberId;
     }

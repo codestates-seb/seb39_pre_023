@@ -1,6 +1,7 @@
 package com.team23.PreProject.answer.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team23.PreProject.answer_vote.entity.answer_vote;
 import com.team23.PreProject.comment.entity.comment;
 import com.team23.PreProject.post.entity.post;
@@ -37,7 +38,7 @@ public class answer {
     private LocalDateTime modifiedDate;
 
     @Column(name="IS_ACCEPTED")
-    private boolean isAccepted;
+    private boolean isAccepted = false;
 
     @Column(name="SCORE")
     private long score = 0;
@@ -46,13 +47,16 @@ public class answer {
     private List<comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "answer")
+    @JsonIgnore
     private List<answer_vote> answerVotes = new ArrayList<>();
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "POST_ID")
     private post post;
 
     @ManyToOne
+
     @JoinColumn(name = "MEMBER_ID")
     private member member;
 }

@@ -69,12 +69,11 @@ CREATE TABLE `postVote` (
   `score` int
 );
 
-CREATE TABLE `answerVote` (
+CREATE TABLE `answer_Vote` (
   `answer_vote_id` int PRIMARY KEY AUTO_INCREMENT,
   `answer_id` int,
   `member_id` int,
-  `answer_vote_up` boolean,
-  `answer_vote_down` boolean
+  `score` int
 );
 
 CREATE TABLE `tag` (
@@ -111,11 +110,11 @@ ALTER TABLE `member` ADD FOREIGN KEY (`profile_id`) REFERENCES `profile` (`profi
 
 ALTER TABLE `postVote` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
 
-ALTER TABLE `answerVote` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
+ALTER TABLE `answer_Vote` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
 
 ALTER TABLE `postVote` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
 
-ALTER TABLE `answerVote` ADD FOREIGN KEY (`answer_id`) REFERENCES `answer` (`answer_id`);
+ALTER TABLE `answer_Vote` ADD FOREIGN KEY (`answer_id`) REFERENCES `answer` (`answer_id`);
 
 ALTER TABLE `comment` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
 
@@ -123,7 +122,7 @@ ALTER TABLE `comment` ADD FOREIGN KEY (`answer_id`) REFERENCES `answer` (`answer
 
 ALTER TABLE `answer` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
 
-ALTER TABLE `answer` ADD FOREIGN KEY (`answer_vote_id`) REFERENCES `answerVote` (`answer_vote_id`);
+ALTER TABLE `answer` ADD FOREIGN KEY (`answer_vote_id`) REFERENCES `answer_Vote` (`answer_vote_id`);
 
 --ALTER TABLE `member` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
 

@@ -24,13 +24,11 @@ public class answer_controller {
 
     private final answer_mapper mapper;
 
-    @PostMapping("DBtest/createAnswer/{questionId}")
-    public ResponseEntity postAnswer(@PathVariable("questionId") Integer questionId,
+    @PostMapping("DBtest/createAnswer")
+    public ResponseEntity postAnswer(
                                      @RequestBody answer_dto.Post RequestBody) {
-        answer answer = mapper.answerPostToAnswer(RequestBody);
-        Integer memberId = RequestBody.getMemberId();
 
-        answer savedAnswer = answerService.createAnswer(questionId, memberId, answer);
+        answer savedAnswer = answerService.createAnswer(RequestBody);
         return new ResponseEntity<>(savedAnswer.getAnswerId(), HttpStatus.CREATED);
     }
 

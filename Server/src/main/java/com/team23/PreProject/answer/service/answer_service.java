@@ -1,5 +1,6 @@
 package com.team23.PreProject.answer.service;
 
+import com.team23.PreProject.answer.dto.answer_dto;
 import com.team23.PreProject.answer.entity.answer;
 import com.team23.PreProject.answer.repository.answer_repository;
 import com.team23.PreProject.member.entity.member;
@@ -24,13 +25,26 @@ public class answer_service {
 
 
 
-    public answer createAnswer(Integer postId, Integer memberId, answer answer){
-        post findPost = post_repository.findById(postId).orElseThrow();
-        member findMember = member_repository.findById(memberId).orElseThrow();
-        findMember.addAnswer(answer);
-        answer.setPost(findPost);
-        answer.setMember(findMember);
-        return answer_repository.save(answer);
+    public answer createAnswer(answer_dto.Post RequestBody){
+        post post = post_repository.findById(RequestBody.getPostId()).orElseThrow();
+
+        member member = member_repository.findById(RequestBody.getMemberId()).orElseThrow();
+
+        answer answer = new answer();
+
+        answer.setMember(member);
+        answer.setPost(post);
+        answer.setAnswer_content(RequestBody.getContent());
+
+        answer_repository.save(answer);
+        System.out.println("===================save answerend \n\n");
+
+
+        member.addAnswer(answer);
+        member_repository.flush();
+
+
+        return answer;
     }
 
     public Page<answer> findAnswers(Integer questionId, int page) {

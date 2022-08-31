@@ -54,6 +54,7 @@ public class member {
 //    String answer_id;
 
     @OneToMany(mappedBy = "member")
+    @JsonIgnore
     List<answer> answers = new ArrayList<>();
 
     public void addAnswer(answer answer)
