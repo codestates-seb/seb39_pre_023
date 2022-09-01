@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import MyListItem from './MyListItem';
+import MyAnswerListItem from './MyAnswerListitem';
 /* eslint-disable react/prop-types */
 import axios from 'axios';
 axios.defaults.withCredentials = false;
@@ -32,24 +33,32 @@ const MyProfile = ({ answers, questions, reputation, reached, about }) => {
         <div className="box">{about}</div>
       </Wrapper>
       <Wrapper>
-        <div className="title">{answers.legnth} Answers</div>
+        <div className="title">{answers.legnth}Answers</div>
         <div className={answers.length === 0 ? 'box listbox' : 'box'}>
           {answers.length === 0 ? (
             <div>You have not answered any questions.</div>
           ) : (
             <>
-              {answers.map((el) => (
-                <li key={el.post_id}>
-                  <div>{el.post_name}</div>
-                  <div>{el.modified_date}</div>
-                </li>
-              ))}
+              {answers.map((el) => {
+                const date = new Date(
+                  String(el.modified_date)
+                ).toLocaleDateString();
+                return (
+                  <MyAnswerListItem
+                    key={el.answer_id}
+                    title={el.content}
+                    date={date}
+                    accepted={el.accepted}
+                    linkId={el.answer_id}
+                  />
+                );
+              })}
             </>
           )}
         </div>
       </Wrapper>
       <Wrapper>
-        <div className="title">{questions.legnth} questions</div>
+        <div className="title">{questions.legnth}questions</div>
         <div className={questions.length === 0 ? 'box listbox' : 'box'}>
           {questions.length == 0 ? (
             <div>You have not asked any questions.</div>
@@ -65,7 +74,7 @@ const MyProfile = ({ answers, questions, reputation, reached, about }) => {
                     title={el.post_name}
                     content={el.post_content}
                     date={date}
-                    postId={el.post_id}
+                    linkId={el.post_id}
                   />
                 );
               })}

@@ -4,6 +4,7 @@ import MyInfo from '../../components/MyInfo';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getLoginCookie } from '../../lib/cookie';
 axios.defaults.withCredentials = false;
 
 const Container = styled.div`
@@ -24,22 +25,31 @@ const MyPage = () => {
 
   useEffect(() => {
     axios
-      .get('http://3.39.180.45:56178/DBtest/getProfile?member_id=2')
+      .get('http://3.39.180.45:56178/DBtest/getProfile?member_id=2', {
+        headers: { Authorization: getLoginCookie() },
+      })
       .then((res) => {
         setInfoData(res.data);
         setNickname(res.data.displayname);
         setLocation(res.data.location);
         setAbout(res.data.about);
       });
-    axios.get(`http://3.39.180.45:56178/DBtest/findPost/2`).then((res) => {
-      setQuestions(res.data.content);
-      console.log(res.data.content);
-    });
-    axios.get(`http://3.39.180.45:56178/DBtest/findAnswers/2`).then((res) => {
-      setAnswers(res.data.data);
-      console.log(res.data.data);
-      setLoading(false); //아직 더미X
-    });
+    axios
+      .get(`http://3.39.180.45:56178/DBtest/findPost/2`, {
+        headers: { Authorization: getLoginCookie() },
+      })
+      .then((res) => {
+        setQuestions(res.data.content);
+      });
+    axios
+      .get(`http://3.39.180.45:56178/DBtest/findAnswers/2`, {
+        headers: { Authorization: getLoginCookie() },
+      })
+      .then((res) => {
+        setAnswers(res.data.data);
+        // console.log(res.data.data);
+        setLoading(false); //아직 더미X
+      });
   }, []);
   if (loading) return null;
 
