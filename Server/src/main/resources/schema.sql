@@ -83,6 +83,13 @@ CREATE TABLE `tag` (
   `stub_questions` int
 );
 
+CREATE TABLE `logout` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `token` varchar(255)
+
+
+);
+
 CREATE TABLE `profile` (
   `profile_id` int PRIMARY KEY AUTO_INCREMENT,
  -- `member_id` int,
@@ -124,22 +131,7 @@ ALTER TABLE `answer` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
 
 ALTER TABLE `answer` ADD FOREIGN KEY (`answer_vote_id`) REFERENCES `answer_Vote` (`answer_vote_id`);
 
---ALTER TABLE `member` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
-
 ALTER TABLE `member` ADD FOREIGN KEY (`comment_id`) REFERENCES `comment` (`comment_id`);
-
---ALTER TABLE `member` ADD FOREIGN KEY (`answer_id`) REFERENCES `answer` (`answer_id`);
-
---ALTER TABLE `post` ADD FOREIGN KEY (`comment_id`) REFERENCES `comment` (`comment_id`);
-
---ALTER TABLE `post` ADD FOREIGN KEY (`answer_id`) REFERENCES `answer` (`answer_id`);
-
---ALTER TABLE `post` ADD FOREIGN KEY (`post_vote_id`) REFERENCES `postVote` (`post_vote_id`);
-
---ALTER TABLE `post` ADD FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`);
-
---ALTER TABLE `post` ADD FOREIGN KEY (`member_post_id`) REFERENCES `member_post` (`member_post_id`);
---ALTER TABLE `member` ADD FOREIGN KEY (`member_post_id`) REFERENCES `member_post` (`member_post_id`);
 
 ALTER TABLE `member_post` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
 ALTER TABLE `member_post` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);

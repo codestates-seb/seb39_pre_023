@@ -5,7 +5,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team23.PreProject.Oauth.PrincipalDetails;
 import com.team23.PreProject.member.entity.member;
+import com.team23.PreProject.token.logout_repository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -65,6 +67,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.getWriter().write(", ");
         response.getWriter().write("\"token\" :"+"\"Bearer "+jwtToken+"\"");
         response.getWriter().write("} ");
+
 
     }
 }

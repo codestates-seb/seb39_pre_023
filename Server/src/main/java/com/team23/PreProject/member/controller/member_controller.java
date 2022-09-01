@@ -94,10 +94,29 @@ public class member_controller {
     }
 
     @GetMapping("DBtest/tokenLogin")
-    public ResponseEntity jwtTest()
+    public ResponseEntity jwtTest(@RequestHeader("Authorization") String token)
     {
-
+        boolean logouted = member_service.checkLogout(token);
+        System.out.println("===================================logouted "+logouted+"\n\n");
+            if(logouted)
+            {
+                return new ResponseEntity("false",HttpStatus.OK);
+            }
             return new ResponseEntity("true",HttpStatus.OK);
+    }
+
+    @GetMapping("DBtest/Logout")
+    public ResponseEntity jwtTestlogout(@RequestHeader("Authorization") String token)
+    {
+        boolean result = member_service.logout(token);
+        return new ResponseEntity("true",HttpStatus.OK);
+    }
+
+    @GetMapping("DBtest/refreshToken")
+    public void refreshToken(@RequestHeader("Authorization") String token)
+    {
+       member_service.refresh(token);
+
     }
 
 

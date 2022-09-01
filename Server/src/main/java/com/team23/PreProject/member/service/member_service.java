@@ -11,6 +11,8 @@ import com.team23.PreProject.post_vote.entity.post_vote;
 import com.team23.PreProject.post_vote.repository.post_vote_repository;
 import com.team23.PreProject.profile.entity.profile;
 import com.team23.PreProject.profile.repository.profile_repository;
+import com.team23.PreProject.token.logout;
+import com.team23.PreProject.token.logout_repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,6 +39,9 @@ public class member_service {
     member_post_repository member_post_repository;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    com.team23.PreProject.token.logout_repository logout_repository;
 
     public member insert_member(member_create_dto dto){
         member member = new member(dto.getPassword(),dto.getNickName(),dto.getId());
@@ -146,5 +151,57 @@ public class member_service {
             result = true;
 
         return result;
+    }
+
+    public boolean checkLogout(String token) {
+        boolean result = false;
+
+        logout logout = logout_repository.findByToken(token);
+
+
+        if(logout != null) {
+            System.out.println("=================== logout is not null \n\n");
+            return true;
+        }
+        else
+        {
+            System.out.println("=================== logout null \n\n");
+            result = false;
+        }
+
+        return result;
+    }
+
+    public boolean logout(String token) {
+        boolean result = false;//로그아웃 과정이 제대로 수행되어야 true로 변경
+        //해당 토큰이 로그아웃 목록에 존재 하는지 확인
+        logout logout = logout_repository.findByToken(token);
+        if(logout == null)//로그아웃 목록에 없다면 로그아웃 진행
+        {
+            logout newLogout = new logout();
+            newLogout.setToken(token);
+            logout_repository.save(newLogout); // 해당 토큰 저장한 logout 객체를 저장
+            result =true;
+        }
+        else//로그아웃 목록에 있다면 로그아웃 진행 X
+        {
+            result = false;
+        }
+
+        return result;
+    }
+
+    public void refresh(String token) {
+
+        logout logout = logout_repository.findByToken(token);
+        if(logout == null)//로그아웃 목록에 없다면 리다이렉트 정상 진행
+        {
+
+        }
+        else//로그아웃 목록에 있다면 해당 로그아웃 정보를 삭제
+        {
+            logout_repository.deleteById(logout.getId()); // 해당 토큰으로 저장된 로그아웃 정보 삭제
+        }
+        
     }
 }
