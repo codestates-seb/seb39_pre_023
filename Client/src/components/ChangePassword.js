@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import MyButton from './MyButton';
 import axios from 'axios';
 import { useState } from 'react';
+import { getLoginCookie } from '../lib/cookie';
 axios.defaults.withCredentials = false;
 
 const ChangePassWord = () => {
@@ -62,10 +63,14 @@ const ChangePassWord = () => {
     }
     if (currentPW !== newPW && newPW === newRePW) {
       axios
-        .post(`http://3.39.180.45:56178/DBtest/updatePassword?member_id=3`, {
-          newer: newRePW,
-          elder: currentPW,
-        })
+        .post(
+          `http://3.39.180.45:56178/DBtest/updatePassword?member_id=3`,
+          {
+            newer: newRePW,
+            elder: currentPW,
+          },
+          { headers: { Authorization: getLoginCookie() } }
+        )
         .then((res) => {
           console.log(res.data);
           console.log('pw변경성공');

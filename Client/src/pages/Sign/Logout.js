@@ -1,9 +1,31 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MyButton from '../../components/MyButton';
-
+import { deleteCookie, getLoginCookie } from '../../lib/cookie';
+import { useDispatch } from 'react-redux';
+import { trySignout } from '../../action/action';
+import axios from 'axios';
 const Logout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const onSignOut = async () => {
+    await axios
+      .get('http://3.39.180.45:56178/DBtest/Logout', {
+        headers: { Authorization: getLoginCookie() },
+      })
+      .then((res) => {
+        if (res.data) {
+          deleteCookie();
+          dispatch(trySignout());
+          navigate('/');
+        } else {
+          return;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <Container>
       <div className="description">
@@ -15,7 +37,7 @@ const Logout = () => {
             <div>Log out</div>
           </div>
           <div className="btnWrapper">
-            <MyButton text={'Log out'} type={'blue'} onClick={() => {}} />
+            <MyButton text={'Log out'} type={'blue'} onClick={onSignOut} />
             <MyButton
               text={'Cancel'}
               type={'skyblue'}
