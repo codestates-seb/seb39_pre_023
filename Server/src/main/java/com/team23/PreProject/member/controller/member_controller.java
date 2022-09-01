@@ -93,14 +93,14 @@ public class member_controller {
             return new ResponseEntity("true",HttpStatus.OK);
     }
 
-    @GetMapping("DBtest/tokenLogin")
+    @GetMapping("DBtest/tokenLogin")//로그인 체크 - true == 로그인된 토큰, 로그인 상태 <> false == 로그아웃된 토큰, 잘못된 토큰, 로그아웃 상태
     public ResponseEntity jwtTest(@RequestHeader("Authorization") String token)
     {
-        boolean logouted = member_service.checkLogout(token);
+        boolean logouted = member_service.checkLogout(token);//로그아웃 된 토큰인지 확인
         System.out.println("===================================logouted "+logouted+"\n\n");
             if(logouted)
             {
-                return new ResponseEntity("false",HttpStatus.OK);
+                return new ResponseEntity("false",HttpStatus.OK);//로그아웃된 토큰
             }
             return new ResponseEntity("true",HttpStatus.OK);
     }
@@ -108,11 +108,11 @@ public class member_controller {
     @GetMapping("DBtest/Logout")
     public ResponseEntity jwtTestlogout(@RequestHeader("Authorization") String token)
     {
-        boolean result = member_service.logout(token);
-        return new ResponseEntity("true",HttpStatus.OK);
+        String result = member_service.logout(token);
+        return new ResponseEntity(result,HttpStatus.OK);
     }
 
-    @GetMapping("DBtest/refreshToken")
+    @GetMapping("DBtest/refreshToken")//로그인 수행후 바로 요청되어야하는 api - 해당 토큰 활성화
     public void refreshToken(@RequestHeader("Authorization") String token)
     {
        member_service.refresh(token);

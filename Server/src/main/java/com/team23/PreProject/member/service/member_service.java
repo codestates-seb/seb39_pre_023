@@ -11,6 +11,8 @@ import com.team23.PreProject.post_vote.entity.post_vote;
 import com.team23.PreProject.post_vote.repository.post_vote_repository;
 import com.team23.PreProject.profile.entity.profile;
 import com.team23.PreProject.profile.repository.profile_repository;
+import com.team23.PreProject.token.login;
+import com.team23.PreProject.token.login_repository;
 import com.team23.PreProject.token.logout;
 import com.team23.PreProject.token.logout_repository;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,9 @@ public class member_service {
 
     @Autowired
     com.team23.PreProject.token.logout_repository logout_repository;
+
+    @Autowired
+    login_repository  login_repository;
 
     public member insert_member(member_create_dto dto){
         member member = new member(dto.getPassword(),dto.getNickName(),dto.getId());
@@ -154,48 +159,71 @@ public class member_service {
     }
 
     public boolean checkLogout(String token) {
-        boolean result = false;
 
         logout logout = logout_repository.findByToken(token);
-
+        login login = login_repository.findByToken(token);
 
         if(logout != null) {
             System.out.println("=================== logout is not null \n\n");
-            return true;
+            if(login ==null)//로그아웃 정보 있고 로그인 정보 없으면 로그아웃 진행된 토큰
+                return true;
+            else//두군데 모두 정보가 있다 = 에러상황
+                return false;
         }
         else
         {
             System.out.println("=================== logout null \n\n");
-            result = false;
+            if(login!=null)//로그아웃 정보 없고, 로그인 정보가 있다 - 로그인 상태
+                return false;
+            return true;//로그아웃 정보 없고, 로그인 정보도 없다 - 잘못된 토큰
         }
 
-        return result;
+        
     }
 
-    public boolean logout(String token) {
-        boolean result = false;//로그아웃 과정이 제대로 수행되어야 true로 변경
+    public String logout(String token) {
+
         //해당 토큰이 로그아웃 목록에 존재 하는지 확인
         logout logout = logout_repository.findByToken(token);
-        if(logout == null)//로그아웃 목록에 없다면 로그아웃 진행
+        login login = login_repository.findByToken(token);
+        if(logout == null)//로그아웃 목록에 없다면 로그인된 토큰인지 확인후에 로그아웃 진행
         {
-            logout newLogout = new logout();
-            newLogout.setToken(token);
-            logout_repository.save(newLogout); // 해당 토큰 저장한 logout 객체를 저장
-            result =true;
+            if(login !=null)//로그인된 토큰
+            {
+                logout newLogout = new logout();
+                newLogout.setToken(token);
+                logout_repository.save(newLogout); // 해당 토큰 저장한 logout 객체를 저장
+                login_repository.delete(login);//해당 토큰의 로그인 정보 삭제
+                return "logout success";
+            }
+            else
+            {
+                System.out.println("========================not logined token\n\n");
+                return "no login info";
+            }
+
         }
         else//로그아웃 목록에 있다면 로그아웃 진행 X
         {
-            result = false;
+            return "logout err";
         }
 
-        return result;
+
     }
 
     public void refresh(String token) {
 
         logout logout = logout_repository.findByToken(token);
-        if(logout == null)//로그아웃 목록에 없다면 리다이렉트 정상 진행
+        if(logout == null)//로그아웃 목록에 없고 로그인 목록에 없으면 토큰을 로그인 상태로 전환, 리다이렉트 정상 진행
         {
+            login login = login_repository.findByToken(token);
+            if(login ==null) {
+                login = new login();
+                login.setToken(token);
+                login_repository.save(login);
+            }
+
+
 
         }
         else//로그아웃 목록에 있다면 해당 로그아웃 정보를 삭제
@@ -203,5 +231,7 @@ public class member_service {
             logout_repository.deleteById(logout.getId()); // 해당 토큰으로 저장된 로그아웃 정보 삭제
         }
         
-    }
+    }//refresh
+
+
 }

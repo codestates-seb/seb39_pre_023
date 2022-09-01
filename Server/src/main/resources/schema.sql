@@ -86,8 +86,11 @@ CREATE TABLE `tag` (
 CREATE TABLE `logout` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `token` varchar(255)
+);
 
-
+CREATE TABLE `login` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `token` varchar(255)
 );
 
 CREATE TABLE `profile` (
