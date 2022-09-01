@@ -53,6 +53,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
         }
         //필터체인으로 요청, 응답 객체 전달
-        super.doFilterInternal(request, response, chain);
+        else
+            super.doFilterInternal(request, response, chain);
     }
 }

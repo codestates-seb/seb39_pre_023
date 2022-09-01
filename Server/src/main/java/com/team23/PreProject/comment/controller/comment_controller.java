@@ -5,14 +5,10 @@ import com.team23.PreProject.comment.entity.comment;
 import com.team23.PreProject.comment.mapper.comment_mapper;
 import com.team23.PreProject.comment.service.comment_service;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -29,7 +25,16 @@ public class comment_controller {
         Integer answerId = requestBody.getAnswerId();
         Integer memberId = requestBody.getMemberId();
         String content = requestBody.getContent();
+
+        if(memberId <= 1 ||memberId == null)
+        {
+            return new ResponseEntity<>("you tried to access wrong member info", HttpStatus.CREATED);
+        }
         comment comment = commentService.createAnswerComment(answerId, memberId, content);
+        if(comment == null)
+        {
+            return new ResponseEntity<>("wrong member info, check login information", HttpStatus.CREATED);
+        }
         comment_dto.PostResponse response = mapper.commentToResponse(comment);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -39,7 +44,18 @@ public class comment_controller {
         Integer postId = requestBody.getPostId();
         Integer memberId = requestBody.getMemberId();
         String content = requestBody.getContent();
+
+
+        if(memberId <= 1 ||memberId == null)
+        {
+            return new ResponseEntity<>("you tried to access wrong member info", HttpStatus.CREATED);
+        }
         comment comment = commentService.createPostComment(postId, memberId, content);
+
+        if(comment == null)
+        {
+            return new ResponseEntity<>("wrong member info, check login information", HttpStatus.CREATED);
+        }
         comment_dto.PostResponse response = mapper.commentToResponse(comment);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -60,14 +76,26 @@ public class comment_controller {
     @PutMapping("/{commentId}")
     public ResponseEntity putComment(@PathVariable("commentId") Integer commentId, @RequestBody comment_dto.Put requestBody){
         String content = requestBody.getContent();
-        comment comment = commentService.updateComment(commentId, content);
+        Integer memberId = requestBody.getMemberId();
+        if(memberId <= 1 ||memberId == null)
+        {
+            return new ResponseEntity<>("you tried to access wrong member info", HttpStatus.CREATED);
+        }
+        comment comment = commentService.updateComment(commentId, content,memberId);
         comment_dto.PostResponse response = mapper.commentToResponse(comment);
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("{commentId}")
-    public ResponseEntity deleteComment(@PathVariable("commentID") Integer commentId){
-        commentService.deleteComment(commentId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("")
+    public ResponseEntity deleteComment(@RequestBody comment_dto.DelRequest requestBody){
+
+        Integer memberId = requestBody.getMemberId();
+        if(memberId <= 1 ||memberId == null)
+        {
+            return new ResponseEntity<>("you tried to access wrong member info", HttpStatus.CREATED);
+        }
+        boolean result = commentService.deleteComment(requestBody);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

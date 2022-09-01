@@ -1,6 +1,5 @@
 package com.team23.PreProject.answer.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team23.PreProject.answer_vote.entity.answer_vote;
 import com.team23.PreProject.comment.entity.comment;

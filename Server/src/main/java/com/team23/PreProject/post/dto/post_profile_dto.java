@@ -12,5 +12,6 @@ import lombok.Setter;
 public class post_profile_dto {
     com.team23.PreProject.post.entity.post post;
     profile profile;
+    String tag="java";
 
 }

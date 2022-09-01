@@ -4,14 +4,12 @@ package com.team23.PreProject.post.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team23.PreProject.answer.entity.answer;
 import com.team23.PreProject.comment.entity.comment;
-import com.team23.PreProject.member.entity.member;
 
 import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.post_vote.entity.post_vote;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;

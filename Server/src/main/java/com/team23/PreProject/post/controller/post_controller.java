@@ -20,12 +20,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
+
 public class post_controller {
-    private final post_service post_service;
-    private final member_repository member_repository;
-    private final member_post_repository member_post_repository;
-    private final member_service member_service;
+    @Autowired
+    post_service post_service;
+    @Autowired
+    member_repository member_repository;
+    @Autowired
+    member_post_repository member_post_repository;
+    @Autowired
+    member_service member_service;
 
     @GetMapping(value = "/")
     public ResponseEntity comment_read() {
@@ -41,6 +45,7 @@ public class post_controller {
         post_profile_dto dto = post_service.getPost(post_id);
         if(dto==null)
             return new ResponseEntity("not found",HttpStatus.NOT_FOUND);
+
         return new ResponseEntity(dto,HttpStatus.OK);
     }
 
@@ -100,21 +105,16 @@ public class post_controller {
     @DeleteMapping("/DBtest/delete/{post_id}")
     public ResponseEntity deletePost(@PathVariable Integer post_id                                     )
     {
-        if(member_post_repository.findByPostPostId(post_id).getMember().getMemberId()==1)
+        if(member_post_repository.findByPostPostId(post_id)!=null && member_post_repository.findByPostPostId(post_id).getMember().getMemberId()==1)
             return new ResponseEntity("you tried access deleted user",HttpStatus.CONFLICT);
 
         System.out.println("deleted post content "+ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
-        boolean deleted = false;
-        deleted = post_service.deletePost(post_id);
 
-        if(deleted)
-        {
-            return new ResponseEntity("deleted success",HttpStatus.CONFLICT);
-        }
-        else
-        {
-            return new ResponseEntity("deleted fail",HttpStatus.CONFLICT);
-        }
+        String result = post_service.deletePost(post_id);
+
+
+
+        return new ResponseEntity(result,HttpStatus.OK);
 
     }
 

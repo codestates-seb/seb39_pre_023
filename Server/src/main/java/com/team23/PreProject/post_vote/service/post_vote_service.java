@@ -9,6 +9,7 @@ import com.team23.PreProject.post.service.post_service;
 import com.team23.PreProject.post_vote.entity.post_vote;
 import com.team23.PreProject.post_vote.repository.post_vote_repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +27,11 @@ public class post_vote_service {
             post_vote post_vote = post_vote_repository.findByMemberMemberIdAndPostPostId(member_id,post_id).orElseThrow();
             post post = post_repository.findById(post_id).get();
             member member = member_repository.findById(member_id).get();
+
+            if(post == null || member ==null || !member.getId().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+            {
+                return "vote error";
+            }
 
             Integer score = post_vote.getScore();//이전에 평가한 점수 상태 확인
             if(score >0)

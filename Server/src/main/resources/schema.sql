@@ -43,7 +43,7 @@ CREATE TABLE `comment` (
   `comment_id` int PRIMARY KEY AUTO_INCREMENT,
   `comment_content` varchar(255),
   `comment_date` TIMESTAMP,
-  `comment_modified_date` boolean,
+  `comment_modified_date` TIMESTAMP,
   `member_id` int,
   `post_id` int,
   `is_updated` boolean,

@@ -194,18 +194,18 @@ public class member_service {
                 newLogout.setToken(token);
                 logout_repository.save(newLogout); // 해당 토큰 저장한 logout 객체를 저장
                 login_repository.delete(login);//해당 토큰의 로그인 정보 삭제
-                return "logout success";
+                return "true";
             }
             else
             {
                 System.out.println("========================not logined token\n\n");
-                return "no login info";
+                return "false";
             }
 
         }
         else//로그아웃 목록에 있다면 로그아웃 진행 X
         {
-            return "logout err";
+            return "false";
         }
 
 
@@ -222,8 +222,6 @@ public class member_service {
                 login.setToken(token);
                 login_repository.save(login);
             }
-
-
 
         }
         else//로그아웃 목록에 있다면 해당 로그아웃 정보를 삭제

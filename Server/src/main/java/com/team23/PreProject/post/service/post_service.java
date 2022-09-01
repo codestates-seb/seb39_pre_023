@@ -148,11 +148,13 @@ public class post_service {
 
     }
 
-    public boolean deletePost(Integer post_id){
+    public String deletePost(Integer post_id){
         boolean result = false;
         try {
-            post post = post_repository.findById(post_id).get();
-            post.setMember_posts(null);
+            post post = post_repository.findById(post_id).orElse(null);
+            if(post!=null)
+            {
+                post.setMember_posts(null);
             post_repository.flush();
             member_post member_post = member_post_repository.findByPostPostId(post_id);
             member_post.setPost(null);
@@ -161,14 +163,19 @@ public class post_service {
             member_post_repository.delete(member_post);
             post_repository.delete(post);
 
-            result = true;
+            return "post deleted";
+            }
+            else
+            {
+               return "you tired to delete not existing post";
+            }
         }catch(Exception e)
         {
-
+            return "delete post error check post_id";
         }
 
 
-        return result;
+
     }//del end
 
     public post_profile_dto getPost(Integer post_id)
@@ -182,9 +189,9 @@ public class post_service {
             post_profile_dto dto;
             if(member.getMemberId()==1)
             {
-                dto = new post_profile_dto(post,null);
+                dto = new post_profile_dto(post,null,"java");
             }
-            dto = new post_profile_dto(post,member.getProfile());
+            dto = new post_profile_dto(post,member.getProfile(),"java");
             return dto;
         }catch(Exception e){
 

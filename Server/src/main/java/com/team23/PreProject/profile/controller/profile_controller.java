@@ -1,13 +1,19 @@
 package com.team23.PreProject.profile.controller;
 
+import com.team23.PreProject.member.repository.member_repository;
+import com.team23.PreProject.member.service.member_service;
+import com.team23.PreProject.profile.dto.getToken;
+import com.team23.PreProject.profile.dto.profile_dto;
 import com.team23.PreProject.profile.dto.profile_update_dto;
 import com.team23.PreProject.profile.entity.profile;
 import com.team23.PreProject.profile.service.profile_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -15,12 +21,24 @@ import java.time.format.DateTimeFormatter;
 public class profile_controller {
     @Autowired
     profile_service profile_service;
+    @Autowired
+    com.team23.PreProject.member.service.member_service member_service;
+    @Autowired
+    member_repository memberRepository;
+
     @GetMapping("/DBtest/getProfile")
-    public ResponseEntity getMemberProfile(@RequestParam Integer member_id)
+    public ResponseEntity getMemberProfile(HttpServletRequest request)
+
     {
-        profile profile = profile_service.findProfile(member_id);
-        return new ResponseEntity<>(profile,HttpStatus.OK);
+        System.out.println("=========================================="+request.getHeader("Authorization")+"\n\n\n");
+
+        profile pro = profile_service.findProfile(SecurityContextHolder.getContext().getAuthentication().getName());
+
+
+
+        return new ResponseEntity<>(pro,HttpStatus.OK);
     }
+
 
     @PutMapping("/DBtest/updateProfile")
     public ResponseEntity updateProfile(@RequestParam Integer profile_id,

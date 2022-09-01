@@ -1,12 +1,13 @@
 package com.team23.PreProject.comment.entity;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.team23.PreProject.answer.entity.answer;
 import com.team23.PreProject.member.entity.member;
 import com.team23.PreProject.post.entity.post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 public class comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-            @Column(name="COMMENT_ID")
+    @Column(name="COMMENT_ID")
     Integer commentId;
 
     @Column(name="COMMENT_content")
@@ -36,7 +37,9 @@ public class comment {
     LocalDateTime modified_date;
 
     @Column(name="is_updated")
-    boolean isUpdate;
+    boolean is_update =false;
+
+
 
     @ManyToOne
     @JoinColumn(name = "POST_ID")

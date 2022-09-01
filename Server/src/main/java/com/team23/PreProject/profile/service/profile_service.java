@@ -14,8 +14,8 @@ public class profile_service {
     profile_repository profile_repository;
     @Autowired
     member_repository member_Repository;
-    public profile findProfile(Integer member_id) {
-        profile profile = member_Repository.findById(member_id).get().getProfile();
+    public profile findProfile(String id) {
+        profile profile = member_Repository.findByid(id).getProfile();
         return profile;
     }
 

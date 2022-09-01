@@ -1,5 +1,6 @@
-package com.team23.PreProject.post_vote.controller;
+package com.team23.PreProject.answer_vote.controller;
 
+import com.team23.PreProject.answer_vote.service.answer_vote_service;
 import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member.service.member_service;
 import com.team23.PreProject.post.repository.post_repository;
@@ -15,16 +16,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class post_vote_controller {
+public class answer_vote_controller {
 
     @Autowired
-    post_vote_service post_vote_service;
-    @PostMapping("DBtest/post_vote")
+    com.team23.PreProject.answer_vote.service.answer_vote_service answer_vote_service;
+    @PostMapping("DBtest/answer_vote")
     public ResponseEntity vote(@RequestParam Integer vote,
                                @RequestParam Integer member_id,
-                               @RequestParam Integer post_id)
+                               @RequestParam Integer answer_id)
     {
-        String result = post_vote_service.vote(vote,member_id,post_id);
+        String result = answer_vote_service.vote(vote,member_id,answer_id);
 
 
         return new ResponseEntity(result,HttpStatus.OK);

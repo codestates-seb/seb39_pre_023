@@ -1,9 +1,6 @@
 package com.team23.PreProject.comment.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -15,9 +12,13 @@ public class comment_dto {
         private Integer answerId;
         private Integer memberId;
         private String content;
+//        "memberId":""
+//        "content":""
+//        "answerId":""
     }
 
     @Getter
+
     @AllArgsConstructor
     @NoArgsConstructor
     public static class PostPost{
@@ -29,6 +30,7 @@ public class comment_dto {
     @NoArgsConstructor
     public static class Put{
         private String content;
+        private Integer memberId;
     }
 
     @Getter
@@ -53,6 +55,16 @@ public class comment_dto {
         private String id;
         private String profileImageLink;
         private LocalDateTime createDate;
-        private boolean isUpdate;
+        private boolean is_update;
     }
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class DelRequest{
+        private Integer commentId;
+        private Integer memberId;
+
+    }
+
 }
