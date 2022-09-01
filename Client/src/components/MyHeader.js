@@ -6,10 +6,12 @@ import MyButton from './MyButton';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
+// import { useSelector } from 'react-redux';
 /* eslint-disable react/prop-types */
 axios.defaults.withCredentials = false;
 
 const MyHeader = ({ viewModal, setModal }) => {
+  // const state = useSelector((state) => state.signInReducer);
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const viewLogout = () => {
@@ -25,10 +27,6 @@ const MyHeader = ({ viewModal, setModal }) => {
         }}
       />
       <Wrapper>
-        {/* <FontAwesomeIcon
-          icon={faBars}
-          className={isLogin ? 'displayNone' : 'menubar'}
-        /> */}
         <Logo
           onClick={() => {
             navigate('/');
