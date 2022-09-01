@@ -41,7 +41,7 @@ public class post_controller {
         post_profile_dto dto = post_service.getPost(post_id);
         if(dto==null)
             return new ResponseEntity("not found",HttpStatus.NOT_FOUND);
-        return new ResponseEntity(dto,HttpStatus.FOUND);
+        return new ResponseEntity(dto,HttpStatus.OK);
     }
 
     @PostMapping("/DBtest/post")

@@ -40,6 +40,16 @@ public class answer_controller {
         List<answer> answers = pageAnswers.getContent();
         return new ResponseEntity<>( new MultiResponseDto(mapper.answersToAnswerResponseDto(answers),pageAnswers) , HttpStatus.OK);
     }
+
+    @GetMapping("DBtest/findAnswersBymember/{memberId}")
+    public ResponseEntity getAnswersBymember(@PathVariable("memberId") Integer memberId,
+                                     @Positive @RequestParam(defaultValue="1") int page,
+                                             @Positive @RequestParam(defaultValue="15") int size) {
+        answer_dto.ByMemberDto dto = answerService.findAnswersBymember(memberId, page-1,size);
+
+        return new ResponseEntity<>( dto , HttpStatus.OK);
+    }
+
     @PutMapping("DBtest/updateAnswer/{answerId}")
     public ResponseEntity putAnswer(@PathVariable("answerId") Integer answerId, @RequestBody answer_dto.Post requestBody) {
         String content = requestBody.getContent();

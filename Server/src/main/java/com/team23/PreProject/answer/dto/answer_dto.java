@@ -1,8 +1,10 @@
 package com.team23.PreProject.answer.dto;
 
+import com.team23.PreProject.answer.entity.answer;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class answer_dto {
 
@@ -37,4 +39,14 @@ public class answer_dto {
         private String id;
         //   private String profileImageLink;
     }
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ByMemberDto{
+        PageInfo pageInfo;
+        List<answer> answers;
+        //   private String profileImageLink;
+    }
+
 }

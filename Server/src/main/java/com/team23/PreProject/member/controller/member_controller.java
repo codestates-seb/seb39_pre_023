@@ -24,6 +24,7 @@ public class member_controller {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
+
     @PostMapping("DBtest/createMember")
     public ResponseEntity insertMember(@RequestBody member_create_dto member_dto)
     {
@@ -92,11 +93,11 @@ public class member_controller {
             return new ResponseEntity("true",HttpStatus.OK);
     }
 
-    @GetMapping("DBtest/jwtTest")
+    @GetMapping("DBtest/tokenLogin")
     public ResponseEntity jwtTest()
     {
 
-            return new ResponseEntity("sucess",HttpStatus.OK);
+            return new ResponseEntity("true",HttpStatus.OK);
     }
 
 

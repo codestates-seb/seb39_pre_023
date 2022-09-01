@@ -1,5 +1,6 @@
 package com.team23.PreProject.answer.service;
 
+import com.team23.PreProject.answer.dto.PageInfo;
 import com.team23.PreProject.answer.dto.answer_dto;
 import com.team23.PreProject.answer.entity.answer;
 import com.team23.PreProject.answer.repository.answer_repository;
@@ -14,6 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Transactional
 @Service
@@ -35,6 +39,7 @@ public class answer_service {
         answer.setMember(member);
         answer.setPost(post);
         answer.setAnswer_content(RequestBody.getContent());
+
 
         answer_repository.save(answer);
         System.out.println("===================save answerend \n\n");
@@ -61,5 +66,28 @@ public class answer_service {
 
     public void deleteAnswer(Integer answerId){
         answer_repository.deleteById(answerId);
+    }
+
+    public answer_dto.ByMemberDto findAnswersBymember(Integer memberId, int page, int size) {
+        member member = member_repository.findById(memberId).get();
+        List<answer> member_answer = member.getAnswers();
+        List<answer> answers = new ArrayList<>();
+        answer ans;
+        for(int i = page*size;i<page*size+size;i++)
+        {
+            if(i>=member_answer.size())
+            {
+                break;
+            }
+            ans = member_answer.get(i);
+            ans.setPostId(ans.getPost().getPostId());
+            answers.add(ans);
+        }
+        PageInfo pageInfo = new PageInfo(page+1,size,member_answer.size(),member_answer.size()/size);
+
+        answer_dto.ByMemberDto dto = new answer_dto.ByMemberDto(pageInfo,answers);
+
+
+        return dto;
     }
 }

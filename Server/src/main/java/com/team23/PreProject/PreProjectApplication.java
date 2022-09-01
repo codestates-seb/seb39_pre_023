@@ -1,5 +1,7 @@
 package com.team23.PreProject;
 
+import com.team23.PreProject.answer.controller.answer_controller;
+import com.team23.PreProject.answer.dto.answer_dto;
 import com.team23.PreProject.member.controller.member_controller;
 import com.team23.PreProject.member.dto.member_create_dto;
 import com.team23.PreProject.member.repository.member_repository;
@@ -29,7 +31,7 @@ public class PreProjectApplication {
 
 
 	@Bean
-	public CommandLineRunner test(member_controller mem_cont, post_controller post_cont) {
+	public CommandLineRunner test(member_controller mem_cont, post_controller post_cont, answer_controller ans_cont) {
 		return args -> {
 			mem_cont.insertMember(new member_create_dto("password","nick","Iddddddd1"));
 			post_cont.post_test(new post_insert_dto("post_name1","post_content1",2));
@@ -38,7 +40,13 @@ public class PreProjectApplication {
 			post_cont.post_test(new post_insert_dto("post_name4","post_content1",2));
 			post_cont.post_test(new post_insert_dto("post_name5","post_content1",2));
 			post_cont.post_test(new post_insert_dto("post_name6","post_content1",2));
-
+//			private Integer postId;
+//			private String content;
+//			private Integer memberId;
+			ans_cont.postAnswer(new answer_dto.Post(1,"answer for question 1",2));
+			ans_cont.postAnswer(new answer_dto.Post(2,"answer for question 2",2));
+			ans_cont.postAnswer(new answer_dto.Post(3,"answer for question 3",2));
+			ans_cont.postAnswer(new answer_dto.Post(2,"answer 2 for question 2",2));
 
 			// 이것저것...
 		};

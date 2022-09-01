@@ -29,6 +29,9 @@ public class SecurityConfig {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
+//                .authorizeRequests()
+//                .antMatchers("/login").permitAll()
+//                .anyRequest().authenticated().and()
                 .apply(new CustomDsl()) // 추가
                 .and()
                 .authorizeRequests()

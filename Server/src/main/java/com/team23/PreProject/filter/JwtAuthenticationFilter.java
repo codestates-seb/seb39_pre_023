@@ -60,5 +60,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withClaim("username", principalDetails.getMember().getId())
                 .sign(Algorithm.HMAC512("cos_jwt_token"));
         response.addHeader("Authorization", "Bearer " + jwtToken);
+        response.getWriter().write("{ ");
+        response.getWriter().write("\"id\" :"+"\""+principalDetails.getMember().getId()+"\"");
+        response.getWriter().write(", ");
+        response.getWriter().write("\"token\" :"+"\"Bearer "+jwtToken+"\"");
+        response.getWriter().write("} ");
+
     }
 }

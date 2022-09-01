@@ -59,4 +59,7 @@ public class answer {
 
     @JoinColumn(name = "MEMBER_ID")
     private member member;
+
+    @Transient
+    Integer postId;
 }
