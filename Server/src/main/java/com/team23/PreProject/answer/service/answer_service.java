@@ -83,7 +83,7 @@ public class answer_service {
             ans.setPostId(ans.getPost().getPostId());
             answers.add(ans);
         }
-        PageInfo pageInfo = new PageInfo(page+1,size,member_answer.size(),member_answer.size()/size);
+        PageInfo pageInfo = new PageInfo(page+1,size,member_answer.size(),member_answer.size()/size+1);
 
         answer_dto.ByMemberDto dto = new answer_dto.ByMemberDto(pageInfo,answers);
 
