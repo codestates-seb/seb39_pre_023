@@ -3,29 +3,23 @@ import styled from 'styled-components';
 import { faStackOverflow } from '@fortawesome/fontawesome-free-brands';
 import { faBars, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import MyButton from './MyButton';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import { useState } from 'react';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { getLoginCookie } from '../lib/cookie';
 /* eslint-disable react/prop-types */
-axios.defaults.withCredentials = false;
 
 const MyHeader = ({ viewModal, setModal }) => {
-  // const state = useSelector((state) => state.signInReducer);
+  const state = useSelector((state) => state.signInReducer);
+  console.log(state.loginState);
+  console.log(getLoginCookie('token'));
+  const token = localStorage.getItem('token');
+  // const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
   const viewLogout = () => {
     setModal(!viewModal);
   };
   return (
     <Container>
-      <FontAwesomeIcon
-        icon={faBars}
-        className="menubar"
-        onClick={() => {
-          setIsLogin(!isLogin);
-        }}
-      />
       <Wrapper>
         <Logo
           onClick={() => {
@@ -34,21 +28,21 @@ const MyHeader = ({ viewModal, setModal }) => {
         >
           <FontAwesomeIcon
             icon={faStackOverflow}
-            className={isLogin ? 'loginLogo' : ''}
+            className={token ? 'loginLogo' : ''}
           />
           Stack<b>Overflow</b>
         </Logo>
-        <div className={isLogin ? 'loginHardcoding' : 'hardcoding'}>
-          <span className={isLogin ? 'displayNone' : ''}>About</span>
+        <div className={token ? 'loginHardcoding' : 'hardcoding'}>
+          <span className={token ? 'displayNone' : ''}>About</span>
           <span>Products</span>
-          <span className={isLogin ? 'displayNone' : ''}>For Teams</span>
+          <span className={token ? 'displayNone' : ''}>For Teams</span>
         </div>
-        <form className={isLogin ? 'loginSearch' : ''}>
+        <form className={token ? 'loginSearch' : ''}>
           <FontAwesomeIcon icon={faMagnifyingGlass} className="magnifying" />
           <input type="text" placeholder="Search..." />
         </form>
         <BtnWapper>
-          {isLogin ? (
+          {token ? (
             <>
               <Link
                 to="/mypage"
@@ -79,7 +73,7 @@ const MyHeader = ({ viewModal, setModal }) => {
         </BtnWapper>
         <FontAwesomeIcon
           icon={faBars}
-          className={isLogin ? 'menubar loginMenubar' : 'displayNone'}
+          className={token ? 'menubar loginMenubar' : 'displayNone'}
           onClick={viewLogout}
         />
       </Wrapper>

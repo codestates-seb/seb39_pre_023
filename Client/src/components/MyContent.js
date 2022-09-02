@@ -16,6 +16,7 @@ const MyContent = ({
   setNickname,
   location,
   setLocation,
+  userId,
 }) => {
   const [isProfile, setIsProfile] = useState(true);
   return (
@@ -52,6 +53,7 @@ const MyContent = ({
             setLocation={setLocation}
             about={about}
             setAbout={setAbout}
+            userId={userId}
           />
         )}
       </Bottom>

@@ -7,10 +7,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import { setLoginCookie, getLoginCookie } from '../../lib/cookie';
 import { setSignState, setUserData } from '../../action/action';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 /* eslint-disable react/prop-types */
-axios.defaults.withCredentials = true;
 const Login = () => {
+  const state = useSelector((state) => state.signInReducer);
   const [userInfo, setUserInfo] = useState({
     id: '',
     password: '',
@@ -35,21 +35,26 @@ const Login = () => {
         setLoginMsg(true);
       } else {
         setLoginCookie(data.token);
+
+        localStorage.setItem('token', JSON.stringify(data.token));
+        delete data.token;
         const res2 = await axios.get(
           'http://3.39.180.45:56178/DBtest/refreshToken',
           { headers: { Authorization: getLoginCookie() } }
         );
-        const data2 = res2.data; //true or false
-        delete data.token;
+        const data2 = res2.data;
         dispatch(setSignState(data2.msg));
         delete data2.msg;
-        dispatch(setUserData(data.id));
+        dispatch(setUserData(data));
+        localStorage.setItem('userid', JSON.stringify(data));
         navigate('/');
+        console.log('로그인성공');
       }
     } catch (err) {
       console.log(err);
     }
   };
+  console.log(state.loginState);
   const onPushEnter = (e) => {
     if (e.key === 'Enter') trySignIn();
   };

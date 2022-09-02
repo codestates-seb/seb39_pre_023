@@ -14,6 +14,7 @@ import {
   faBookmark,
   faTrophy,
 } from '@fortawesome/free-solid-svg-icons';
+import { getLoginCookie } from '../../lib/cookie';
 
 const SignUp = () => {
   const [userId, setUserId] = useState('');
@@ -47,7 +48,8 @@ const SignUp = () => {
     try {
       if (isValidId(userId) && userId !== '') {
         const res = await axios.get(
-          `http://3.39.180.45:56178/DBtest/checkExistId?id=${userId}`
+          `http://3.39.180.45:56178/DBtest/checkExistId?id=${userId}`,
+          { headers: { Authorization: getLoginCookie() } }
         );
         const data = res.data;
         if (data) {
@@ -86,10 +88,14 @@ const SignUp = () => {
     if (userPw !== userRePw || !isValidPw(userPw)) return;
     if (userPw === userRePw) {
       axios
-        .post('http://3.39.180.45:56178/DBtest/createMember', {
-          id: userId,
-          password: userRePw,
-        })
+        .post(
+          'http://3.39.180.45:56178/DBtest/createMember',
+          {
+            id: userId,
+            password: userRePw,
+          },
+          { headers: { Authorization: getLoginCookie() } }
+        )
         .then((res) => {
           console.log(res.data);
         })

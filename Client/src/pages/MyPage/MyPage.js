@@ -5,52 +5,60 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getLoginCookie } from '../../lib/cookie';
-axios.defaults.withCredentials = false;
+import { useNavigate } from 'react-router-dom';
 
-const Container = styled.div`
-  display: flex;
-`;
-const MypageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 const MyPage = () => {
+  const navigate = useNavigate();
   const [nickname, setNickname] = useState('');
   const [location, setLocation] = useState('');
   const [about, setAbout] = useState('');
   const [answers, setAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
-  const [InfoData, setInfoData] = useState({});
+  const [infoData, setInfoData] = useState({});
   const [loading, setLoading] = useState(true);
+  // const [paramsId, setparamsId] = useState('');
+  const token = localStorage.getItem('token');
 
+  // 파라미터는 profile_id 로 받기.
   useEffect(() => {
-    axios
-      .get('http://3.39.180.45:56178/DBtest/getProfile?member_id=2', {
-        headers: { Authorization: getLoginCookie() },
-      })
-      .then((res) => {
-        setInfoData(res.data);
-        setNickname(res.data.displayname);
-        setLocation(res.data.location);
-        setAbout(res.data.about);
-      });
-    axios
-      .get(`http://3.39.180.45:56178/DBtest/findPost/2`, {
-        headers: { Authorization: getLoginCookie() },
-      })
-      .then((res) => {
-        setQuestions(res.data.content);
-      });
-    axios
-      .get(`http://3.39.180.45:56178/DBtest/findAnswers/2`, {
-        headers: { Authorization: getLoginCookie() },
-      })
-      .then((res) => {
-        setAnswers(res.data.data);
-        // console.log(res.data.data);
-        setLoading(false); //아직 더미X
-      });
-  }, []);
+    if (token) {
+      axios
+        .get(`http://3.39.180.45:56178/DBtest/getProfile`, {
+          headers: { Authorization: getLoginCookie() },
+        })
+        .then((res) => {
+          setInfoData(res.data);
+          setNickname(res.data.displayname);
+          setLocation(res.data.location);
+          setAbout(res.data.about);
+          axios
+            .get(
+              `http://3.39.180.45:56178/DBtest/findPost/${res.data.profile_id}`,
+              {
+                headers: { Authorization: getLoginCookie() },
+              }
+            )
+            .then((res) => {
+              setQuestions(res.data.content);
+            });
+          axios
+            .get(
+              `http://3.39.180.45:56178/DBtest/findAnswers/${res.data.profile_id}`,
+              {
+                headers: { Authorization: getLoginCookie() },
+              }
+            )
+            .then((res) => {
+              setAnswers(res.data.data);
+              setLoading(false); //아직 더미X
+            });
+        })
+        .catch((err) => {
+          navigate('/');
+          if (err.response.status === 500) return navigate('/');
+        });
+    }
+  }, [token]);
   if (loading) return null;
 
   return (
@@ -58,13 +66,13 @@ const MyPage = () => {
       <Nav />
       <MypageContainer>
         <MyInfo
-          nickname={InfoData.displayname}
-          location={InfoData.location}
-          signupDate={InfoData.sign_in_date}
+          nickname={infoData.displayname}
+          location={infoData.location}
+          signupDate={infoData.sign_in_date}
         />
         <MyContent
-          reputation={InfoData.stub_reputation}
-          reached={InfoData.stub_reached}
+          reputation={infoData.stub_reputation}
+          reached={infoData.stub_reached}
           answers={answers}
           questions={questions}
           about={about}
@@ -73,6 +81,7 @@ const MyPage = () => {
           setNickname={setNickname}
           location={location}
           setLocation={setLocation}
+          userId={infoData.profile_id}
         />
       </MypageContainer>
     </Container>
@@ -80,3 +89,11 @@ const MyPage = () => {
 };
 
 export default MyPage;
+
+const Container = styled.div`
+  display: flex;
+`;
+const MypageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

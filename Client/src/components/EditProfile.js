@@ -16,6 +16,7 @@ const EditProfile = ({
   setLocation,
   about,
   setAbout,
+  userId,
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const onChangeNickname = (e) => {
@@ -31,7 +32,7 @@ const EditProfile = ({
   const onEditProfile = () => {
     axios
       .put(
-        `http://3.39.180.45:56178/DBtest/updateProfile?profile_id=2`,
+        `http://3.39.180.45:56178/DBtest/updateProfile?profile_id=${userId}`,
         {
           displayname: nickname,
           location: location,

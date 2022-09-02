@@ -4,8 +4,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import { getLoginCookie } from '../lib/cookie';
 axios.defaults.withCredentials = false;
-
-const ChangePassWord = () => {
+/* eslint-disable react/prop-types */
+const ChangePassWord = ({ userId }) => {
   const [currentPW, setCurrentPW] = useState('');
   const [newPW, setNewPW] = useState('');
   const [newRePW, setNewRePW] = useState('');
@@ -64,7 +64,7 @@ const ChangePassWord = () => {
     if (currentPW !== newPW && newPW === newRePW) {
       axios
         .post(
-          `http://3.39.180.45:56178/DBtest/updatePassword?member_id=3`,
+          `http://3.39.180.45:56178/DBtest/updatePassword?member_id=${userId}`,
           {
             newer: newRePW,
             elder: currentPW,
