@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import imageCompression from 'browser-image-compression';
+import { getLoginCookie } from '../lib/cookie';
 axios.defaults.withCredentials = false;
 
 const MyProfileImg = () => {
@@ -10,10 +12,44 @@ const MyProfileImg = () => {
     e.preventDefault();
     imgInput.current.click();
   };
-  const onChangePreview = (e) => {
+  const onSaveImg = async (e) => {
     e.preventDefault();
     setPreview(URL.createObjectURL(e.target.files[0]));
-    console.log(e.target.files[0]);
+    const imgFile = e.target.files[0];
+    const options = {
+      maxSizeMB: 2,
+      maxWidthOrHeight: 170,
+      useWebWorket: true,
+    };
+    try {
+      const compressedFile = await imageCompression(imgFile, options);
+      URL.revokeObjectURL(URL.revokeObjectURL(preview));
+      const compressedImgURL =
+        imageCompression.getDataUrlFromFile(compressedFile);
+      compressedImgURL.then((result) => {
+        setPreview(result);
+      });
+      const formData = new FormData();
+      formData.append('file', compressedFile);
+      const config = {
+        headers: {
+          Authorization: getLoginCookie(),
+          'content-type': 'multipart/form-data',
+        },
+      };
+      axios
+        .post('url', formData, config)
+        .then((res) => {
+          console.log(res.data);
+          console.log('서버에 이미지 등록성공');
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log('이미지 등록 실패ㅜ');
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
   const onDeletePreview = () => {
     setPreview(URL.revokeObjectURL(preview));
@@ -34,7 +70,7 @@ const MyProfileImg = () => {
           type="file"
           ref={imgInput}
           accept="image/*"
-          onChange={(e) => onChangePreview(e)}
+          onChange={(e) => onSaveImg(e)}
           style={{ display: 'none' }}
         ></input>
         <button onClick={(e) => onChangeImgBtnClick(e)} className="changeImg">

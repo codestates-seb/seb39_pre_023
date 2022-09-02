@@ -1,9 +1,23 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MyButton from '../../components/MyButton';
-
+import { deleteCookie } from '../../lib/cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { trySignout } from '../../action/action';
+// import axios from 'axios';
 const Logout = () => {
+  const state = useSelector((state) => state.signInReducer);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const onSignOut = () => {
+    deleteCookie();
+    dispatch(trySignout());
+    localStorage.removeItem('token');
+    localStorage.removeItem('userid');
+    navigate('/');
+    console.log('로그아웃성공');
+  };
+  console.log(state.loginState);
   return (
     <Container>
       <div className="description">
@@ -15,7 +29,7 @@ const Logout = () => {
             <div>Log out</div>
           </div>
           <div className="btnWrapper">
-            <MyButton text={'Log out'} type={'blue'} onClick={() => {}} />
+            <MyButton text={'Log out'} type={'blue'} onClick={onSignOut} />
             <MyButton
               text={'Cancel'}
               type={'skyblue'}

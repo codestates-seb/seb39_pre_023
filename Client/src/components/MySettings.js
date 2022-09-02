@@ -16,6 +16,7 @@ const MySettings = ({
   setLocation,
   about,
   setAbout,
+  userId,
 }) => {
   const [isToggle1, setIsToggle1] = useState(false);
   const [isToggle2, setIsToggle2] = useState(false);
@@ -44,6 +45,7 @@ const MySettings = ({
             setLocation={setLocation}
             about={about}
             setAbout={setAbout}
+            userId={userId}
           />
         )}
       </Wrapper>
@@ -58,7 +60,7 @@ const MySettings = ({
             }}
           />
         </div>
-        {isToggle2 ? <div></div> : <ChangePassWord />}
+        {isToggle2 ? <div></div> : <ChangePassWord userId={userId} />}
       </Wrapper>
       <Wrapper>
         <div className="titleWrapper">
@@ -71,7 +73,7 @@ const MySettings = ({
             }}
           />
         </div>
-        {isToggle3 ? <div></div> : <DeleteProfile />}
+        {isToggle3 ? <div></div> : <DeleteProfile userId={userId} />}
       </Wrapper>
     </Container>
   );

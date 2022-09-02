@@ -14,6 +14,7 @@ import {
   faBookmark,
   faTrophy,
 } from '@fortawesome/free-solid-svg-icons';
+import { getLoginCookie } from '../../lib/cookie';
 
 const SignUp = () => {
   const [userId, setUserId] = useState('');
@@ -42,12 +43,27 @@ const SignUp = () => {
       ? setIdMsg(<p>중복 확인을 위해 ID check 버튼을 눌러주세요</p>)
       : setIdMsg(<p>6~12자 사이의 영문과 숫자를 입력하세요</p>);
   };
-  // 중복 id 체크 - 미구현 상태 (백엔드쪽과 협의 필요)
-  const checkUserID = () => {
-    if (isValidId(userId) && userId !== '') {
-      setIdMsg(<p>사용가능한 아이디입니다</p>);
-    } else {
-      setIdMsg(<p>아이디 조건을 만족해주세요</p>);
+  // 중복 id 체크
+  const checkUserID = async () => {
+    try {
+      if (isValidId(userId) && userId !== '') {
+        const res = await axios.get(
+          `http://3.39.180.45:56178/DBtest/checkExistId?id=${userId}`,
+          { headers: { Authorization: getLoginCookie() } }
+        );
+        const data = res.data;
+        if (data) {
+          setIdMsg(<p>사용가능한 아이디입니다</p>);
+          console.log(data);
+        } else {
+          setIdMsg(<p>중복된 아이디입니다</p>);
+          console.log(data);
+        }
+      } else {
+        setIdMsg(<p>아이디 조건을 만족해주세요</p>);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
   // pw 유효성검사
@@ -72,10 +88,14 @@ const SignUp = () => {
     if (userPw !== userRePw || !isValidPw(userPw)) return;
     if (userPw === userRePw) {
       axios
-        .post('http://3.39.180.45:56178/DBtest/createMember', {
-          id: userId,
-          password: userRePw,
-        })
+        .post(
+          'http://3.39.180.45:56178/DBtest/createMember',
+          {
+            id: userId,
+            password: userRePw,
+          },
+          { headers: { Authorization: getLoginCookie() } }
+        )
         .then((res) => {
           console.log(res.data);
         })

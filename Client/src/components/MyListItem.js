@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 /* eslint-disable react/prop-types */
 
-const MyListItem = ({ title, content, date, postId }) => {
+const MyListItem = ({ title, content, date, linkId }) => {
   return (
     <ItemContainer>
       <div className="mypostInfo">
-        <a href={`/${postId}`}>
+        <a href={`/${linkId}`}>
           <h4 className="myTitle">{title}</h4>
         </a>
         <div className="myDate">{date}</div>
@@ -16,7 +16,7 @@ const MyListItem = ({ title, content, date, postId }) => {
 };
 export default MyListItem;
 
-const ItemContainer = styled.li`
+export const ItemContainer = styled.li`
   display: flex;
   flex-direction: column;
   list-style: none;

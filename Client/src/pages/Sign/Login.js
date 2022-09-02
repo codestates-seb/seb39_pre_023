@@ -1,19 +1,68 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MyButton from '../../components/MyButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  // faGoogle,
-  faStackOverflow,
-} from '@fortawesome/fontawesome-free-brands';
-
+import { faStackOverflow } from '@fortawesome/fontawesome-free-brands';
+import { useState } from 'react';
+import axios from 'axios';
+import { setLoginCookie, getLoginCookie } from '../../lib/cookie';
+import { setSignState, setUserData } from '../../action/action';
+import { useDispatch, useSelector } from 'react-redux';
+/* eslint-disable react/prop-types */
 const Login = () => {
+  const state = useSelector((state) => state.signInReducer);
+  const [userInfo, setUserInfo] = useState({
+    id: '',
+    password: '',
+  });
+  const [loginMsg, setLoginMsg] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const getUserID = (e) => {
+    setUserInfo({ ...userInfo, id: e.target.value });
+  };
+  const getUserPW = (e) => {
+    setUserInfo({ ...userInfo, password: e.target.value });
+  };
+  const trySignIn = async () => {
+    try {
+      const res = await axios.post(`http://3.39.180.45:56178/login`, {
+        id: userInfo.id,
+        password: userInfo.password,
+      });
+      const data = res.data; // accesstoken, userid
+      if (!data.token) {
+        setLoginMsg(true);
+      } else {
+        setLoginCookie(data.token);
+
+        localStorage.setItem('token', JSON.stringify(data.token));
+        delete data.token;
+        const res2 = await axios.get(
+          'http://3.39.180.45:56178/DBtest/refreshToken',
+          { headers: { Authorization: getLoginCookie() } }
+        );
+        const data2 = res2.data;
+        dispatch(setSignState(data2.msg));
+        delete data2.msg;
+        dispatch(setUserData(data));
+        localStorage.setItem('userid', JSON.stringify(data));
+        navigate('/');
+        console.log('로그인성공');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(state.loginState);
+  const onPushEnter = (e) => {
+    if (e.key === 'Enter') trySignIn();
+  };
   return (
     <Container>
       <SigninBox>
         <FontAwesomeIcon icon={faStackOverflow} className="stacklogo" />
         <BtnWrapper>
-          {/* <FontAwesomeIcon icon={faGoogle} className="gglogo" /> */}
           <MyButton
             text={'Log in with Google'}
             type={'default'}
@@ -22,10 +71,21 @@ const Login = () => {
         </BtnWrapper>
         <LoginBox>
           <span>Id</span>
-          <input type="text"></input>
+          <input
+            type="text"
+            value={userInfo.id}
+            onChange={getUserID}
+            onKeyUp={onPushEnter}
+          ></input>
           <span>Password</span>
-          <input type="password"></input>
-          <MyButton text={'Log in'} type={'blue'} onClick={() => {}} />
+          <input
+            type="password"
+            value={userInfo.password}
+            onChange={getUserPW}
+            onKeyUp={onPushEnter}
+          ></input>
+          <MyButton text={'Log in'} type={'blue'} onClick={trySignIn} />
+          {loginMsg ? <div>Id와 비밀번호를 확인해주세요</div> : <div></div>}
         </LoginBox>
         <SignupBox>
           <p>
@@ -130,11 +190,5 @@ const BtnWrapper = styled.div`
     width: 320px;
     font-size: 14px;
     height: 37px;
-  }
-  .gglogo {
-    position: absolute;
-    right: 210px;
-    top: 10px;
-    font-size: 20px;
   }
 `;

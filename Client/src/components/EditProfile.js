@@ -5,8 +5,8 @@ import MyProfileImg from './MyProfileImg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { getLoginCookie } from '../lib/cookie';
 /* eslint-disable react/prop-types */
-
 axios.defaults.withCredentials = false;
 const EditProfile = ({
   setIsProfile,
@@ -16,6 +16,7 @@ const EditProfile = ({
   setLocation,
   about,
   setAbout,
+  userId,
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const onChangeNickname = (e) => {
@@ -30,11 +31,15 @@ const EditProfile = ({
 
   const onEditProfile = () => {
     axios
-      .put(`http://3.39.180.45:56178/DBtest/updateProfile?profile_id=2`, {
-        displayname: nickname,
-        location: location,
-        about: about,
-      })
+      .put(
+        `http://3.39.180.45:56178/DBtest/updateProfile?profile_id=${userId}`,
+        {
+          displayname: nickname,
+          location: location,
+          about: about,
+        },
+        { headers: { Authorization: getLoginCookie() } }
+      )
       .then((res) => {
         setIsSaved(!isSaved);
         console.log(res.data);
@@ -43,6 +48,9 @@ const EditProfile = ({
       .catch((err) => {
         console.log(err);
       });
+    setNickname('');
+    setLocation('');
+    setAbout('');
   };
   return (
     <Container>
