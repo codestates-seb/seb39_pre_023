@@ -50,6 +50,30 @@ public class PreProjectApplication {
 			tags.add(tag_ser.createTag(new tag_create("java4","test tag for name is java version 14",null)).getName());
 			tags.add(tag_ser.createTag(new tag_create("java5","test tag for name is java version 15",null)).getName());
 			tags.add(tag_ser.createTag(new tag_create("java6","test tag for name is java version 16",null)).getName());
+
+			tag_ser.createTag(new tag_create("{javascript}" ,"",null));
+			tag_ser.createTag(new tag_create("{java}" ,"",null));
+			tag_ser.createTag(new tag_create("{react}" ,"",null));
+			tag_ser.createTag(new tag_create("{react-redux}" ,"",null));
+			tag_ser.createTag(new tag_create("{api}" ,"",null));
+			tag_ser.createTag(new tag_create("{python}" ,"",null));
+			tag_ser.createTag(new tag_create("{spring}" ,"",null));
+			tag_ser.createTag(new tag_create("{git}" ,"",null));
+			tag_ser.createTag(new tag_create("{react-hooks}" ,"",null));
+			tag_ser.createTag(new tag_create("{react-router-dom}" ,"",null));
+			tag_ser.createTag(new tag_create("{css}" ,"",null));
+			tag_ser.createTag(new tag_create("{html}" ,"",null));
+			tag_ser.createTag(new tag_create("{git}" ,"",null));
+			tag_ser.createTag(new tag_create("{github}" ,"",null));
+			tag_ser.createTag(new tag_create("{jquery}" ,"",null));
+			tag_ser.createTag(new tag_create("{flutter}" ,"",null));
+			tag_ser.createTag(new tag_create("{firebase}" ,"",null));
+			tag_ser.createTag(new tag_create("{node.js}" ,"",null));
+			tag_ser.createTag(new tag_create("{typescript}" ,"",null));
+			tag_ser.createTag(new tag_create("{c}" ,"",null));
+			tag_ser.createTag(new tag_create("{c#}" ,"",null));
+
+
 			System.out.println("\n\ninsert tag end ************************************************\n\n\n");
 
 			System.out.println("\n\n************************************************ insert post start \n\n\n");

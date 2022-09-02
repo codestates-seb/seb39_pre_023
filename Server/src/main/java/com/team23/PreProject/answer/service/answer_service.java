@@ -52,9 +52,9 @@ public class answer_service {
         return answer;
     }
 
-    public Page<answer> findAnswers(Integer questionId, int page) {
+    public Page<answer> findAnswers(Integer questionId, int page,int size) {
         post findPost = post_repository.findById(questionId).orElseThrow();
-        return answer_repository.findAllByPost(findPost, PageRequest.of(page, 30,
+        return answer_repository.findAllByPost(findPost, PageRequest.of(page, size,
                 Sort.by("score").descending()));
     }
 
@@ -64,8 +64,15 @@ public class answer_service {
         return answer;
     }
 
-    public void deleteAnswer(Integer answerId){
-        answer_repository.deleteById(answerId);
+    public String deleteAnswer(Integer answerId){
+        try {
+            answer_repository.deleteById(answerId);
+            return "true";
+        }
+        catch(Exception e)
+        {
+            return "false";
+        }
     }
 
     public answer_dto.ByMemberDto findAnswersBymember(Integer memberId, int page, int size) {

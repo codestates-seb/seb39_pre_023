@@ -1,5 +1,7 @@
 package com.team23.PreProject.member.service;
 
+import com.team23.PreProject.answer.entity.answer;
+import com.team23.PreProject.answer.repository.answer_repository;
 import com.team23.PreProject.member.dto.member_create_dto;
 import com.team23.PreProject.member.entity.member;
 import com.team23.PreProject.member.repository.member_repository;
@@ -48,6 +50,9 @@ public class member_service {
     @Autowired
     login_repository  login_repository;
 
+    @Autowired
+    answer_repository answer_repository;
+
     public member insert_member(member_create_dto dto){
         member member = new member(dto.getPassword(),dto.getNickName(),dto.getId());
         member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
@@ -85,10 +90,10 @@ public class member_service {
 
     public String updatePassword(Integer member_id, String elder, String newer ){
         member member = member_repository.findById(member_id).get();
-        if(member.getPassword().equals(elder)&&!newer.equals(""))
-        {
-            member.setPassword(newer);
-            member_repository.save(member);
+        BCryptPasswordEncoder encoder = bCryptPasswordEncoder;
+        if(encoder.matches(elder,member.getPassword())&&!newer.equals("")){
+            member.setPassword(encoder.encode(newer));
+            member_repository.flush();
             return "passwored changed";
         }
         else
@@ -106,6 +111,13 @@ public class member_service {
         //post vote -> delted 연결
         List<post_vote> post_votes;
         post_votes = member.getPost_votes();
+        List<answer> answers = member.getAnswers();
+
+        for(answer ans : answers)
+        {
+            ans.setMember(deleted);
+            answer_repository.flush();
+        }
 
         for(post_vote post_vote : post_votes)
         {

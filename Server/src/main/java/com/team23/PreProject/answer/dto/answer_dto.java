@@ -26,6 +26,7 @@ public class answer_dto {
     }
 
     @Getter
+    @Setter
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor

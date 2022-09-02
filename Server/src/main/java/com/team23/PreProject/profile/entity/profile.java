@@ -54,6 +54,6 @@ public class profile {
     @Column(name = "DISPLAYNAME")
     String displayname = "displayname";
     @Column(name = "ANSWERS")
-    Integer answers = 100;
+    Integer answers = 0;
 
 }

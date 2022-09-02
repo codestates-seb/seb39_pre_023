@@ -6,6 +6,8 @@ import com.team23.PreProject.tag.repository.tag_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class tag_service {
 
@@ -39,5 +41,9 @@ public class tag_service {
         }
 
         return tag;
+    }
+
+    public List<tag> findTags() {
+        return tag_repository.findAll();
     }
 }
