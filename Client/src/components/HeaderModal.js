@@ -9,8 +9,8 @@ const ModalBack = styled.div`
   justify-content: flex-end;
   width: 100%;
   height: 100%;
-  position: fixed;
-  right: 80px;
+  position: absolute;
+  right: 70px;
 `;
 const ModalView = styled.div`
   display: flex;
