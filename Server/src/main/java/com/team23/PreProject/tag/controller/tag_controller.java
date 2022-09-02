@@ -1,5 +1,6 @@
 package com.team23.PreProject.tag.controller;
 
+import com.team23.PreProject.tag.dto.tag_find;
 import com.team23.PreProject.tag.entity.tag;
 import com.team23.PreProject.tag.service.tag_service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,13 @@ public class tag_controller {
     public ResponseEntity tagFind(@RequestParam String name)
     {
         tag tag = tag_service.findTag(name);
-        if(tag== null)
+        if(tag == null)
             return new ResponseEntity("not exists", HttpStatus.OK);
-        return new ResponseEntity(tag, HttpStatus.OK);
+        tag_find result = new tag_find();
+        result.setName(tag.getName());
+        result.setDescription(tag.getContent());
+        result.setId(tag.getId());
+        return new ResponseEntity(result, HttpStatus.OK);
     }
 
 
