@@ -5,6 +5,10 @@ const RequireAuth = ({ children, option }) => {
   const state = useSelector((state) => state.signInReducer);
   const location = useLocation();
 
+  // option true = 로그인시에만 가능
+  // option false = 로그아웃시에만 가능
+  // option null = 둘다 가능
+
   if (option === null) {
     return children;
   } else if (option) {

@@ -48,9 +48,6 @@ const EditProfile = ({
       .catch((err) => {
         console.log(err);
       });
-    setNickname('');
-    setLocation('');
-    setAbout('');
   };
   return (
     <Container>

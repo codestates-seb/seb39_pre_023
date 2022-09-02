@@ -12,33 +12,35 @@ import Login from './pages/Sign/Login';
 import Logout from './pages/Sign/Logout';
 import SignUp from './pages/Sign/SignUp';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-// import { getLoginCookie } from './lib/cookie';
-import { setSignState } from './action/action';
+import { useDispatch, useSelector } from 'react-redux';
+import { getLoginCookie } from './lib/cookie';
+import { setSignState, setUserData } from './action/action';
 import RequireAuth from './components/RequireAuth';
 
 axios.defaults.withCredentials = false;
 function App() {
   const dispatch = useDispatch();
-  // const state = useSelector((state) => state.signInReducer);
+  const state = useSelector((state) => state.signInReducer);
   const [viewModal, setModal] = useState(false);
   const token = localStorage.getItem('token');
   useEffect(() => {
     if (token) {
       dispatch(setSignState(true));
+    } else {
+      dispatch(setSignState(false));
     }
-    // async () => {
-    //   const res = await axios.get(
-    //     `http://3.39.180.45:56178/DBtest/tokenLogin`,
-    //     {
-    //       headers: { authorization: getLoginCookie() },
-    //     }
-    //   );
-    //   dispatch(setSignState(res.data.msg));
-    //   delete res.data.msg;
-    //   dispatch(setUserData(res.data));
-    //   console.log(state.loginState);
-    // };
+    async () => {
+      const res = await axios.get(
+        `http://3.39.180.45:56178/DBtest/tokenLogin`,
+        {
+          headers: { authorization: getLoginCookie() },
+        }
+      );
+      dispatch(setSignState(res.data.msg));
+      delete res.data.msg;
+      dispatch(setUserData(res.data));
+      console.log(state.loginState);
+    };
   }, []);
 
   return (
