@@ -44,6 +44,9 @@ public class member {
     @Column(name = "ROLE")
     String roles;
 
+    @Column(name = "ProfileImage")
+    String profileImage = "default.jpg";
+
     public List<String> getRoleList() {
         if(this.roles.length() > 0) {
             return Arrays.asList(this.roles.split(","));

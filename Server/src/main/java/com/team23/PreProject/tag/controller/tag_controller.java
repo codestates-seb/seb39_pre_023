@@ -45,7 +45,7 @@ public class tag_controller {
             tag_info = new tag_info();
             tag_info.setId(tag.getId());
             tag_info.setName(tag.getName());
-            tag_info.setContent(tag.getContent());
+            //tag_info.setContent(tag.getContent());
             tag_infos.add(tag_info);
         }
         tagss.setTags(tag_infos);

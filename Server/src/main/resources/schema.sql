@@ -10,7 +10,8 @@ CREATE TABLE `member` (
   --`post_id` int,
   `comment_id` int,
   `role` varchar(50),
-  `sign_in_date` datetime
+  `sign_in_date` datetime,
+  `ProfileImage` varchar(200)
   --`member_post_id` int,
 
 );

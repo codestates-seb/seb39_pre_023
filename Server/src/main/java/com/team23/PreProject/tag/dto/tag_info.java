@@ -14,9 +14,9 @@ public class tag_info {
 
     String name;
 
-    String content;
+    //String content;
 
-    Integer stub_questions = 1000;
+    //Integer stub_questions = 1000;
 
 
 
