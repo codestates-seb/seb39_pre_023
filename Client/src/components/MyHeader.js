@@ -4,16 +4,12 @@ import { faStackOverflow } from '@fortawesome/fontawesome-free-brands';
 import { faBars, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import MyButton from './MyButton';
 import { useNavigate, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { getLoginCookie } from '../lib/cookie';
 /* eslint-disable react/prop-types */
 
 const MyHeader = ({ viewModal, setModal }) => {
-  const state = useSelector((state) => state.signInReducer);
-  console.log(state.loginState);
-  console.log(getLoginCookie('token'));
   const token = localStorage.getItem('token');
-  // const userId = localStorage.getItem('userId');
+  const data = localStorage.getItem('userid');
+  let userid = JSON.parse(data);
   const navigate = useNavigate();
   const viewLogout = () => {
     setModal(!viewModal);
@@ -49,7 +45,7 @@ const MyHeader = ({ viewModal, setModal }) => {
                 style={{ textDecoration: 'none' }}
                 className="loginMypage"
               >
-                <span>Mypage</span>
+                <span className="loginMypage">{userid.userid}&apos;s page</span>
               </Link>
             </>
           ) : (
@@ -94,7 +90,8 @@ const Container = styled.header`
     width: 3%;
   }
   .loginMypage {
-    width: 3%;
+    width: 5%;
+    white-space: nowrap;
   }
   .loginHardcoding {
     width: 3%;
@@ -103,7 +100,7 @@ const Container = styled.header`
     width: 10%;
   }
   .loginSearch {
-    width: 70%;
+    width: 65%;
   }
 `;
 const Wrapper = styled.div`

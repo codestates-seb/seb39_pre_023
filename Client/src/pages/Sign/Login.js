@@ -7,10 +7,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import { setLoginCookie, getLoginCookie } from '../../lib/cookie';
 import { setSignState, setUserData } from '../../action/action';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 /* eslint-disable react/prop-types */
 const Login = () => {
-  const state = useSelector((state) => state.signInReducer);
   const [userInfo, setUserInfo] = useState({
     id: '',
     password: '',
@@ -35,14 +34,13 @@ const Login = () => {
         setLoginMsg(true);
       } else {
         setLoginCookie(data.token);
-
         localStorage.setItem('token', JSON.stringify(data.token));
         delete data.token;
         const res2 = await axios.get(
           'http://3.39.180.45:56178/DBtest/refreshToken',
           { headers: { Authorization: getLoginCookie() } }
         );
-        const data2 = res2.data;
+        const data2 = res2.data; // true
         dispatch(setSignState(data2.msg));
         delete data2.msg;
         dispatch(setUserData(data));
@@ -54,7 +52,6 @@ const Login = () => {
       console.log(err);
     }
   };
-  console.log(state.loginState);
   const onPushEnter = (e) => {
     if (e.key === 'Enter') trySignIn();
   };
