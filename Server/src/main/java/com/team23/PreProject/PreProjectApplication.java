@@ -8,6 +8,9 @@ import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member.service.member_service;
 import com.team23.PreProject.post.controller.post_controller;
 import com.team23.PreProject.post.dto.post_insert_dto;
+import com.team23.PreProject.tag.dto.tag_create;
+import com.team23.PreProject.tag.entity.tag;
+import com.team23.PreProject.tag.service.tag_service;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class PreProjectApplication {
@@ -31,22 +36,42 @@ public class PreProjectApplication {
 
 
 	@Bean
-	public CommandLineRunner test(member_controller mem_cont, post_controller post_cont, answer_controller ans_cont) {
+	public CommandLineRunner test(member_controller mem_cont, post_controller post_cont, answer_controller ans_cont, tag_service tag_ser) {
 		return args -> {
+			System.out.println("\n\n************************************************ insert member start \n\n\n");
 			mem_cont.insertMember(new member_create_dto("password","nick","Iddddddd1"));
-			post_cont.post_test(new post_insert_dto("post_name1","post_content1",2));
-			post_cont.post_test(new post_insert_dto("post_name2","post_content1",2));
-			post_cont.post_test(new post_insert_dto("post_name3","post_content1",2));
-			post_cont.post_test(new post_insert_dto("post_name4","post_content1",2));
-			post_cont.post_test(new post_insert_dto("post_name5","post_content1",2));
-			post_cont.post_test(new post_insert_dto("post_name6","post_content1",2));
+			System.out.println("\n\ninsert member end ************************************************\n\n\n");
+			List<String> tags = new ArrayList<>();
+			System.out.println("\n\n************************************************ insert tag start \n\n\n");
+			tags.add(tag_ser.createTag(new tag_create("java","test tag for name is java version 10" ,null)).getName());
+			tags.add(tag_ser.createTag(new tag_create("java1","test tag for name is java version 11",null)).getName());
+			tags.add(tag_ser.createTag(new tag_create("java2","test tag for name is java version 12",null)).getName());
+			tags.add(tag_ser.createTag(new tag_create("java3","test tag for name is java version 13",null)).getName());
+			tags.add(tag_ser.createTag(new tag_create("java4","test tag for name is java version 14",null)).getName());
+			tags.add(tag_ser.createTag(new tag_create("java5","test tag for name is java version 15",null)).getName());
+			tags.add(tag_ser.createTag(new tag_create("java6","test tag for name is java version 16",null)).getName());
+			System.out.println("\n\ninsert tag end ************************************************\n\n\n");
+
+			System.out.println("\n\n************************************************ insert post start \n\n\n");
+			post_cont.createPost(new post_insert_dto("post_name1","post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("post_name2","post_content1",2,tags));
+			post_cont.createPost(new post_insert_dto("post_name3","post_content1",2,tags));
+			post_cont.createPost(new post_insert_dto("post_name4","post_content1",2,tags));
+			post_cont.createPost(new post_insert_dto("post_name5","post_content1",2,tags));
+			post_cont.createPost(new post_insert_dto("post_name6","post_content1",2,tags));
+			System.out.println("\n\ninsert member end ************************************************\n\n\n");
 //			private Integer postId;
 //			private String content;
 //			private Integer memberId;
+			System.out.println("\n\n************************************************ insert answer start \n\n\n");
 			ans_cont.postAnswer(new answer_dto.Post(1,"answer for question 1",2));
 			ans_cont.postAnswer(new answer_dto.Post(2,"answer for question 2",2));
 			ans_cont.postAnswer(new answer_dto.Post(3,"answer for question 3",2));
 			ans_cont.postAnswer(new answer_dto.Post(2,"answer 2 for question 2",2));
+			System.out.println("\n\ninsert answer end ************************************************\n\n\n");
+
+
+
 
 			// 이것저것...
 		};

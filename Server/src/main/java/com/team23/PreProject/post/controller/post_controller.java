@@ -8,6 +8,9 @@ import com.team23.PreProject.member_post.repository.member_post_repository;
 import com.team23.PreProject.post.dto.*;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.service.post_service;
+import com.team23.PreProject.post_tag.entity.post_tag;
+import com.team23.PreProject.post_tag.repository.post_tag_repository;
+import com.team23.PreProject.tag.repository.tag_repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +33,10 @@ public class post_controller {
     member_post_repository member_post_repository;
     @Autowired
     member_service member_service;
+    @Autowired
+    tag_repository tag_repository;
+    @Autowired
+    post_tag_repository post_tag_repository;
 
     @GetMapping(value = "/")
     public ResponseEntity comment_read() {
@@ -50,7 +57,7 @@ public class post_controller {
     }
 
     @PostMapping("/DBtest/post")
-    public ResponseEntity post_test(@RequestBody post_insert_dto test)
+    public ResponseEntity createPost(@RequestBody post_insert_dto test)
     {
         if(test.getMember_id() == 1)
             return new ResponseEntity("you tried to access deleted user", HttpStatus.CONFLICT);
@@ -64,11 +71,58 @@ public class post_controller {
     @GetMapping("/DBtest/findAllPost")
     public ResponseEntity findAll(@RequestParam(required = false, value = "page", defaultValue = "0") Integer page,
                                   @RequestParam(required = false, value = "size", defaultValue = "15") Integer size){
+        page = page -1;
         System.out.println("find all request");
         post_all_dto post_list =post_service.findAllPost(page,size);
 
 
-        return new ResponseEntity(post_list,HttpStatus.OK);
+        post_all dto = new post_all();
+
+        post_info post_info;
+
+
+        dto.setTotalPages(post_list.getPage().getTotalPages());
+        dto.setQuestions(post_list.getPage().getTotalElements());
+        dto.setPageNumber(post_list.getPage().getPageable().getPageNumber()+1);
+        dto.setSortBy("post_id");
+        dto.setSize(size);
+
+        for(Object obj : post_list.getPage().getContent() )
+        {
+            post post = (post) obj;
+            post_info = new post_info();
+
+            post_info.setPostId(post.getPostId());
+            post_info.setPost_content(post.getPost_content());
+            post_info.setPost_name(post.getPost_name());
+            post_info.setView_count(post.getView_count());
+            post_info.set_answered(post.getIs_answered());
+            post_info.setScore(post.getScore());
+
+            List<post_tag> post_tags  = post.getPost_tags();
+            for(int i = 0; i<post_tags.size();i++)
+            {
+                post_info.addTag(tag_repository.findById(
+                        post_tags.get(i).getTag().getId()).get().getName());
+            }
+
+            dto.addPost_info(post_info);
+
+            member_info member_info = new member_info();
+            member member = member_post_repository.findByPostPostId(post.getPostId()).getMember();
+            member_info.setMember_id(member.getMemberId());
+            member_info.setNickName(member.getNickName());
+            member_info.setProfile_id(member.getProfile().getProfileId());
+
+            post_info.setWriter(member_info);
+
+        }
+
+
+
+
+
+        return new ResponseEntity(dto,HttpStatus.OK);
     }
 
     @GetMapping("/DBtest/findPost/{member_id}")
@@ -80,9 +134,55 @@ public class post_controller {
         if(member_id == 1)
             return new ResponseEntity("you tried to access deleted user", HttpStatus.CONFLICT);
 
-        System.out.println("find post by user_id "+ ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
+        page = page -1;
         Page post_list =post_service.findPostByMember(page,size,member_id);
-        return new ResponseEntity(post_list,HttpStatus.OK);
+
+
+        post_all dto = new post_all();
+
+        post_info post_info;
+
+
+        dto.setTotalPages(post_list.getTotalPages());
+        dto.setQuestions(post_list.getTotalElements());
+        dto.setPageNumber(post_list.getPageable().getPageNumber()+1);
+        dto.setSortBy("post_id");
+        dto.setSize(size);
+
+        for(Object obj : post_list.getContent() )
+        {
+            post post = (post) obj;
+            post_info = new post_info();
+
+            post_info.setPostId(post.getPostId());
+            post_info.setPost_content(post.getPost_content());
+            post_info.setPost_name(post.getPost_name());
+            post_info.setView_count(post.getView_count());
+            post_info.set_answered(post.getIs_answered());
+            post_info.setScore(post.getScore());
+
+            List<post_tag> post_tags  = post.getPost_tags();
+            for(int i = 0; i<post_tags.size();i++)
+            {
+                post_info.addTag(tag_repository.findById(
+                        post_tags.get(i).getTag().getId()).get().getName());
+            }
+
+            dto.addPost_info(post_info);
+
+            member_info member_info = new member_info();
+            member member = member_post_repository.findByPostPostId(post.getPostId()).getMember();
+            member_info.setMember_id(member.getMemberId());
+            member_info.setNickName(member.getNickName());
+            member_info.setProfile_id(member.getProfile().getProfileId());
+
+            post_info.setWriter(member_info);
+
+        }
+
+
+
+        return new ResponseEntity(dto,HttpStatus.OK);
     }
 
     @PutMapping("/DBtest/update/{post_id}")
@@ -94,10 +194,22 @@ public class post_controller {
         if(member_post_repository.findByPostPostId(post_id).getMember().getMemberId()==1)
             return new ResponseEntity("you tried access deleted user",HttpStatus.CONFLICT);
 
-        System.out.println("update post content "+ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
+
         post post = post_service.updatePost(post_id,dto);
+        postWithTag result = new postWithTag();
+        result.setPost(post);
+        System.out.println("\n\n\n\n\nresult set post\n\n\n\n");
+        List<post_tag> tags = post_tag_repository.findByPostPostId(post.getPostId());
+        System.out.println("\n\n\n\n\nget tags\n\n\n\n"+tags.get(0).getTag().getName());
+
+        for(post_tag tag : tags)
+        {
+            result.addTag(tag.getTag().getName());
+            System.out.println("\n\n\n\n\nadd tag name\n\n\n\n");
+        }
+
         if(post!=null)
-            return new ResponseEntity(post,HttpStatus.OK);
+            return new ResponseEntity(result,HttpStatus.OK);
         else
             return new ResponseEntity("error while update post",HttpStatus.CONFLICT);
     }

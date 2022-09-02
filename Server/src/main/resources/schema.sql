@@ -29,7 +29,7 @@ CREATE TABLE `post` (
   --`member_post_id` int,
   `score` int
   --`post_vote_id` int,
-  --`tag_id` int
+  --`tag` int
 );
 
 CREATE TABLE `member_post`(
@@ -78,9 +78,17 @@ CREATE TABLE `answer_Vote` (
 
 CREATE TABLE `tag` (
   `tag_id` int PRIMARY KEY AUTO_INCREMENT,
-  `tag_name` varchar(255),
-  `tag_description` varchar(255),
-  `stub_questions` int
+  `name` varchar(255),
+  `content` varchar(255),
+  `questions` int
+  --`post` int
+);
+
+CREATE TABLE `post_tag`(
+`post_tag_id` int PRIMARY KEY AUTO_INCREMENT,
+`tag_id` int,
+`post_id` int
+
 );
 
 CREATE TABLE `logout` (
@@ -138,3 +146,10 @@ ALTER TABLE `member` ADD FOREIGN KEY (`comment_id`) REFERENCES `comment` (`comme
 
 ALTER TABLE `member_post` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
 ALTER TABLE `member_post` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
+
+ALTER TABLE `post_tag` ADD FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`);
+ALTER TABLE `post_tag` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
+
+
+--ALTER TABLE `post` ADD FOREIGN KEY (`tag`) REFERENCES `tag` (`id`);
+--ALTER TABLE `tag` ADD FOREIGN KEY (`post`) REFERENCES `post` (`post_id`);

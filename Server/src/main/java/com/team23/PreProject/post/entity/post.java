@@ -6,7 +6,9 @@ import com.team23.PreProject.answer.entity.answer;
 import com.team23.PreProject.comment.entity.comment;
 
 import com.team23.PreProject.member_post.entitiy.member_post;
+import com.team23.PreProject.post_tag.entity.post_tag;
 import com.team23.PreProject.post_vote.entity.post_vote;
+import com.team23.PreProject.tag.entity.tag;
 import lombok.*;
 
 import javax.persistence.*;
@@ -39,7 +41,7 @@ public class post {
     @Column(name = "VIEW_COUNT")
     Integer view_count = 1;
     @Column(name = "IS_answerED")
-    boolean is_answered = false;
+    Boolean is_answered = false;
     @Column(name = "SCORE")
     Integer score = 0;
 //    @Column(name = "MEMBER_POST_ID")
@@ -88,6 +90,22 @@ public class post {
     {
         this.answers.add(answer);
     }
+
+    @OneToMany(mappedBy = "post")
+            @JsonIgnore
+    List<post_tag> post_tags = new ArrayList<>();
+
+    public void addPost_tag(post_tag tag)
+    {
+        this.post_tags.add(tag);
+    }
+    public post(String name,String content){
+        this.post_name = name;
+        this.post_content = content;
+
+    }
+
+
 
 
 

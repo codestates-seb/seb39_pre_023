@@ -11,7 +11,11 @@ import com.team23.PreProject.post.dto.post_update_dto;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.repository.post_repository;
 
+import com.team23.PreProject.post_tag.entity.post_tag;
+import com.team23.PreProject.post_tag.repository.post_tag_repository;
 import com.team23.PreProject.profile.entity.profile;
+import com.team23.PreProject.tag.entity.tag;
+import com.team23.PreProject.tag.repository.tag_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,13 +41,18 @@ public class post_service {
     @Autowired
     member_post_repository member_post_repository;
 
+    @Autowired
+    post_tag_repository post_tag_repository;
 
+    @Autowired
+    tag_repository tag_repository;
 
     public post insert_test(post_insert_dto test){
 
             System.out.println("\n\n============================================ json parse");
             System.out.println("test "+test.getPost_content());
             System.out.println("test "+test.getMember_id());
+
             System.out.println("============================================ json parse end\n\n");
             //post 생성 - 본문, 이름, 유저 정보 저장
             post post= new post();
@@ -57,6 +66,9 @@ public class post_service {
             System.out.println("============================================ find member entity end\n\n");
             //연관된 member_post 정보 생성
             member_post member_post = new member_post();
+            //연관된 post_tag 정보 생성
+
+
             member_post.setMember(member);
             member_post.setPost(post);
 
@@ -68,8 +80,25 @@ public class post_service {
             member_post_repository.save(member_post);
             System.out.println("============================================ save member_post entity end\n\n");
 
+            if(test.getTags().size()!=0) {
+                for (int i = 0;i < test.getTags().size();i++) {
+                    post_tag post_tag = new post_tag();
+                    post_tag.setPost(post);
+                    post_tag.setTag(tag_repository.findByName(test.getTags().get(i)));
+                    post.addPost_tag(post_tag);
+                    post_tag_repository.save(post_tag);
+                }
+            }
+
+
+
+
             //연관된 member_post 정보를 post에 저장
             post.addMember_Post(member_post);
+
+            //연관된 post_tag 정보를 post에 저장
+
+
 
             //연관된 member_post 정보를 member에 저장
             member.addMember_Post(member_post);
@@ -91,13 +120,14 @@ public class post_service {
     }
 
     public post_all_dto findAllPost(int page, int size){
-        if(size==-1 || page ==-1)
+        if(size==-2 || page ==-2)
         {
             page = 0;
             size = (int) post_repository.count();
         }
         Pageable pageable = PageRequest.of(page, size, Sort.by("postId").descending());
         Page<post> post_list = post_repository.findAll(pageable);
+        System.out.println("\n\n\n\n\n\n %%%%%%%%%%%%%%%%%%%%%%% post_list size "+post_list.getContent().size()+"\n\n\n\n");
         Long count = post_repository.count();
 
         post_all_dto dto = new post_all_dto(post_list,count);
@@ -117,7 +147,7 @@ public class post_service {
             post_ids.add(member_post.getPost().getPostId());
 
         }
-        if(size==-1 || page ==-1)
+        if(size==-2 || page ==-2)
         {
             page = 0;
             size = (int) post_ids.size();
@@ -139,6 +169,29 @@ public class post_service {
             post.setModified_date(ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
             post.setPost_content(dto.getPost_content());
             post.setPost_name(dto.getPost_name());
+
+
+            List<post_tag> older = post.getPost_tags();
+            for(post_tag post_tag : older)
+            {
+                post_tag_repository.delete(post_tag);
+            }
+            post.setPost_tags(new ArrayList<>());
+            System.out.println("===========================posttag del\n\n\n\n\n");
+            for(String tag : dto.getTags())
+            {
+
+                post_tag post_tag = new post_tag();
+                post_tag.setTag(tag_repository.findByName(tag));
+                post_tag.setPost(post);
+                post_tag_repository.save(post_tag);
+                post.addPost_tag(post_tag);
+            }
+            System.out.println("===========================posttag update\n\n\n\n\n\n");
+
+
+
+
             post_repository.save(post);
             return post;
         }catch(Exception e)
@@ -152,15 +205,29 @@ public class post_service {
         boolean result = false;
         try {
             post post = post_repository.findById(post_id).orElse(null);
+
             if(post!=null)
             {
                 post.setMember_posts(null);
+                post.setPost_tags(null);
             post_repository.flush();
             member_post member_post = member_post_repository.findByPostPostId(post_id);
             member_post.setPost(null);
             member_post.setMember(null);
             member_post_repository.flush();
             member_post_repository.delete(member_post);
+
+
+
+                List<post_tag> post_tags = post_tag_repository.findByPostPostId(post_id);
+            for(post_tag tag: post_tags)
+            {
+                tag.setPost(null);
+                tag.setTag(null);
+                post_tag_repository.flush();
+                post_tag_repository.delete(tag);
+            }
+//
             post_repository.delete(post);
 
             return "post deleted";
@@ -171,7 +238,7 @@ public class post_service {
             }
         }catch(Exception e)
         {
-            return "delete post error check post_id";
+            return "delete post error";
         }
 
 
