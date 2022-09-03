@@ -3,7 +3,6 @@ package com.team23.PreProject.post.controller;
 import com.team23.PreProject.member.entity.member;
 import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member.service.member_service;
-import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.member_post.repository.member_post_repository;
 import com.team23.PreProject.post.dto.*;
 import com.team23.PreProject.post.entity.post;
@@ -11,7 +10,6 @@ import com.team23.PreProject.post.service.post_service;
 import com.team23.PreProject.post_tag.entity.post_tag;
 import com.team23.PreProject.post_tag.repository.post_tag_repository;
 import com.team23.PreProject.tag.repository.tag_repository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -62,7 +60,7 @@ public class post_controller {
     {
         if(test.getMember_id() == 1)
             return new ResponseEntity("you tried to access deleted user", HttpStatus.CONFLICT);
-        post post = post_service.insert_test(test);
+        post post = post_service.create_post(test);
 
         post_create_dto dto = new post_create_dto(post.getPostId(),post.getPost_content(),post.getPost_content(),post.getWrite_date(),post.getModified_date());
         System.out.println("dto created");
@@ -120,6 +118,8 @@ public class post_controller {
             post_info.setWriteDate(post.getWrite_date());
 
         }
+
+
 
 
 

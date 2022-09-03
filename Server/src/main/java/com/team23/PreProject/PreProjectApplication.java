@@ -78,12 +78,46 @@ public class PreProjectApplication {
 			System.out.println("\n\ninsert tag end ************************************************\n\n\n");
 
 			System.out.println("\n\n************************************************ insert post start \n\n\n");
-			post_cont.createPost(new post_insert_dto("post_name1","post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("post_name2","post_content1",2,tags));
-			post_cont.createPost(new post_insert_dto("post_name3","post_content1",2,tags));
-			post_cont.createPost(new post_insert_dto("post_name4","post_content1",2,tags));
-			post_cont.createPost(new post_insert_dto("post_name5","post_content1",2,tags));
-			post_cont.createPost(new post_insert_dto("post_name6","post_content1",2,tags));
+			String obj;
+			obj= "java";
+			post_cont.createPost(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
+
+			post_cont.createPost(new post_insert_dto("i need create "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("i need update "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("i need read "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("i need delete "+obj,"post_content1",2, tags));
+
+			post_cont.createPost(new post_insert_dto("docs to create "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("docs to update "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("docs to read "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("docs to delete "+obj,"post_content1",2, tags));
+			obj= "react";
+			post_cont.createPost(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
+			obj= "python";
+			post_cont.createPost(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
+			obj= "git";
+			post_cont.createPost(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
+			obj= "css";
+			post_cont.createPost(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
+			post_cont.createPost(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
+
+
+
+
 			System.out.println("\n\ninsert member end ************************************************\n\n\n");
 //			private Integer postId;
 //			private String content;

@@ -2,6 +2,7 @@ package com.team23.PreProject.post.service;
 
 import com.team23.PreProject.answer.repository.answer_repository;
 import com.team23.PreProject.comment.repository.comment_repository;
+import com.team23.PreProject.dictionary.service.dic_service;
 import com.team23.PreProject.member.entity.member;
 import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member_post.entitiy.member_post;
@@ -12,19 +13,14 @@ import com.team23.PreProject.post.repository.post_repository;
 
 import com.team23.PreProject.post_tag.entity.post_tag;
 import com.team23.PreProject.post_tag.repository.post_tag_repository;
-import com.team23.PreProject.profile.entity.profile;
-import com.team23.PreProject.tag.entity.tag;
 import com.team23.PreProject.tag.repository.tag_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -49,8 +45,10 @@ public class post_service {
     comment_repository comment_repository;
     @Autowired
     tag_repository tag_repository;
+    @Autowired
+    dic_service dic_service;
 
-    public post insert_test(post_insert_dto test){
+    public post create_post(post_insert_dto test){
 
             System.out.println("\n\n============================================ json parse");
             System.out.println("test "+test.getPost_content());
@@ -117,6 +115,8 @@ public class post_service {
             System.out.println("============================================ update post entity");
             post_repository.flush();
             System.out.println("============================================ update post entity end\n\n");
+
+            dic_service.addDics(post.getPost_name());
 
             return post;
 

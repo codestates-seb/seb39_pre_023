@@ -1,6 +1,13 @@
 
 drop all objects;
+CREATE TABLE `dic`(
+`id` int PRIMARY KEY AUTO_INCREMENT,
+`name` varchar(200),
+`score` int
 
+
+
+);
 CREATE TABLE `member` (
   `member_id` int PRIMARY KEY AUTO_INCREMENT,
   `password` varchar(255),
