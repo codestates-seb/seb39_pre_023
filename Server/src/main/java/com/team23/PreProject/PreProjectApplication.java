@@ -2,6 +2,7 @@ package com.team23.PreProject;
 
 import com.team23.PreProject.answer.controller.answer_controller;
 import com.team23.PreProject.answer.dto.answer_dto;
+import com.team23.PreProject.comment.service.comment_service;
 import com.team23.PreProject.member.controller.member_controller;
 import com.team23.PreProject.member.dto.member_create_dto;
 import com.team23.PreProject.member.repository.member_repository;
@@ -36,7 +37,7 @@ public class PreProjectApplication {
 
 
 	@Bean
-	public CommandLineRunner test(member_controller mem_cont, post_controller post_cont, answer_controller ans_cont, tag_service tag_ser) {
+	public CommandLineRunner test(member_controller mem_cont, post_controller post_cont, answer_controller ans_cont, tag_service tag_ser, comment_service com_ser) {
 		return args -> {
 			System.out.println("\n\n************************************************ insert member start \n\n\n");
 			mem_cont.insertMember(new member_create_dto("password","nick","Iddddddd1"));
@@ -93,6 +94,25 @@ public class PreProjectApplication {
 			ans_cont.postAnswer(new answer_dto.Post(3,"answer for question 3",2));
 			ans_cont.postAnswer(new answer_dto.Post(2,"answer 2 for question 2",2));
 			System.out.println("\n\ninsert answer end ************************************************\n\n\n");
+
+			System.out.println("\n\n************************************************ insert answer comment start \n\n\n");
+			com_ser.createAnswerComment(1,2,"1. comment for answerId 1");
+			com_ser.createAnswerComment(1,2,"2. comment for answerId 1");
+			com_ser.createAnswerComment(2,2,"1. comment for answerId 2");
+			com_ser.createAnswerComment(2,2,"2. comment for answerId 2");
+			com_ser.createAnswerComment(3,2,"1. comment for answerId 3");
+			com_ser.createAnswerComment(3,2,"2. comment for answerId 3");
+			System.out.println("\n\ninsert answer comment end ************************************************\n\n\n");
+
+			System.out.println("\n\n************************************************ insert post comment start \n\n\n");
+			com_ser.createPostComment(1,2,"1. comment for postId 1");
+			com_ser.createPostComment(1,2,"2. comment for postId 1");
+			com_ser.createPostComment(2,2,"1. comment for postId 2");
+			com_ser.createPostComment(2,2,"2. comment for postId 2");
+			com_ser.createPostComment(3,2,"1. comment for postId 3");
+			com_ser.createPostComment(3,2,"2. comment for postId 3");
+			System.out.println("\n\ninsert post comment end ************************************************\n\n\n");
+
 
 
 

@@ -31,11 +31,11 @@ public class comment_service {
     public comment createAnswerComment(Integer answerId, Integer memberId, String content){
         answer findAnswer = answerRepository.findById(answerId).orElseThrow();
         member findMember = memberRepository.findById(memberId).orElseThrow();
-
-        if(!findMember.getId().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
-        {
-            return null;
-        }
+//사용자 확인 일시 정지
+//        if(!findMember.getId().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+//        {
+//            return null;
+//        }
         comment comment = new comment(content, findAnswer, findMember);
         return commentRepository.save(comment);
     }
@@ -44,10 +44,11 @@ public class comment_service {
         post findPost = postRepository.findById(postId).orElseThrow();
         member findMember = memberRepository.findById(memberId).orElseThrow();
         comment comment = new comment(content, findPost, findMember);
-        if(!findMember.getId().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
-        {
-            return null;
-        }
+//사용자 확인 일시 정지
+//        if(!findMember.getId().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+//        {
+//            return null;
+//        }
         return commentRepository.save(comment);
     }
 
@@ -69,7 +70,7 @@ public class comment_service {
         }
         comment comment = commentRepository.findById(commentId).orElseThrow();
         comment.setContent(content);
-        comment.set_update(true);
+        comment.setIs_update(true);
         return comment;
     }
 

@@ -1,13 +1,12 @@
 package com.team23.PreProject.post.service;
 
+import com.team23.PreProject.answer.repository.answer_repository;
+import com.team23.PreProject.comment.repository.comment_repository;
 import com.team23.PreProject.member.entity.member;
 import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member_post.entitiy.member_post;
 import com.team23.PreProject.member_post.repository.member_post_repository;
-import com.team23.PreProject.post.dto.post_all_dto;
-import com.team23.PreProject.post.dto.post_insert_dto;
-import com.team23.PreProject.post.dto.post_profile_dto;
-import com.team23.PreProject.post.dto.post_update_dto;
+import com.team23.PreProject.post.dto.*;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.repository.post_repository;
 
@@ -35,6 +34,8 @@ import java.util.List;
 
 public class post_service {
     @Autowired
+    answer_repository answer_repository;
+    @Autowired
    post_repository post_repository;
     @Autowired
     member_repository member_repository;
@@ -44,6 +45,8 @@ public class post_service {
     @Autowired
     post_tag_repository post_tag_repository;
 
+    @Autowired
+    comment_repository comment_repository;
     @Autowired
     tag_repository tag_repository;
 
@@ -245,26 +248,29 @@ public class post_service {
 
     }//del end
 
-    public post_profile_dto getPost(Integer post_id)
+    public post_get_dto getPost(Integer post_id)
     {
-        try{
+
             post post = post_repository.findById(post_id).get();
             post.setView_count(post.getView_count()+1);
             post_repository.flush();
-
+            System.out.println(post.getPost_name()+"===========================\n\n");
             member member = member_post_repository.findByPostPostId(post_id).getMember();
-            post_profile_dto dto;
+            post_get_dto dto;
             if(member.getMemberId()==1)
             {
-                dto = new post_profile_dto(post,null,"java");
+                System.out.println("deleted access ===========================\n\n");
+                dto = new post_get_dto(post,null,post_tag_repository.findByPostPostId(post_id), member_post_repository,answer_repository,comment_repository);
             }
-            dto = new post_profile_dto(post,member.getProfile(),"java");
+            System.out.println("\n\n\n"+post_tag_repository.findByPostPostId(post_id).size()+"\n\n\n\n");
+            dto = new post_get_dto(post,member.getProfile(),post_tag_repository.findByPostPostId(post_id),member_post_repository,answer_repository,comment_repository);
+
             return dto;
-        }catch(Exception e){
 
 
-            return null;
-        }
+
+
+
 
     }//get end
 

@@ -37,7 +37,7 @@ public class comment {
     LocalDateTime modified_date;
 
     @Column(name="is_updated")
-    boolean is_update =false;
+    Boolean is_update =false;
 
 
 

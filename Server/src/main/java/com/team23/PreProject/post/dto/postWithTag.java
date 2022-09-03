@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class postWithTag {
-    com.team23.PreProject.post.entity.post post;
+    post post = new post();
     List<String> tags=new ArrayList<>();
 
     public void addTag(String name)
@@ -19,4 +19,14 @@ public class postWithTag {
     }
 
 
+    public void setPostInfo(com.team23.PreProject.post.entity.post post) {
+        this.post.setPostId(post.getPostId());
+        this.post.setPost_name(post.getPost_name());
+        this.post.setPost_content(post.getPost_content());
+        this.post.setWrite_date(post.getWrite_date());
+        this.post.setModified_date(post.getModified_date());
+        this.post.setView_count(post.getView_count());
+
+
+    }
 }

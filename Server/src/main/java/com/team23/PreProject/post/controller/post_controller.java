@@ -49,7 +49,8 @@ public class post_controller {
 
     {
 
-        post_profile_dto dto = post_service.getPost(post_id);
+        post_get_dto dto = post_service.getPost(post_id);
+
         if(dto==null)
             return new ResponseEntity("not found",HttpStatus.NOT_FOUND);
 
@@ -69,7 +70,7 @@ public class post_controller {
     }
 
     @GetMapping("/DBtest/findAllPost")
-    public ResponseEntity findAll(@RequestParam(required = false, value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity findAll(@RequestParam(required = false, value = "page", defaultValue = "1") Integer page,
                                   @RequestParam(required = false, value = "size", defaultValue = "15") Integer size){
         page = page -1;
         System.out.println("find all request");
@@ -115,6 +116,8 @@ public class post_controller {
             member_info.setProfile_id(member.getProfile().getProfileId());
 
             post_info.setWriter(member_info);
+            post_info.setModifiedDate(post.getModified_date());
+            post_info.setWriteDate(post.getWrite_date());
 
         }
 
@@ -126,7 +129,7 @@ public class post_controller {
     }
 
     @GetMapping("/DBtest/findPost/{member_id}")
-    public ResponseEntity findAll(@RequestParam(required = false, value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity findAll(@RequestParam(required = false, value = "page", defaultValue = "1") Integer page,
                                   @RequestParam(required = false, value = "size", defaultValue = "15") Integer size,
                                     @PathVariable Integer member_id)
     {
@@ -177,6 +180,9 @@ public class post_controller {
             member_info.setProfile_id(member.getProfile().getProfileId());
 
             post_info.setWriter(member_info);
+            post_info.setModifiedDate(post.getModified_date());
+            post_info.setWriteDate(post.getWrite_date());
+
 
         }
 
@@ -197,7 +203,8 @@ public class post_controller {
 
         post post = post_service.updatePost(post_id,dto);
         postWithTag result = new postWithTag();
-        result.setPost(post);
+        result.setPostInfo(post);
+
         System.out.println("\n\n\n\n\nresult set post\n\n\n\n");
         List<post_tag> tags = post_tag_repository.findByPostPostId(post.getPostId());
         System.out.println("\n\n\n\n\nget tags\n\n\n\n"+tags.get(0).getTag().getName());
@@ -207,6 +214,7 @@ public class post_controller {
             result.addTag(tag.getTag().getName());
             System.out.println("\n\n\n\n\nadd tag name\n\n\n\n");
         }
+
 
         if(post!=null)
             return new ResponseEntity(result,HttpStatus.OK);

@@ -29,7 +29,7 @@ public interface comment_mapper {
                         .content(comment.getContent())
                         .createDate(comment.getCreateDate())
                         .id(comment.getMember().getId())
-                        .is_update(comment.is_update())
+                        .is_update(comment.getIs_update())
 //                        .profileImageLink(comment.getMember().getProfile().getProfileImageLink())
                         .build())
                 .collect(Collectors.toList());

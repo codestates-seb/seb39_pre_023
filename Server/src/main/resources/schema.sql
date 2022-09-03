@@ -57,10 +57,11 @@ CREATE TABLE `answer` (
   `member_id` int,
   `write_date` datetime,
   `modified_date` datetime,
-  `is_accepted` boolean,
+  --`is_accepted` boolean,
   `score` int,
   `answer_vote_id` int,
-  `post_id` int
+  `post_id` int,
+  `accepted` boolean
 );
 
 CREATE TABLE `postVote` (

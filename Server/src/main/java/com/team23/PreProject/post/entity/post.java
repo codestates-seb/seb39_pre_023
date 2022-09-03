@@ -92,7 +92,7 @@ public class post {
     }
 
     @OneToMany(mappedBy = "post")
-            @JsonIgnore
+    @JsonIgnore
     List<post_tag> post_tags = new ArrayList<>();
 
     public void addPost_tag(post_tag tag)

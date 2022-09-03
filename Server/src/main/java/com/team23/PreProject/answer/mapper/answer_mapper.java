@@ -20,7 +20,7 @@ public interface answer_mapper {
                         .content(answer.getAnswer_content())
                         .createDate(answer.getWriteDate())
                         .modified_date(answer.getModifiedDate())
-                        .isAccepted(answer.isAccepted())
+                        .Accepted(answer.getAccepted())
                         .memberId(answer.getMember().getMemberId())
 //                        .profileImageLink(answer.getMember().getProfile().getProfileImageLink())
                         .build())
@@ -34,7 +34,7 @@ public interface answer_mapper {
                 .content(answer.getAnswer_content())
                 .createDate(answer.getWriteDate())
                 .modified_date(answer.getModifiedDate())
-                .isAccepted(answer.isAccepted())
+                .Accepted(answer.getAccepted())
                 .id(answer.getMember().getId())
 //                .profileImageLink(answer.getMember().getProfile().getProfileImageLink())
                 .build();

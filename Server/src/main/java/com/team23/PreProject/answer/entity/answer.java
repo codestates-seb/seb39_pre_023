@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,17 +31,17 @@ public class answer {
 
     @CreationTimestamp
     @Column(name = "WRITE_DATE")
-    private LocalDateTime writeDate;
+    private ZonedDateTime writeDate;
 
     @UpdateTimestamp
     @Column(name="MODIFIED_DATE")
-    private LocalDateTime modifiedDate;
+    private ZonedDateTime modifiedDate;
 
-    @Column(name="IS_ACCEPTED")
-    private boolean isAccepted = false;
+//    @Column(name="IS_ACCEPTED")
+//    private boolean isAccepted = false;
 
     @Column(name="SCORE")
-    private long score = 0;
+    private Integer score = 0;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
     private List<comment> comments = new ArrayList<>();
@@ -60,5 +61,9 @@ public class answer {
     private member member;
 
     @Transient
+
     Integer postId;
+
+    @Column(name="accepted")
+    Boolean accepted = false;
 }

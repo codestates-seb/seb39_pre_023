@@ -5,6 +5,7 @@ import com.team23.PreProject.answer.dto.answer_dto;
 import com.team23.PreProject.answer.entity.answer;
 import com.team23.PreProject.answer.mapper.answer_mapper;
 import com.team23.PreProject.answer.service.answer_service;
+import com.team23.PreProject.member.repository.member_repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,8 @@ public class answer_controller {
     private final answer_service answerService;
 
     private final answer_mapper mapper;
+
+    private final member_repository member_repository;
 
     @PostMapping("DBtest/createAnswer")
     public ResponseEntity postAnswer(
@@ -50,6 +53,10 @@ public class answer_controller {
                                              @Positive @RequestParam(defaultValue="15") int size) {
         answer_dto.ByMemberDto dto = answerService.findAnswersBymember(memberId, page-1,size);
 
+        if(memberId <=1 || member_repository.findById(memberId).orElse(null)==null)
+        {
+            return new ResponseEntity<>( "wrong member" , HttpStatus.OK);
+        }
         return new ResponseEntity<>( dto , HttpStatus.OK);
     }
 
@@ -66,6 +73,15 @@ public class answer_controller {
     public ResponseEntity deleteAnswer(@PathVariable("answerId") Integer answerId){
         String result = answerService.deleteAnswer(answerId);
         return new ResponseEntity<>(result,HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("DBtest/answerSelect")
+    public ResponseEntity answerSel(@RequestParam Integer post_id,
+                                    @RequestParam Integer answer_id)
+    {
+        boolean result = answerService.select(post_id,answer_id);
+
+        return new ResponseEntity(result,HttpStatus.OK);
     }
 }
 
