@@ -1,13 +1,14 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStackOverflow } from '@fortawesome/fontawesome-free-brands';
 import { faBars, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import MyButton from './MyButton';
 import { useNavigate, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 /* eslint-disable react/prop-types */
 
 const MyHeader = ({ viewModal, setModal }) => {
-  const token = localStorage.getItem('token');
+  const state = useSelector((state) => state.signInReducer);
   const data = localStorage.getItem('userid');
   let userid = JSON.parse(data);
   const navigate = useNavigate();
@@ -24,21 +25,23 @@ const MyHeader = ({ viewModal, setModal }) => {
         >
           <FontAwesomeIcon
             icon={faStackOverflow}
-            className={token ? 'loginLogo' : ''}
+            className={state.loginState ? 'loginLogo' : ''}
           />
           Stack<b>Overflow</b>
         </Logo>
-        <div className={token ? 'loginHardcoding' : 'hardcoding'}>
-          <span className={token ? 'displayNone' : ''}>About</span>
+        <div className={state.loginState ? 'loginHardcoding' : 'hardcoding'}>
+          <span className={state.loginState ? 'displayNone' : ''}>About</span>
           <span>Products</span>
-          <span className={token ? 'displayNone' : ''}>For Teams</span>
+          <span className={state.loginState ? 'displayNone' : ''}>
+            For Teams
+          </span>
         </div>
-        <form className={token ? 'loginSearch' : ''}>
+        <form className={state.loginState ? 'loginSearch' : ''}>
           <FontAwesomeIcon icon={faMagnifyingGlass} className="magnifying" />
           <input type="text" placeholder="Search..." />
         </form>
         <BtnWapper>
-          {token ? (
+          {state.loginState ? (
             <>
               <Link
                 to="/mypage"
@@ -69,7 +72,7 @@ const MyHeader = ({ viewModal, setModal }) => {
         </BtnWapper>
         <FontAwesomeIcon
           icon={faBars}
-          className={token ? 'menubar loginMenubar' : 'displayNone'}
+          className={state.loginState ? 'menubar loginMenubar' : 'displayNone'}
           onClick={viewLogout}
         />
       </Wrapper>
@@ -94,10 +97,10 @@ const Container = styled.header`
     white-space: nowrap;
   }
   .loginHardcoding {
-    width: 3%;
+    width: 5%;
   }
   .loginLogo {
-    width: 10%;
+    width: 15%;
   }
   .loginSearch {
     width: 65%;
@@ -112,8 +115,11 @@ const Wrapper = styled.div`
   .menubar {
     width: 2%;
     font-size: 16px;
-    margin-left: 10px;
+    padding: 17px 10px;
     cursor: pointer;
+  }
+  .menubar:hover {
+    background-color: #e3e6e8;
   }
   .hardcoding {
     display: flex;
@@ -125,6 +131,11 @@ const Wrapper = styled.div`
   span {
     font-size: 14px;
     color: #363b3f;
+    border-radius: 10px;
+    padding: 5px 8px;
+  }
+  span:hover {
+    background-color: #e3e6e8;
   }
   form {
     width: 55%;
@@ -162,7 +173,10 @@ const Logo = styled.div`
   justify-content: center;
   font-size: 18px;
   cursor: pointer;
-  margin: 0 10px;
+  padding: 15px 10px;
+  &:hover {
+    background-color: #e3e6e8;
+  }
   b {
     font-weight: 800;
     padding-left: 5px;
