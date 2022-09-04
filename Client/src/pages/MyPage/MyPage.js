@@ -74,6 +74,7 @@ const MyPage = () => {
             nickname={infoData.displayname}
             location={infoData.location}
             signupDate={infoData.sign_in_date}
+            userId={infoData.profile_id}
           />
           <MyContent
             reputation={infoData.stub_reputation}

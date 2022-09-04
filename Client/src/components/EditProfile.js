@@ -51,7 +51,7 @@ const EditProfile = ({
   };
   return (
     <Container>
-      <MyProfileImg />
+      <MyProfileImg userId={userId} />
       <InputContainer>
         <h4>Display name</h4>
         <input value={nickname} required onChange={onChangeNickname}></input>
