@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import MyButton from '../../components/MyButton';
 import axios from 'axios';
@@ -23,6 +23,7 @@ const SignUp = () => {
   const [checkIdMsg, setIdMsg] = useState();
   const [checkPwMsg, setPwMsg] = useState();
   const [checkRePwMsg, setRePwMsg] = useState();
+  const navigate = useNavigate();
   // id 정규표현식
   const isValidId = (str) => {
     let idRegExp = '^[A-Za-z0-9]{6,12}$';
@@ -97,6 +98,7 @@ const SignUp = () => {
           { headers: { Authorization: getLoginCookie() } }
         )
         .then((res) => {
+          navigate('/');
           console.log(res.data);
         })
         .catch((err) => {
