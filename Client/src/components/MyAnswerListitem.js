@@ -1,40 +1,76 @@
-// import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { ItemContainer } from './MyListItem';
 import styled from 'styled-components';
+import { PostInfo } from './MyQuestionListItem';
 /* eslint-disable react/prop-types */
 
-const MyAnswerListItem = ({ title, content, date, linkId, accepted }) => {
+const MyAnswerListItem = ({ data }) => {
+  const createdAt =
+    new Date().getHours() - new Date(data.write_date).getHours();
   return (
     <ItemContainer>
-      <div className="mypostInfo">
-        <InfoWrapper>
-          <a href={`/${linkId}`}>
-            <h4 className="myTitle">{title}</h4>
-          </a>
-          <span>
-            {accepted ? (
+      <PostInfo>
+        <div className="infoWrapper">
+          <div className="numbers">
+            <span>{data.score} votes</span>
+          </div>
+          <span className="accepted">
+            {data.accepted ? (
               <FontAwesomeIcon className="green" icon={faCheck} />
             ) : (
               <p>not accepted</p>
             )}
           </span>
-        </InfoWrapper>
-        <div className="myDate">{date}</div>
+        </div>
+        <a href={`/${data.answer_i}`}>
+          <h4 className="myTitle">{data.answer_content}</h4>
+        </a>
+      </PostInfo>
+      <div className="dateWrapper">
+        <div>
+          <span className="date">answered {createdAt} hours ago</span>
+        </div>
       </div>
-      <div className="myContent">{content}</div>
     </ItemContainer>
   );
 };
 export default MyAnswerListItem;
-const InfoWrapper = styled.div`
+
+export const ItemContainer = styled.li`
   display: flex;
   justify-content: space-between;
-  p {
-    margin-left: 10px;
+  list-style: none;
+  margin-bottom: 15px;
+  margin-right: 20px;
+  width: 1030px;
+  border-bottom: 1px solid #e3e6e8;
+  padding-bottom: 20px;
+  .infoWrapper {
+    display: flex;
   }
-  .green {
-    color: green;
+  .mypostInfo {
+    display: flex;
+    width: 100%;
+    min-height: 25px;
+    justify-content: space-between;
+  }
+  .myTitle {
+    font-size: 18px;
+  }
+  a {
+    text-decoration: none;
+    color: #333536;
+  }
+  .dateWrapper {
+    display: flex;
+    align-items: flex-end;
+    .date {
+      color: #808080;
+      font-size: 14px;
+    }
+  }
+  .accepted {
+    color: #808080;
+    font-size: 14px;
   }
 `;
