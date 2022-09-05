@@ -25,6 +25,19 @@ function App() {
   const [searchList, setSearchList] = useState([]);
   const [searchCount, setSearchCount] = useState(0);
   const [keyword, setkeyword] = useState('');
+  const [lists, setLists] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://3.39.180.45:56178/DBtest/findAllPost?page=1&size=-2`)
+      .then((res) => {
+        console.log(res.data);
+        setLists(res.data.posts);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     if (token) {
@@ -84,7 +97,7 @@ function App() {
             <SearchResult searchList={searchList} searchCount={searchCount} />
           }
         />
-        <Route path="/" element={<QuestionList />} />
+        <Route path="/" element={<QuestionList lists={lists} />} />
         <Route
           path="/login"
           element={
