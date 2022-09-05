@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { getLoginCookie } from '../lib/cookie';
+import { useSelector } from 'react-redux';
 /* eslint-disable react/prop-types */
-// axios.defaults.withCredentials = false;
 
 const MyProfileImg = ({ userId }) => {
-  // const [defaultImg, setDefault] = useState('');
+  const state = useSelector((state) => state.signInReducer);
+
   const [preview, setPreview] = useState(null);
   const imgInput = useRef(null);
   const onChangeImgBtnClick = (e) => {
@@ -54,9 +55,7 @@ const MyProfileImg = ({ userId }) => {
       console.log(err);
     }
   };
-  // const onDeletePreview = () => {
-  //   setPreview(URL.revokeObjectURL(preview));
-  // };
+
   return (
     <ImgContainer>
       <ImgWrapper>
@@ -64,7 +63,7 @@ const MyProfileImg = ({ userId }) => {
         <img
           src={
             !preview
-              ? `http://3.39.180.45:56178/DBtest/download?memberId=${userId}`
+              ? `http://3.39.180.45:56178/DBtest/download?memberId=${state.data.memberId}`
               : preview
           }
           alt="profileImage"
@@ -80,40 +79,12 @@ const MyProfileImg = ({ userId }) => {
           Change picture
         </button>
       </ImgWrapper>
-      {/* <div className="deleteBtnWrapper">
-        <button
-          className="deleteBtn"
-          onClick={() => {
-            onDeletePreview();
-          }}
-        >
-          Delete image
-        </button>
-      </div> */}
     </ImgContainer>
   );
 };
 export default MyProfileImg;
 const ImgContainer = styled.div`
   display: flex;
-  /* .deleteBtnWrapper {
-    margin-top: 186px;
-    display: flex;
-    flex-direction: column;
-  }
-  .deleteBtn {
-    cursor: pointer;
-    width: 100px;
-    height: 35px;
-    padding: 5px 5px;
-    background-color: #0a95ff;
-    color: white;
-    border: 1px solid #0a95ff;
-    border-radius: 5px;
-  }
-  .deleteBtn:hover {
-    background-color: #066ac8;
-  } */
 `;
 const ImgWrapper = styled.div`
   display: flex;

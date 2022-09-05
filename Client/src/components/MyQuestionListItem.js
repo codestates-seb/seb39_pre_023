@@ -1,16 +1,28 @@
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 /* eslint-disable react/prop-types */
 
 const MyQuestionListItem = ({ data }) => {
   const createdAt =
     new Date().getHours() - new Date(data.write_date).getHours();
   const tags = data.tags;
+  const len = data.answers.length;
   return (
     <ItemContainer>
       <PostInfo>
         <div className="numbers">
           <span>{data.score} votes</span>
-          <span>{data.answers.length} answers</span>
+          <span
+            className={
+              len === 0 ? 'default' : data.answered ? 'fullgreen' : 'whitegreen'
+            }
+          >
+            {data.answered ? (
+              <FontAwesomeIcon icon={faCheck} className="check" />
+            ) : null}
+            {len} answers
+          </span>
           <span>{data.view_count} views</span>
         </div>
         <div className="title">
@@ -72,6 +84,24 @@ export const PostInfo = styled.div`
     }
     span:first-child {
       color: #333536;
+    }
+    .default {
+      color: gray;
+    }
+    .whitegreen {
+      color: #48a868;
+      border: 1px solid #48a868;
+      padding: 3px;
+      border-radius: 3px;
+    }
+    .fullgreen {
+      background-color: #48a868;
+      color: white;
+      padding: 3px 5px;
+      border-radius: 3px;
+    }
+    .check {
+      margin-right: 5px;
     }
   }
   .myTitle {

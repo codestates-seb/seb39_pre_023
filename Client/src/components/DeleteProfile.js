@@ -7,20 +7,12 @@ const DeleteProfile = ({ userId }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const onDeleteAccount = () => {
-    axios
-      .delete(
-        `http://3.39.180.45:56178/DBtest/deleteMember?member_id=${userId}`,
-        {
-          headers: { Authorization: getLoginCookie() },
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        console.log('계정삭제성공');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    axios.delete(
+      `http://3.39.180.45:56178/DBtest/deleteMember?member_id=${userId}`,
+      {
+        headers: { Authorization: getLoginCookie() },
+      }
+    );
   };
   return (
     <Container>

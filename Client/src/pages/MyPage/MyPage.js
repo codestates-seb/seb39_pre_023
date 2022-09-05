@@ -7,6 +7,7 @@ import axios from 'axios';
 import { getLoginCookie } from '../../lib/cookie';
 import { useNavigate } from 'react-router-dom';
 import MyFooter from '../../components/MyFooter';
+import { useSelector } from 'react-redux';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -18,9 +19,10 @@ const MyPage = () => {
   const [infoData, setInfoData] = useState({});
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem('token');
+  const state = useSelector((state) => state.signInReducer);
   // 파라미터는 profile_id 로 받기.
   useEffect(() => {
-    if (token) {
+    if (state.loginState) {
       axios
         .get(`http://3.39.180.45:56178/DBtest/getProfile`, {
           headers: { Authorization: getLoginCookie() },
@@ -38,7 +40,6 @@ const MyPage = () => {
               }
             )
             .then((res) => {
-              console.log(res.data.posts);
               setQuestions(res.data.posts);
             })
             .catch(() => {
@@ -52,7 +53,6 @@ const MyPage = () => {
               }
             )
             .then((res) => {
-              console.log(res.data.answers);
               setAnswers(res.data.answers);
               setLoading(false);
             });

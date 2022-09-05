@@ -7,7 +7,6 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { getLoginCookie } from '../lib/cookie';
 /* eslint-disable react/prop-types */
-axios.defaults.withCredentials = false;
 const EditProfile = ({
   setIsProfile,
   nickname,
@@ -40,13 +39,8 @@ const EditProfile = ({
         },
         { headers: { Authorization: getLoginCookie() } }
       )
-      .then((res) => {
+      .then(() => {
         setIsSaved(!isSaved);
-        console.log(res.data);
-        console.log('put작동');
-      })
-      .catch((err) => {
-        console.log(err);
       });
   };
   return (

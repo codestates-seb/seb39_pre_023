@@ -97,13 +97,8 @@ const SignUp = () => {
           },
           { headers: { Authorization: getLoginCookie() } }
         )
-        .then((res) => {
-          navigate('/');
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-          console.log('가입요청 에러');
+        .then(() => {
+          navigate('/login');
         });
     }
   };

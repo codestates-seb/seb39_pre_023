@@ -1,23 +1,28 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MyButton from '../../components/MyButton';
-import { deleteCookie } from '../../lib/cookie';
-import { useDispatch, useSelector } from 'react-redux';
+import { deleteCookie, getLoginCookie } from '../../lib/cookie';
+import { useDispatch } from 'react-redux';
 import { trySignout } from '../../action/action';
-// import axios from 'axios';
+import axios from 'axios';
 const Logout = () => {
-  const state = useSelector((state) => state.signInReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onSignOut = () => {
-    deleteCookie();
-    dispatch(trySignout());
-    localStorage.removeItem('token');
-    localStorage.removeItem('userid');
-    navigate('/');
-    console.log('로그아웃성공');
+    axios
+      .get(`http://3.39.180.45:56178/DBtest/Logout`, {
+        headers: { Authorization: getLoginCookie() },
+      })
+      .then((res) => {
+        console.log(res.data);
+        deleteCookie();
+        dispatch(trySignout());
+        localStorage.removeItem('token');
+        localStorage.removeItem('userData');
+        navigate('/');
+      });
   };
-  console.log(state.loginState);
+
   return (
     <Container>
       <div className="description">
