@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getLoginCookie } from '../../lib/cookie';
 import { useNavigate } from 'react-router-dom';
+import MyFooter from '../../components/MyFooter';
+import { useSelector } from 'react-redux';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -16,12 +18,11 @@ const MyPage = () => {
   const [questions, setQuestions] = useState([]);
   const [infoData, setInfoData] = useState({});
   const [loading, setLoading] = useState(true);
-  // const [paramsId, setparamsId] = useState('');
   const token = localStorage.getItem('token');
-
+  const state = useSelector((state) => state.signInReducer);
   // 파라미터는 profile_id 로 받기.
   useEffect(() => {
-    if (token) {
+    if (state.loginState) {
       axios
         .get(`http://3.39.180.45:56178/DBtest/getProfile`, {
           headers: { Authorization: getLoginCookie() },
@@ -33,29 +34,32 @@ const MyPage = () => {
           setAbout(res.data.about);
           axios
             .get(
-              `http://3.39.180.45:56178/DBtest/findPost/${res.data.profile_id}`,
+              `http://3.39.180.45:56178/DBtest/findPost/${res.data.profile_id}?page=1`,
               {
                 headers: { Authorization: getLoginCookie() },
               }
             )
             .then((res) => {
-              setQuestions(res.data.content);
+              setQuestions(res.data.posts);
+            })
+            .catch(() => {
+              console.log('findpost error from mypage');
             });
           axios
             .get(
-              `http://3.39.180.45:56178/DBtest/findAnswers/${res.data.profile_id}`,
+              `http://3.39.180.45:56178/DBtest/findAnswersBymember/${res.data.profile_id}?page=1&size=15`,
               {
                 headers: { Authorization: getLoginCookie() },
               }
             )
             .then((res) => {
-              setAnswers(res.data.data);
-              setLoading(false); //아직 더미X
+              setAnswers(res.data.answers);
+              setLoading(false);
             });
         })
         .catch((err) => {
           navigate('/');
-          if (err.response.status === 500) return navigate('/');
+          if (err.response.status === 500) return navigate('/mypage');
         });
     }
   }, [token]);
@@ -63,27 +67,31 @@ const MyPage = () => {
 
   return (
     <Container>
-      <Nav />
-      <MypageContainer>
-        <MyInfo
-          nickname={infoData.displayname}
-          location={infoData.location}
-          signupDate={infoData.sign_in_date}
-        />
-        <MyContent
-          reputation={infoData.stub_reputation}
-          reached={infoData.stub_reached}
-          answers={answers}
-          questions={questions}
-          about={about}
-          setAbout={setAbout}
-          nickname={nickname}
-          setNickname={setNickname}
-          location={location}
-          setLocation={setLocation}
-          userId={infoData.profile_id}
-        />
-      </MypageContainer>
+      <Main>
+        <Nav />
+        <MypageContainer>
+          <MyInfo
+            nickname={infoData.displayname}
+            location={infoData.location}
+            signupDate={infoData.sign_in_date}
+            userId={infoData.profile_id}
+          />
+          <MyContent
+            reputation={infoData.stub_reputation}
+            reached={infoData.stub_reached}
+            answers={answers}
+            questions={questions}
+            about={about}
+            setAbout={setAbout}
+            nickname={nickname}
+            setNickname={setNickname}
+            location={location}
+            setLocation={setLocation}
+            userId={infoData.profile_id}
+          />
+        </MypageContainer>
+      </Main>
+      <MyFooter />
     </Container>
   );
 };
@@ -91,6 +99,10 @@ const MyPage = () => {
 export default MyPage;
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const Main = styled.div`
   display: flex;
 `;
 const MypageContainer = styled.div`

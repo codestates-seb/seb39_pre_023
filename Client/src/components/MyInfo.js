@@ -6,7 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 /* eslint-disable react/prop-types */
 
-const MyInfo = ({ nickname, location, signupDate }) => {
+const MyInfo = ({ nickname, location, signupDate, userId }) => {
   let sign = new Date(String(signupDate)).getTime();
   let today = new Date().getTime();
   let dateFromSign = Math.ceil((today - sign) / 1000 / 60 / 60 / 24);
@@ -14,7 +14,7 @@ const MyInfo = ({ nickname, location, signupDate }) => {
     <Container>
       <Left>
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9aJlhtrVx_GZ35lZySYo5SwodOhVxwCbIhg&usqp=CAU"
+          src={`http://3.39.180.45:56178/DBtest/download?memberId=${userId}`}
           className="profileImage"
           alt="profileImage"
         ></img>

@@ -3,9 +3,12 @@ import styled from 'styled-components';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { getLoginCookie } from '../lib/cookie';
-axios.defaults.withCredentials = false;
+import { useSelector } from 'react-redux';
+/* eslint-disable react/prop-types */
 
-const MyProfileImg = () => {
+const MyProfileImg = ({ userId }) => {
+  const state = useSelector((state) => state.signInReducer);
+
   const [preview, setPreview] = useState(null);
   const imgInput = useRef(null);
   const onChangeImgBtnClick = (e) => {
@@ -31,6 +34,7 @@ const MyProfileImg = () => {
       });
       const formData = new FormData();
       formData.append('file', compressedFile);
+      formData.append('memberId', userId);
       const config = {
         headers: {
           Authorization: getLoginCookie(),
@@ -38,7 +42,7 @@ const MyProfileImg = () => {
         },
       };
       axios
-        .post('url', formData, config)
+        .post('http://3.39.180.45:56178/DBtest/upload', formData, config)
         .then((res) => {
           console.log(res.data);
           console.log('서버에 이미지 등록성공');
@@ -51,9 +55,7 @@ const MyProfileImg = () => {
       console.log(err);
     }
   };
-  const onDeletePreview = () => {
-    setPreview(URL.revokeObjectURL(preview));
-  };
+
   return (
     <ImgContainer>
       <ImgWrapper>
@@ -61,7 +63,7 @@ const MyProfileImg = () => {
         <img
           src={
             !preview
-              ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2iFvPbCvVHMQrdGkTuAPa1I2JS2-tHFhTKg&usqp=CAU'
+              ? `http://3.39.180.45:56178/DBtest/download?memberId=${state.data.memberId}`
               : preview
           }
           alt="profileImage"
@@ -77,40 +79,12 @@ const MyProfileImg = () => {
           Change picture
         </button>
       </ImgWrapper>
-      <div className="deleteBtnWrapper">
-        <button
-          className="deleteBtn"
-          onClick={() => {
-            onDeletePreview();
-          }}
-        >
-          Delete image
-        </button>
-      </div>
     </ImgContainer>
   );
 };
 export default MyProfileImg;
 const ImgContainer = styled.div`
   display: flex;
-  .deleteBtnWrapper {
-    margin-top: 186px;
-    display: flex;
-    flex-direction: column;
-  }
-  .deleteBtn {
-    cursor: pointer;
-    width: 100px;
-    height: 35px;
-    padding: 5px 5px;
-    background-color: #0a95ff;
-    color: white;
-    border: 1px solid #0a95ff;
-    border-radius: 5px;
-  }
-  .deleteBtn:hover {
-    background-color: #066ac8;
-  }
 `;
 const ImgWrapper = styled.div`
   display: flex;

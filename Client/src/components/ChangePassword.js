@@ -3,7 +3,6 @@ import MyButton from './MyButton';
 import axios from 'axios';
 import { useState } from 'react';
 import { getLoginCookie } from '../lib/cookie';
-axios.defaults.withCredentials = false;
 /* eslint-disable react/prop-types */
 const ChangePassWord = ({ userId }) => {
   const [currentPW, setCurrentPW] = useState('');
@@ -71,13 +70,7 @@ const ChangePassWord = ({ userId }) => {
           },
           { headers: { Authorization: getLoginCookie() } }
         )
-        .then((res) => {
-          console.log(res.data);
-          console.log('pw변경성공');
-        })
-        .catch((err) => {
-          console.log(err.response.data);
-        });
+        .catch(() => {});
     }
   };
   return (

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import MyListItem from './MyListItem';
+import MyQuestionListItem from './MyQuestionListItem';
 import MyAnswerListItem from './MyAnswerListitem';
 /* eslint-disable react/prop-types */
 import axios from 'axios';
@@ -40,18 +40,7 @@ const MyProfile = ({ answers, questions, reputation, reached, about }) => {
           ) : (
             <>
               {answers.map((el) => {
-                const date = new Date(
-                  String(el.modified_date)
-                ).toLocaleDateString();
-                return (
-                  <MyAnswerListItem
-                    key={el.answer_id}
-                    title={el.content}
-                    date={date}
-                    accepted={el.accepted}
-                    linkId={el.answer_id}
-                  />
-                );
+                return <MyAnswerListItem data={el} key={el.answer_id} />;
               })}
             </>
           )}
@@ -65,18 +54,7 @@ const MyProfile = ({ answers, questions, reputation, reached, about }) => {
           ) : (
             <>
               {questions.map((el) => {
-                const date = new Date(
-                  String(el.modified_date)
-                ).toLocaleDateString();
-                return (
-                  <MyListItem
-                    key={el.post_id}
-                    title={el.post_name}
-                    content={el.post_content}
-                    date={date}
-                    linkId={el.post_id}
-                  />
-                );
+                return <MyQuestionListItem data={el} key={el.post_id} />;
               })}
             </>
           )}

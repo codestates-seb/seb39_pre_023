@@ -44,12 +44,13 @@ const Login = () => {
         dispatch(setSignState(data2.msg));
         delete data2.msg;
         dispatch(setUserData(data));
-        localStorage.setItem('userid', JSON.stringify(data));
+        localStorage.setItem('userData', JSON.stringify(data));
         navigate('/');
-        console.log('로그인성공');
       }
     } catch (err) {
-      console.log(err);
+      if (err.response.status >= 400) {
+        navigate('/');
+      }
     }
   };
   const onPushEnter = (e) => {
