@@ -1,80 +1,121 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faBars,
+  faMagnifyingGlass,
+  faInbox,
+  faTrophy,
+  faCircleQuestion,
+} from '@fortawesome/free-solid-svg-icons';
 import { faStackOverflow } from '@fortawesome/fontawesome-free-brands';
-import { faBars, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import MyButton from './MyButton';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import SearchQuestion from './SearchQuestion';
 /* eslint-disable react/prop-types */
 
-const MyHeader = ({ viewModal, setModal }) => {
+const MyHeader = ({
+  viewModal,
+  setModal,
+  keyword,
+  setkeyword,
+  handleKeyword,
+}) => {
   const state = useSelector((state) => state.signInReducer);
-  const data = localStorage.getItem('userid');
-  let userid = JSON.parse(data);
   const navigate = useNavigate();
   const viewLogout = () => {
     setModal(!viewModal);
   };
+  const handleKeywordKeyword = (word) => {
+    handleKeyword(word);
+  };
+
   return (
     <Container>
       <Wrapper>
-        <Logo
-          onClick={() => {
-            navigate('/');
-          }}
-        >
-          <FontAwesomeIcon
-            icon={faStackOverflow}
-            className={state.loginState ? 'loginLogo' : ''}
-          />
-          Stack<b>Overflow</b>
-        </Logo>
-        <div className={state.loginState ? 'loginHardcoding' : 'hardcoding'}>
-          <span className={state.loginState ? 'displayNone' : ''}>About</span>
-          <span>Products</span>
-          <span className={state.loginState ? 'displayNone' : ''}>
-            For Teams
-          </span>
-        </div>
-        <form className={state.loginState ? 'loginSearch' : ''}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} className="magnifying" />
-          <input type="text" placeholder="Search..." />
-        </form>
-        <BtnWapper>
-          {state.loginState ? (
-            <>
+        {state.loginState ? (
+          <>
+            <button className="logoWrapper" onClick={() => navigate('/')}>
+              <FontAwesomeIcon icon={faStackOverflow} className="logo" />
+              <span>
+                stack<strong>overflow</strong>
+              </span>
+            </button>
+            <div className="deactivemenu">
+              <span>Products</span>
+            </div>
+            <div className="searchbar">
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                className="magnifying"
+              />
+              <SearchQuestion
+                keyword={keyword}
+                setkeyword={setkeyword}
+                handleKeywordKeyword={handleKeywordKeyword}
+              />
+            </div>
+            <div className="loginIconWrapper">
               <Link
                 to="/mypage"
                 style={{ textDecoration: 'none' }}
-                className="loginMypage"
+                className="imgWrapper"
               >
-                <span className="loginMypage">{userid.userid}&apos;s page</span>
+                <img
+                  src={`http://3.39.180.45:56178/DBtest/download?memberId=${state.data.memberId}`}
+                  alt="profile"
+                ></img>
+                <span className="loginMypage">{state.data.userid}</span>
               </Link>
-            </>
-          ) : (
-            <>
+
+              <FontAwesomeIcon icon={faInbox} className="icon" />
+              <FontAwesomeIcon icon={faTrophy} className="icon" />
+              <FontAwesomeIcon icon={faCircleQuestion} className="icon" />
+              <FontAwesomeIcon
+                icon={faBars}
+                className="icon"
+                onClick={viewLogout}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <button className="logoWrapper" onClick={() => navigate('/')}>
+              <FontAwesomeIcon icon={faStackOverflow} className="logo" />
+              <span>
+                stack<strong>overflow</strong>
+              </span>
+            </button>
+            <div className="logout-deactivemenu">
+              <span>About</span>
+              <span>Products</span>
+              <span>For Teams</span>
+            </div>
+            <div className="searchbar">
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                className="magnifying"
+              />
+              <SearchQuestion
+                keyword={keyword}
+                setkeyword={setkeyword}
+                handleKeywordKeyword={handleKeywordKeyword}
+              />
+            </div>
+            <BtnWapper>
               <MyButton
                 text={`Log in`}
                 type={'skyblue'}
-                onClick={() => {
-                  navigate('/login');
-                }}
+                onClick={() => navigate('/login')}
               />
               <MyButton
                 text={`Sign up`}
                 type={'blue'}
-                onClick={() => {
-                  navigate('/signup');
-                }}
+                onClick={() => navigate('/signup')}
               />
-            </>
-          )}
-        </BtnWapper>
-        <FontAwesomeIcon
-          icon={faBars}
-          className={state.loginState ? 'menubar loginMenubar' : 'displayNone'}
-          onClick={viewLogout}
-        />
+            </BtnWapper>
+          </>
+        )}
       </Wrapper>
     </Container>
   );
@@ -85,101 +126,124 @@ const Container = styled.header`
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
-  padding: 10px;
-  .displayNone {
-    display: none;
-  }
-  .loginMenubar {
-    width: 3%;
-  }
-  .loginMypage {
-    width: 5%;
-    white-space: nowrap;
-  }
-  .loginHardcoding {
-    width: 5%;
-  }
-  .loginLogo {
-    width: 15%;
-  }
-  .loginSearch {
-    width: 65%;
-  }
+  height: 50px;
+  min-width: auto;
 `;
 const Wrapper = styled.div`
+  max-width: 100%;
   width: 1330px;
+  height: 50px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  height: 30px;
-  .menubar {
-    width: 2%;
-    font-size: 16px;
-    padding: 17px 10px;
+  height: 100%;
+  margin: 0 auto;
+  .logoWrapper {
+    width: 150px;
+    padding: 9px;
+    background-color: transparent;
+    border: none;
+    color: black;
+    display: flex;
+    justify-content: center;
     cursor: pointer;
+    &:hover {
+      background-color: #e3e6e8;
+    }
+    .logo {
+      font-size: 30px;
+    }
+    span {
+      font-size: 18px;
+      margin-top: 7px;
+      margin-left: 3px;
+      strong {
+      }
+    }
   }
-  .menubar:hover {
-    background-color: #e3e6e8;
-  }
-  .hardcoding {
+  .deactivemenu {
+    width: 5%;
+    padding: 5px 5px;
+    border-radius: 20px;
+    margin-left: 10px;
     display: flex;
+    justify-content: center;
+    font-size: 14px;
+    color: #818487;
+
+    cursor: pointer;
+    &:hover {
+      background-color: #e3e6e8;
+    }
+  }
+  .searchbar {
+    width: 60%;
+    display: flex;
+    .magnifying {
+      position: relative;
+      left: 30px;
+      top: 6px;
+      color: #8a939b;
+      font-size: 16px;
+    }
+  }
+  .loginIconWrapper {
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
     white-space: nowrap;
-    padding: 10px;
-    width: 18%;
-    justify-content: space-around;
+    .imgWrapper {
+      padding: 11px 0px;
+      display: flex;
+      align-items: center;
+      img {
+        height: 25px;
+        width: 25px;
+        border-radius: 5px;
+      }
+      span {
+        font-size: 12px;
+        color: #363b3f;
+        white-space: nowrap;
+        padding-left: 3px;
+        margin-top: 3px;
+      }
+    }
+    .imgWrapper:hover {
+      background-color: #e3e6e8;
+    }
+    .icon {
+      padding: 9px;
+      height: 30px;
+      width: 20px;
+      display: flex;
+      cursor: pointer;
+      color: #232629;
+    }
+    .icon:hover {
+      background-color: #e3e6e8;
+    }
   }
-  span {
-    font-size: 14px;
-    color: #363b3f;
-    border-radius: 10px;
-    padding: 5px 8px;
-  }
-  span:hover {
-    background-color: #e3e6e8;
-  }
-  form {
-    width: 55%;
+  /* 로그아웃상태 */
+  .logout-deactivemenu {
     display: flex;
-  }
-  input {
-    flex-basis: 100%;
-    height: 30px;
+    width: 20%;
+    justify-content: space-around;
     font-size: 14px;
-    color: #363b3f;
-    text-indent: 35px;
-    border: 1px solid #8a939b;
-  }
-  input:focus {
-    border: 1px solid cornflowerblue;
-    border-radius: 2px;
-    outline: none;
-    box-shadow: 0 0 0 3px #cde9fe;
-  }
-  .magnifying {
-    position: relative;
-    left: 30px;
-    top: 6px;
-    color: #8a939b;
-    font-size: 16px;
-  }
-  a {
-    text-decoration: none;
-  }
-`;
-const Logo = styled.div`
-  width: 10%;
-  color: black;
-  display: flex;
-  justify-content: center;
-  font-size: 18px;
-  cursor: pointer;
-  padding: 15px 10px;
-  &:hover {
-    background-color: #e3e6e8;
-  }
-  b {
-    font-weight: 800;
-    padding-left: 5px;
+    color: #818487;
+    border-radius: 20px;
+    margin-left: 10px;
+    span {
+      padding: 15px;
+      white-space: nowrap;
+      padding: 5px 5px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    span:hover {
+      background-color: #e3e6e8;
+    }
   }
 `;
 const BtnWapper = styled.div`

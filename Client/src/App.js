@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import MyHeader from './components/MyHeader';
 import HeaderModal from './components/HeaderModal';
@@ -12,17 +12,20 @@ import Login from './pages/Sign/Login';
 import Logout from './pages/Sign/Logout';
 import SignUp from './pages/Sign/SignUp';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getLoginCookie } from './lib/cookie';
 import { setSignState, setUserData } from './action/action';
 import RequireAuth from './components/RequireAuth';
-
-axios.defaults.withCredentials = false;
+import SearchResult from './pages/Search/SearchResult';
 function App() {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.signInReducer);
+  const navigate = useNavigate();
   const [viewModal, setModal] = useState(false);
   const token = localStorage.getItem('token');
+  const [searchList, setSearchList] = useState([]);
+  const [searchCount, setSearchCount] = useState(0);
+  const [keyword, setkeyword] = useState('');
+
   useEffect(() => {
     if (token) {
       dispatch(setSignState(true));
@@ -39,17 +42,48 @@ function App() {
       dispatch(setSignState(res.data.msg));
       delete res.data.msg;
       dispatch(setUserData(res.data));
-      console.log(state.loginState);
     };
   }, []);
 
+  useEffect(() => {
+    if (!keyword) {
+      return;
+    } else {
+      getSearchResult(keyword);
+    }
+  }, [keyword]);
+  const getSearchResult = (keyword) => {
+    axios
+      .get(`http://3.39.180.45:56178/DBtest/search?phrase=${keyword}`)
+      .then((res) => {
+        setSearchList(res.data.posts);
+        setSearchCount(res.data.questions);
+        navigate('/search');
+      })
+      .catch(() => {});
+  };
+  const getKeyword = (word) => {
+    setkeyword(word);
+  };
   return (
     <div className="App">
-      <MyHeader viewModal={viewModal} setModal={setModal} />
+      <MyHeader
+        viewModal={viewModal}
+        setModal={setModal}
+        keyword={keyword}
+        setkeyword={setkeyword}
+        handleKeyword={getKeyword}
+      />
       {viewModal ? (
         <HeaderModal viewModal={viewModal} setModal={setModal} />
       ) : null}
       <Routes>
+        <Route
+          path="/search"
+          element={
+            <SearchResult searchList={searchList} searchCount={searchCount} />
+          }
+        />
         <Route path="/" element={<QuestionList />} />
         <Route
           path="/login"
