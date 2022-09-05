@@ -12,8 +12,8 @@
 
 금요일 점심까지 데이터베이스 명세서, 화면 정의 명세서 작성해보기
 
-데이터베이스 스키마 ver 0.1
-![sql test](https://user-images.githubusercontent.com/80381715/186397292-5d30d873-46d4-4612-8ae5-2d7a976c0a41.png)
+데이터베이스 스키마 ver 0.12
+![DB schema](https://user-images.githubusercontent.com/80381715/188354786-ab2b223c-3d71-40a1-992e-75bd25d36804.png)
 
 * server Spring initializr dependency list
 
