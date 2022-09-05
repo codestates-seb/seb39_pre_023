@@ -12,6 +12,7 @@ const SearchListItem = ({ data }) => {
     minute: 'numeric',
   });
   const len = data.answers.length;
+
   return (
     <Container>
       <div className="left">
@@ -42,7 +43,7 @@ const SearchListItem = ({ data }) => {
             ))}
           </div>
           <div className="userinfo">
-            <span className="username">{data.writer}</span>
+            <span className="username">{data.writer.nick_name}</span>
             <span className="date">asked {createdAt}</span>
           </div>
         </div>

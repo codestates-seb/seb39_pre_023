@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import MyButton from '../../components/MyButton';
 import styled from 'styled-components';
 import Widget from '../../components/Widget';
@@ -6,9 +6,108 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PostBodyTextarea from '../../components/PostBodyTextarea';
 import { getLoginCookie } from '../../lib/cookie';
+import Tags from '../../components/Tags';
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key */
 
+const PostQuestion = () => {
+  const [title, setTitle] = useState('');
+  const [body, setBody] = useState('');
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  let memberid = userData.memberId;
+  const navigate = useNavigate();
+  const [tagList, setTagList] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [tagData, setTagData] = useState([]);
+  const [msg, setMsg] = useState(<p></p>);
+
+  useEffect(() => {
+    axios.get(`http://3.39.180.45:56178/DBtest/tagFinds`).then((res) => {
+      setTagList(res.data.tags);
+    });
+  }, []);
+
+  useEffect(() => {
+    setTagData(tags.map((el) => el.name));
+  }, [tags]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    for (let i = 0; i < tagData.length; i++) {
+      if (tagData[0] === '') {
+        setMsg(<p>Please check your title or body.. Some data is missing.</p>);
+      } else if (title === '' || body === '') {
+        setMsg(<p>Please check your title or body.. Some data is missing.</p>);
+      } else {
+        setMsg(<p></p>);
+        axios
+          .post(
+            'http://3.39.180.45:56178/DBtest/post',
+            {
+              post_name: title,
+              post_content: body,
+              member_id: memberid,
+              tags: tagData, // body에 보낼 태그
+            },
+            { headers: { Authorization: getLoginCookie() } }
+          )
+          .then((res) => {
+            console.log(res.data);
+            navigate(`/`);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  };
+  return (
+    <Fragment>
+      <StyledHeaderRow>
+        <h1>Ask a Public question</h1>
+      </StyledHeaderRow>
+      <Container>
+        <PostContainer>
+          <h3>Title</h3>
+          <div>
+            Be specific and imagine you &apos; re asking a question to another
+            person
+          </div>
+          <QuestionTitleInput
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            type="text"
+            placeholder="e.g Is there an R function for finding the index of an element in a vector?"
+            title={title}
+          />
+          <h3>Body</h3>
+          <span>
+            Include all the information someone would need to answer your
+            question
+          </span>
+          <PostBodyTextarea value={body} handlePostBodyChange={setBody} />
+          <h3>Tag Name</h3>
+          <span>Add up to 5 tags to describe what your question is about</span>
+          <div>
+            <Tags tagList={tagList} tags={tags} setTags={setTags} />
+          </div>
+
+          <StyledMyButton>
+            <MyButton
+              text={'Post your question'}
+              type={'blue'}
+              onClick={(event) => handleSubmit(event)}
+            />
+          </StyledMyButton>
+          {msg}
+        </PostContainer>
+        <Widget />
+      </Container>
+    </Fragment>
+  );
+};
+
+export default PostQuestion;
 const PostContainer = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
   font-family: Roboto, sans-serif;
@@ -41,19 +140,19 @@ const QuestionTitleInput = styled.input`
   }
 `;
 
-const QuestionTagInput = styled.input`
-  background: none;
-  border: 1px solid #777;
-  border-radius: 3px;
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px;
-  margin-bottom: 20px;
-  h3 {
-    font-weight: 100;
-  }
-`;
+// const QuestionTagInput = styled.input`
+//   background: none;
+//   border: 1px solid #777;
+//   border-radius: 3px;
+//   display: block;
+//   width: 100%;
+//   box-sizing: border-box;
+//   padding: 10px;
+//   margin-bottom: 20px;
+//   h3 {
+//     font-weight: 100;
+//   }
+// `;
 
 const StyledMyButton = styled.div`
   margin-top: 30px;
@@ -80,80 +179,3 @@ const Container = styled.div`
   display: flex;
   background-color: #f1f2f3;
 `;
-
-const PostQuestion = () => {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-  const [tags, setTags] = useState([]);
-
-  const navigate = useNavigate();
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    axios
-      .post(
-        'http://3.39.180.45:56178/DBtest/post',
-        {
-          post_name: title,
-          post_content: body,
-          member_id: '2',
-        },
-        { headers: { Authorization: getLoginCookie() } }
-      )
-      .then((res) => {
-        console.log(res.data);
-        console.log('글작성 성공');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    navigate('/questiondetail');
-  };
-  return (
-    <Fragment>
-      <StyledHeaderRow>
-        <h1>Ask a Public question</h1>
-      </StyledHeaderRow>
-      <Container>
-        <PostContainer>
-          <h3>Title</h3>
-          <div>
-            Be specific and imagine you &apos; re asking a question to another
-            person
-          </div>
-          <QuestionTitleInput
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            type="text"
-            placeholder="e.g Is there an R function for finding the index of an element in a vector?"
-            title={title}
-          />
-          <h3>Body</h3>
-          <span>
-            Include all the information someone would need to answer your
-            question
-          </span>
-          <PostBodyTextarea value={body} handlePostBodyChange={setBody} />
-          <h3>Tag Name</h3>
-          <span>Add up to 5 tags to describe what your question is about</span>
-          <QuestionTagInput
-            type="text"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-          ></QuestionTagInput>
-
-          <StyledMyButton>
-            <MyButton
-              text={'Post your question'}
-              type={'blue'}
-              onClick={(event) => handleSubmit(event)}
-            />
-          </StyledMyButton>
-        </PostContainer>
-        <Widget />
-      </Container>
-    </Fragment>
-  );
-};
-
-export default PostQuestion;
