@@ -27,18 +27,18 @@ function App() {
   const [searchCount, setSearchCount] = useState(0);
   const [keyword, setkeyword] = useState('');
   const [lists, setLists] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    getAllQuestion();
+  }, [lists, setLists]);
+  const getAllQuestion = () => {
     axios
       .get(`http://3.39.180.45:56178/DBtest/findAllPost?page=1&size=-2`)
       .then((res) => {
-        console.log(res.data);
         setLists(res.data.posts);
-      })
-      .catch((err) => {
-        console.log(err);
+        setLoading(false);
       });
-  }, []);
+  };
 
   useEffect(() => {
     if (token) {
@@ -56,6 +56,7 @@ function App() {
       dispatch(setSignState(res.data.msg));
       delete res.data.msg;
       dispatch(setUserData(res.data));
+      setLoading(false);
     };
   }, []);
 
@@ -73,12 +74,14 @@ function App() {
         setSearchList(res.data.posts);
         setSearchCount(res.data.questions);
         navigate('/search');
+        setLoading(false);
       })
       .catch(() => {});
   };
   const getKeyword = (word) => {
     setkeyword(word);
   };
+  if (loading) return null;
   return (
     <div className="App">
       <MyHeader
@@ -131,9 +134,12 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="/questiondetail/:id" element={<QuestionDetail />} />
         <Route
-          path="/questionedit/:id"
+          path="/questiondetail/:id"
+          element={<QuestionDetail getAllPost={getAllQuestion} />}
+        />
+        <Route
+          path="/editquestion/:id"
           element={
             <RequireAuth option={true}>
               <EditQuestion />

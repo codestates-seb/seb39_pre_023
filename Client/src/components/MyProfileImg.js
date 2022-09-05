@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { getLoginCookie } from '../lib/cookie';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 /* eslint-disable react/prop-types */
 
 const MyProfileImg = ({ userId }) => {
-  const state = useSelector((state) => state.signInReducer);
-
+  // const state = useSelector((state) => state.signInReducer);
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  let memberid = userData.memberId;
   const [preview, setPreview] = useState(null);
   const imgInput = useRef(null);
   const onChangeImgBtnClick = (e) => {
@@ -41,18 +42,11 @@ const MyProfileImg = ({ userId }) => {
           'content-type': 'multipart/form-data',
         },
       };
-      axios
-        .post('http://3.39.180.45:56178/DBtest/upload', formData, config)
-        .then((res) => {
-          console.log(res.data);
-          console.log('서버에 이미지 등록성공');
-        })
-        .catch((err) => {
-          console.log(err);
-          console.log('이미지 등록 실패ㅜ');
-        });
+      axios.post('http://3.39.180.45:56178/DBtest/upload', formData, config);
     } catch (err) {
-      console.log(err);
+      if (err.reponse.status >= 400) {
+        return;
+      }
     }
   };
 
@@ -63,7 +57,7 @@ const MyProfileImg = ({ userId }) => {
         <img
           src={
             !preview
-              ? `http://3.39.180.45:56178/DBtest/download?memberId=${state.data.memberId}`
+              ? `http://3.39.180.45:56178/DBtest/download?memberId=${memberid}`
               : preview
           }
           alt="profileImage"
