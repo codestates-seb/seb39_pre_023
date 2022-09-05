@@ -1,4 +1,4 @@
-package com.team23.PreProject.dictionary.dto;
+package com.team23.PreProject.search.dto;
 
 import com.team23.PreProject.post.dto.post_info;
 import lombok.Getter;

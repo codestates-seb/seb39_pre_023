@@ -1,8 +1,6 @@
-package com.team23.PreProject.dictionary.controller;
+package com.team23.PreProject.search.controller;
 
-import com.team23.PreProject.answer.entity.answer;
-import com.team23.PreProject.dictionary.repository.dic_repository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.team23.PreProject.search.repository.dic_repository;
 
 
 import java.util.Comparator;

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.*;
@@ -35,9 +36,12 @@ public class post_controller {
     tag_repository tag_repository;
     @Autowired
     post_tag_repository post_tag_repository;
+    @Autowired
+    com.team23.PreProject.checkMember checkMember;
+
 
     @GetMapping(value = "/")
-    public ResponseEntity comment_read() {
+    public ResponseEntity main_page() {
         System.out.println("main page request " + LocalDate.now() +" "+ LocalTime.now().format(DateTimeFormatter.ofPattern("HH시 mm분 ss초")));
         return new ResponseEntity("main page ",HttpStatus.OK);
     }
@@ -54,12 +58,14 @@ public class post_controller {
 
         return new ResponseEntity(dto,HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/DBtest/post")
-    public ResponseEntity createPost(@RequestBody post_insert_dto test)
+    public ResponseEntity createPost(@RequestBody post_insert_dto test,
+                                     @RequestHeader(value="Authorization") String token)
     {
-        if(test.getMember_id() == 1)
-            return new ResponseEntity("you tried to access deleted user", HttpStatus.CONFLICT);
+        if (test.getMember_id() == 1 || !checkMember.checkMemberMemberId(test.getMember_id(), token)) {
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+        }
         post post = post_service.create_post(test);
 
         post_create_dto dto = new post_create_dto(post.getPostId(),post.getPost_content(),post.getPost_content(),post.getWrite_date(),post.getModified_date());
@@ -190,16 +196,20 @@ public class post_controller {
 
         return new ResponseEntity(dto,HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/DBtest/update/{post_id}")
 
     public ResponseEntity updatePost(@PathVariable Integer post_id,
-                                     @RequestBody post_update_dto dto
+                                     @RequestBody post_update_dto dto,
+                                     @RequestHeader(value="Authorization") String token
                                      )
     {
         if(member_post_repository.findByPostPostId(post_id).getMember().getMemberId()==1)
             return new ResponseEntity("you tried access deleted user",HttpStatus.CONFLICT);
-
+        Integer MemberId = member_post_repository.findByPostPostId(post_id).getMember().getMemberId();
+        if (MemberId == 1 || !checkMember.checkMemberMemberId(MemberId, token)) {
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+        }
 
         post post = post_service.updatePost(post_id,dto);
         postWithTag result = new postWithTag();
@@ -221,13 +231,18 @@ public class post_controller {
         else
             return new ResponseEntity("error while update post",HttpStatus.CONFLICT);
     }
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/DBtest/delete/{post_id}")
-    public ResponseEntity deletePost(@PathVariable Integer post_id                                     )
+    public ResponseEntity deletePost(@PathVariable Integer post_id   ,
+                                     @RequestHeader(value="Authorization") String token                                  )
     {
-        if(member_post_repository.findByPostPostId(post_id)!=null && member_post_repository.findByPostPostId(post_id).getMember().getMemberId()==1)
-            return new ResponseEntity("you tried access deleted user",HttpStatus.CONFLICT);
 
+        if(member_post_repository.findByPostPostId(post_id)!=null && member_post_repository.findByPostPostId(post_id).getMember().getMemberId()==1)
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+        Integer MemberId = member_post_repository.findByPostPostId(post_id).getMember().getMemberId();
+        if (MemberId == 1 || !checkMember.checkMemberMemberId(MemberId, token)) {
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+        }
         System.out.println("deleted post content "+ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
 
         String result = post_service.deletePost(post_id);

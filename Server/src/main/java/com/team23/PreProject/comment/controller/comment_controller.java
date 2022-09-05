@@ -1,5 +1,6 @@
 package com.team23.PreProject.comment.controller;
 
+import com.team23.PreProject.checkMember;
 import com.team23.PreProject.comment.dto.comment_dto;
 import com.team23.PreProject.comment.entity.comment;
 import com.team23.PreProject.comment.mapper.comment_mapper;
@@ -7,6 +8,7 @@ import com.team23.PreProject.comment.service.comment_service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,17 +20,18 @@ public class comment_controller {
 
     private final comment_service commentService;
     private final comment_mapper mapper;
-
-
+    private final com.team23.PreProject.checkMember checkMember;
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/answer")
-    public ResponseEntity postAnswerComment(@RequestBody comment_dto.PostAnswer requestBody){
+    public ResponseEntity postAnswerComment(@RequestBody comment_dto.PostAnswer requestBody,
+                                            @RequestHeader(value="Authorization") String token){
+
         Integer answerId = requestBody.getAnswerId();
         Integer memberId = requestBody.getMemberId();
         String content = requestBody.getContent();
 
-        if(memberId <= 1 ||memberId == null)
-        {
-            return new ResponseEntity<>("you tried to access wrong member info", HttpStatus.CREATED);
+        if (memberId <= 1 || !checkMember.checkMemberMemberId(memberId, token)) {
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
         }
         comment comment = commentService.createAnswerComment(answerId, memberId, content);
         if(comment == null)
@@ -39,16 +42,17 @@ public class comment_controller {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/question")
-    public ResponseEntity postPostComment(@RequestBody comment_dto.PostPost requestBody){
+    public ResponseEntity postPostComment(@RequestBody comment_dto.PostPost requestBody,
+                                          @RequestHeader(value="Authorization") String token){
         Integer postId = requestBody.getPostId();
         Integer memberId = requestBody.getMemberId();
         String content = requestBody.getContent();
 
 
-        if(memberId <= 1 ||memberId == null)
-        {
-            return new ResponseEntity<>("you tried to access wrong member info", HttpStatus.CREATED);
+        if (memberId <= 1 || !checkMember.checkMemberMemberId(memberId, token)) {
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
         }
         comment comment = commentService.createPostComment(postId, memberId, content);
 
@@ -73,13 +77,14 @@ public class comment_controller {
         return new ResponseEntity<>(getResponses, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{commentId}")
-    public ResponseEntity putComment(@PathVariable("commentId") Integer commentId, @RequestBody comment_dto.Put requestBody){
+    public ResponseEntity putComment(@PathVariable("commentId") Integer commentId, @RequestBody comment_dto.Put requestBody,
+                                     @RequestHeader(value="Authorization") String token){
         String content = requestBody.getContent();
         Integer memberId = requestBody.getMemberId();
-        if(memberId <= 1 ||memberId == null)
-        {
-            return new ResponseEntity<>("you tried to access wrong member info", HttpStatus.CREATED);
+        if (memberId <= 1 || !checkMember.checkMemberMemberId(memberId, token)) {
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
         }
         comment comment = commentService.updateComment(commentId, content,memberId);
         comment_dto.PostResponse response = mapper.commentToResponse(comment);
@@ -87,13 +92,14 @@ public class comment_controller {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("")
-    public ResponseEntity deleteComment(@RequestBody comment_dto.DelRequest requestBody){
+    public ResponseEntity deleteComment(@RequestBody comment_dto.DelRequest requestBody,
+                                        @RequestHeader(value="Authorization") String token){
 
         Integer memberId = requestBody.getMemberId();
-        if(memberId <= 1 ||memberId == null)
-        {
-            return new ResponseEntity<>("you tried to access wrong member info", HttpStatus.CREATED);
+        if (memberId <= 1 || !checkMember.checkMemberMemberId(memberId, token)) {
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
         }
         boolean result = commentService.deleteComment(requestBody);
         return new ResponseEntity<>(result, HttpStatus.OK);

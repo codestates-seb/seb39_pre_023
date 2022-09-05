@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,8 @@ public class member_controller {
     member_service member_service;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    com.team23.PreProject.checkMember checkMember;
 
 
 
@@ -41,6 +44,7 @@ public class member_controller {
         return new ResponseEntity(member,HttpStatus.CREATED);
     }
 
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("DBtest/findMember/{member_id}")
     public ResponseEntity findMember(@PathVariable Integer member_id)
     {
@@ -56,12 +60,16 @@ public class member_controller {
             return new ResponseEntity("not found",HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("DBtest/updatePassword")
     public ResponseEntity updatePassword(@RequestParam Integer member_id,
-                                         @RequestBody member_password_update_dto dto)
+                                         @RequestBody member_password_update_dto dto,
+                                         @RequestHeader(value="Authorization") String token
+    )
     {
-        if(member_id == 1)
-            return new ResponseEntity("you tried to access deleted user",HttpStatus.CONFLICT);
+        if (member_id == 1 || !checkMember.checkMemberMemberId(member_id, token)) {
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+        }
         String result = member_service.updatePassword(member_id,dto.getElder(),dto.getNewer());
         if(result.equals("passwored changed"))
             return new ResponseEntity("passwored changed",HttpStatus.OK);
@@ -71,11 +79,14 @@ public class member_controller {
 
 
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("DBtest/deleteMember")
-    public ResponseEntity deleteMember(@RequestParam Integer member_id)
+    public ResponseEntity deleteMember(@RequestParam Integer member_id,
+                                       @RequestHeader(value="Authorization") String token)
     {
-        if(member_id == 1)
-            return new ResponseEntity("you tried to access deleted user",HttpStatus.CONFLICT);
+        if (member_id == 1 || !checkMember.checkMemberMemberId(member_id, token)) {
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+        }
         String result = member_service.deleteMember(member_id);
 
         if(result.equals("delete suc"))

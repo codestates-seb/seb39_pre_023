@@ -1,8 +1,8 @@
-package com.team23.PreProject.dictionary.service;
+package com.team23.PreProject.search.service;
 
-import com.team23.PreProject.dictionary.dto.dic_search_dto;
-import com.team23.PreProject.dictionary.entity.dictionary;
-import com.team23.PreProject.dictionary.repository.dic_repository;
+import com.team23.PreProject.search.dto.dic_search_dto;
+import com.team23.PreProject.search.entity.dictionary;
+import com.team23.PreProject.search.repository.dic_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

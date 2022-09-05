@@ -2,6 +2,7 @@ package com.team23.PreProject;
 
 import com.team23.PreProject.answer.controller.answer_controller;
 import com.team23.PreProject.answer.dto.answer_dto;
+import com.team23.PreProject.answer.service.answer_service;
 import com.team23.PreProject.comment.service.comment_service;
 import com.team23.PreProject.member.controller.member_controller;
 import com.team23.PreProject.member.dto.member_create_dto;
@@ -9,6 +10,7 @@ import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member.service.member_service;
 import com.team23.PreProject.post.controller.post_controller;
 import com.team23.PreProject.post.dto.post_insert_dto;
+import com.team23.PreProject.post.service.post_service;
 import com.team23.PreProject.tag.dto.tag_create;
 import com.team23.PreProject.tag.entity.tag;
 import com.team23.PreProject.tag.service.tag_service;
@@ -37,10 +39,12 @@ public class PreProjectApplication {
 
 
 	@Bean
-	public CommandLineRunner test(member_controller mem_cont, post_controller post_cont, answer_controller ans_cont, tag_service tag_ser, comment_service com_ser) {
+	public CommandLineRunner test(member_service mem_serv, post_service post_serv, answer_service ans_serv, tag_service tag_ser, comment_service com_ser) {
 		return args -> {
 			System.out.println("\n\n************************************************ insert member start \n\n\n");
-			mem_cont.insertMember(new member_create_dto("password","nick","Iddddddd1"));
+			mem_serv.insert_member(new member_create_dto("password","deleted","deleted"));
+//			mem_serv.insert_member(new member_create_dto("password","deleted","deleted")).setRoles("");
+			mem_serv.insert_member(new member_create_dto("password","nick","Iddddddd1"));
 			System.out.println("\n\ninsert member end ************************************************\n\n\n");
 			List<String> tags = new ArrayList<>();
 			System.out.println("\n\n************************************************ insert tag start \n\n\n");
@@ -80,40 +84,40 @@ public class PreProjectApplication {
 			System.out.println("\n\n************************************************ insert post start \n\n\n");
 			String obj;
 			obj= "java";
-			post_cont.createPost(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
 
-			post_cont.createPost(new post_insert_dto("i need create "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("i need update "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("i need read "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("i need delete "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("i need create "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("i need update "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("i need read "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("i need delete "+obj,"post_content1",2, tags));
 
-			post_cont.createPost(new post_insert_dto("docs to create "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("docs to update "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("docs to read "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("docs to delete "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("docs to create "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("docs to update "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("docs to read "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("docs to delete "+obj,"post_content1",2, tags));
 			obj= "react";
-			post_cont.createPost(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
 			obj= "python";
-			post_cont.createPost(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
 			obj= "git";
-			post_cont.createPost(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
 			obj= "css";
-			post_cont.createPost(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
-			post_cont.createPost(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to create "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to update "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to read "+obj,"post_content1",2, tags));
+			post_serv.create_post(new post_insert_dto("how to delete "+obj,"post_content1",2, tags));
 
 
 
@@ -123,10 +127,10 @@ public class PreProjectApplication {
 //			private String content;
 //			private Integer memberId;
 			System.out.println("\n\n************************************************ insert answer start \n\n\n");
-			ans_cont.postAnswer(new answer_dto.Post(1,"answer for question 1",2));
-			ans_cont.postAnswer(new answer_dto.Post(2,"answer for question 2",2));
-			ans_cont.postAnswer(new answer_dto.Post(3,"answer for question 3",2));
-			ans_cont.postAnswer(new answer_dto.Post(2,"answer 2 for question 2",2));
+			ans_serv.createAnswer(new answer_dto.Post(1,"answer for question 1",2));
+			ans_serv.createAnswer(new answer_dto.Post(2,"answer for question 2",2));
+			ans_serv.createAnswer(new answer_dto.Post(3,"answer for question 3",2));
+			ans_serv.createAnswer(new answer_dto.Post(2,"answer 2 for question 2",2));
 			System.out.println("\n\ninsert answer end ************************************************\n\n\n");
 
 			System.out.println("\n\n************************************************ insert answer comment start \n\n\n");

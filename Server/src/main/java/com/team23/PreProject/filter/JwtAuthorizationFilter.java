@@ -34,26 +34,43 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String jwtHeader = request.getHeader("Authorization");
 
         if(jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
+
             System.out.println("잘못된 토큰.");
             chain.doFilter(request, response);
-            return;
-        }
-        // 헤더에서 토큰 겟
-        String jwtToken = jwtHeader.replace("Bearer ", "");
-        // 토큰 해석
-        String username = JWT.require(Algorithm.HMAC512("cos_jwt_token")).build().verify(jwtToken).getClaim("username").asString();
-        // 토큰에 해당하는 유저 정보로 인증 정보 생성
-        if (username != null) {
-            member memberEntity = member_Repository.findByid(username);
 
-            PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            chain.doFilter(request, response);
         }
-        //필터체인으로 요청, 응답 객체 전달
-        else
-            super.doFilterInternal(request, response, chain);
+        else {
+            // 헤더에서 토큰 겟
+
+            String jwtToken = jwtHeader.replace("Bearer ", "");
+            String username = null;
+            // 토큰 해석
+                try {
+                    username = JWT.require(Algorithm.HMAC512("cos_jwt_token")).build().verify(jwtToken).getClaim("username").asString();
+                }
+                catch(Exception e)
+                {
+                    response.getWriter().write("{\"msg\":\"expired token, Do re-login!\"} ");
+//            response.getWriter().write("\"msg\" :"+"\"check token\"}");
+                }
+
+            // 토큰에 해당하는 유저 정보로 인증 정보 생성
+            if (username != null) {
+                member memberEntity = member_Repository.findByid(username);
+
+                PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                chain.doFilter(request, response);
+            }
+
+            else {
+//                response.getWriter().write("{ ");
+//                response.getWriter().write("\"msg\" :" + "\"check token\"}");
+//                chain.doFilter(request, response);
+
+            }
+        }
     }
 }

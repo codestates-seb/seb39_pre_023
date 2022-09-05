@@ -4,33 +4,46 @@ import com.team23.PreProject.answer.dto.MultiResponseDto;
 import com.team23.PreProject.answer.dto.answer_dto;
 import com.team23.PreProject.answer.entity.answer;
 import com.team23.PreProject.answer.mapper.answer_mapper;
+import com.team23.PreProject.answer.repository.answer_repository;
 import com.team23.PreProject.answer.service.answer_service;
+import com.team23.PreProject.checkMember;
 import com.team23.PreProject.member.repository.member_repository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
+
 @RequestMapping
 public class answer_controller {
+    @Autowired
+    answer_service answerService;
+    @Autowired
+    answer_mapper mapper;
+    @Autowired
+    member_repository member_repository;
 
-    private final answer_service answerService;
+    @Autowired
+    checkMember checkMember;
+    @Autowired
+    answer_repository answer_repository;
 
-    private final answer_mapper mapper;
 
-    private final member_repository member_repository;
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("DBtest/createAnswer")
     public ResponseEntity postAnswer(
-                                     @RequestBody answer_dto.Post RequestBody) {
-
+                                     @RequestBody answer_dto.Post RequestBody,
+                                     @RequestHeader(value="Authorization") String token) {
+        if(RequestBody.getMemberId() == 1 || !checkMember.checkMemberMemberId(RequestBody.getMemberId(), token))
+        {
+            return new ResponseEntity("fail",HttpStatus.FORBIDDEN);
+        }
         answer savedAnswer = answerService.createAnswer(RequestBody);
         answer_dto.Response response = mapper.answerToAnswerResponseDto(savedAnswer);
         response.setMemberId(RequestBody.getMemberId());
@@ -59,9 +72,15 @@ public class answer_controller {
         }
         return new ResponseEntity<>( dto , HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("DBtest/updateAnswer/{answerId}")
-    public ResponseEntity putAnswer(@PathVariable("answerId") Integer answerId, @RequestBody answer_dto.Post requestBody) {
+    public ResponseEntity putAnswer(@PathVariable("answerId") Integer answerId, @RequestBody answer_dto.Post requestBody
+            ,
+                                    @RequestHeader(value="Authorization") String token) {
+        if(requestBody.getMemberId() == 1 || !checkMember.checkMemberMemberId(requestBody.getMemberId(), token))
+        {
+            return new ResponseEntity("fail",HttpStatus.FORBIDDEN);
+        }
         String content = requestBody.getContent();
         answer changedAnswer = answerService.updateAnswer(answerId, content);
         answer_dto.Response response = mapper.answerToAnswerResponseDto(changedAnswer);
@@ -69,19 +88,46 @@ public class answer_controller {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("DBtest/deleteAnswer/{answerId}")
-    public ResponseEntity deleteAnswer(@PathVariable("answerId") Integer answerId){
-        String result = answerService.deleteAnswer(answerId);
-        return new ResponseEntity<>(result,HttpStatus.NO_CONTENT);
+    //answer_repository.findById(answerId).get().getMember().getMemberId()
+    public ResponseEntity deleteAnswer(@PathVariable("answerId") Integer answerId,
+
+                                       @RequestHeader(value="Authorization") String token){
+        try {
+            Integer MemberId = answer_repository.findById(answerId).get().getMember().getMemberId();
+            if (MemberId == 1 || !checkMember.checkMemberMemberId(MemberId, token)) {
+                return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+            }
+            String result = answerService.deleteAnswer(answerId);
+            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+        }
+        catch(Exception e)
+        {
+            return new ResponseEntity<>(false, HttpStatus.NO_CONTENT);
+        }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("DBtest/answerSelect")
     public ResponseEntity answerSel(@RequestParam Integer post_id,
-                                    @RequestParam Integer answer_id)
-    {
-        boolean result = answerService.select(post_id,answer_id);
+                                    @RequestParam Integer answer_id,
 
-        return new ResponseEntity(result,HttpStatus.OK);
+                                    @RequestHeader(value="Authorization") String token
+    )
+    {
+        try {
+            Integer MemberId = answer_repository.findById(answer_id).get().getMember().getMemberId();
+            if (MemberId == 1 || !checkMember.checkMemberMemberId(MemberId, token)) {
+                return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+            }
+            boolean result = answerService.select(post_id, answer_id);
+
+            return new ResponseEntity(result, HttpStatus.OK);
+        }catch(Exception e)
+        {
+            return new ResponseEntity(false, HttpStatus.OK);
+        }
     }
 }
 

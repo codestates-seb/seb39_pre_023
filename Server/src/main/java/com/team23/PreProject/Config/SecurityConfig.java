@@ -1,28 +1,31 @@
 package com.team23.PreProject.Config;
 
-import com.team23.PreProject.filter.FirstFilter;
+import com.team23.PreProject.filter.CustomAccessDeniedHandler;
+import com.team23.PreProject.filter.CustomAuthenticationEntryPoint;
 import com.team23.PreProject.filter.JwtAuthenticationFilter;
 import com.team23.PreProject.filter.JwtAuthorizationFilter;
 import com.team23.PreProject.member.repository.member_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
 import java.util.List;
 
 //@Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+//권한 설정을 어노테이션을 이용해서 처리하기
 public class SecurityConfig {
     @Autowired
     member_repository member_repository;
@@ -42,24 +45,63 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .cors().configurationSource(corsConfigurationSource()).and() //cors.disable 안먹힘
-//                .authorizeRequests()
-//                .antMatchers("/login").permitAll()
-//                .anyRequest().authenticated().and()
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).and()
+                //로그인 실패 처리
+
                 .apply(new CustomDsl()) // 추가
                 .and()
                 .authorizeRequests()
-                .antMatchers("/DBtest/jwtTest")
-                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-
-                .antMatchers("/DBtest/getProfile")
-                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-
-                .antMatchers("/DBtest/post_vote")
-                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-
-                .antMatchers("/DBtest/answer_vote")
-                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                .anyRequest().permitAll();
+//                .antMatchers("/DBtest/jwtTest")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+//
+//                .antMatchers("/DBtest/getProfile")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+//
+//                .antMatchers("/DBtest/post_vote")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+//
+//                //answer 권한 제어
+//
+//                .antMatchers("/DBtest/createAnswer")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+//
+//                .antMatchers("/DBtest/updateAnswer")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+//
+//                .antMatchers("/DBtest/deleteAnswer")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN)")
+//
+//                .antMatchers("/DBtest/answerSelect")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN)")
+//
+//                .antMatchers("/DBtest/answerSelect")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN)")
+//
+//                .antMatchers("/DBtest/answerSelect")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN)")
+//
+//                //answer vote 권한
+//
+//                .antMatchers("/DBtest/answer_vote")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+//
+//
+//                //코맨트 권한
+//
+//
+//                .antMatchers("/api/comment/answer")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+//                .antMatchers("/api/comment/question")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+//
+//
+//                .antMatchers("/api/comment")
+//                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+//
+//
+//
+                .anyRequest().permitAll()
+                ;
 
 
         return http.build();
@@ -88,5 +130,15 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        return new CustomAccessDeniedHandler();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint(){
+        return new CustomAuthenticationEntryPoint();
     }
 }

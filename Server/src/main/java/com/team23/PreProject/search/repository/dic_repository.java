@@ -1,11 +1,8 @@
-package com.team23.PreProject.dictionary.repository;
+package com.team23.PreProject.search.repository;
 
-import com.team23.PreProject.dictionary.dto.dic_search_dto;
-import com.team23.PreProject.dictionary.entity.dictionary;
-import com.team23.PreProject.post.dto.post_info;
+import com.team23.PreProject.search.entity.dictionary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

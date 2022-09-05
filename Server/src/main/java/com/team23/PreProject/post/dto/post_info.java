@@ -27,6 +27,7 @@ public class post_info {
 
     List<answer_info> answers =new ArrayList<>();
     List<comment_info> comments = new ArrayList<>();
+    Integer answerCount = 0;
 
     public void addTag(String name)
     {

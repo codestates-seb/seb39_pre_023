@@ -1,12 +1,16 @@
-package com.team23.PreProject.dictionary.controller;
+package com.team23.PreProject.search.controller;
 
-import com.team23.PreProject.dictionary.dto.answer_response;
-import com.team23.PreProject.dictionary.dto.dic_search_dto;
-import com.team23.PreProject.dictionary.repository.dic_repository;
-import com.team23.PreProject.dictionary.service.dic_service;
+import com.team23.PreProject.member_post.repository.member_post_repository;
+import com.team23.PreProject.post.dto.member_info;
+import com.team23.PreProject.post_tag.entity.post_tag;
+import com.team23.PreProject.search.dto.answer_response;
+import com.team23.PreProject.search.dto.dic_search_dto;
+import com.team23.PreProject.search.repository.dic_repository;
+import com.team23.PreProject.search.service.dic_service;
 import com.team23.PreProject.post.dto.post_info;
 import com.team23.PreProject.post.entity.post;
 import com.team23.PreProject.post.repository.post_repository;
+import com.team23.PreProject.tag.entity.tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +27,8 @@ public class dic_controller {
     dic_repository dic_repository;
     @Autowired
     post_repository post_repository;
+    @Autowired
+    com.team23.PreProject.member_post.repository.member_post_repository member_post_repository;
 
 
     @PostMapping("DBtest/dic")
@@ -102,7 +108,22 @@ public class dic_controller {
                             post_info.setView_count(post.getView_count());
                             post_info.set_answered(post.getIs_answered());
                             post_info.setScore(post.getScore());
+                            List<String> tags = new ArrayList<>();
+                            for(com.team23.PreProject.post_tag.entity.post_tag pt : post.getPost_tags())
+                            {
+                                tags.add(pt.getTag().getName());
+                            }
+                            post_info.setTags(tags);
+                            post_info.setWriteDate(post.getWrite_date());
+                            post_info.setModifiedDate(post.getModified_date());
+                            post_info.setAnswerCount(post.getAnswers().size());
                             result.add(post_info);
+                            member_info mi = new member_info();
+                            Integer memberId = member_post_repository.findByPostPostId(post.getPostId()).getMember().getMemberId();
+                            mi.setMember_id(memberId);
+                            mi.setProfile_id(memberId);
+                            mi.setNickName(member_post_repository.findByPostPostId(post.getPostId()).getMember().getNickName());
+                            post_info.setWriter(mi);
                             dtos.get(k).setPost_name("already inserted null%%");
 
                             System.out.println("\nfound\n");

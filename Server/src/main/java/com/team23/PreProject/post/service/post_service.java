@@ -2,7 +2,7 @@ package com.team23.PreProject.post.service;
 
 import com.team23.PreProject.answer.repository.answer_repository;
 import com.team23.PreProject.comment.repository.comment_repository;
-import com.team23.PreProject.dictionary.service.dic_service;
+import com.team23.PreProject.search.service.dic_service;
 import com.team23.PreProject.member.entity.member;
 import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member_post.entitiy.member_post;

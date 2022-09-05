@@ -1,4 +1,4 @@
-package com.team23.PreProject.dictionary.entity;
+package com.team23.PreProject.search.entity;
 
 import lombok.Getter;
 import lombok.Setter;

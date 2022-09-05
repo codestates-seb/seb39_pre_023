@@ -13,6 +13,7 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,19 +34,24 @@ public class controller {
 
     @Autowired
     member_repository member_repository;
+    @Autowired
+    com.team23.PreProject.checkMember checkMember;
     @Value("${spring.servlet.multipart.location}")
     String filePath;
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/DBtest/upload")
 // 업로드하는 파일들을 MultipartFile 형태의 파라미터로 전달된다.
     //여러개 업로드
-    public String upload(@RequestParam MultipartFile file,@RequestParam Integer memberId
-                          ) throws IllegalStateException, IOException {
+    public ResponseEntity upload(@RequestParam MultipartFile file,@RequestParam Integer memberId
+                         ,@RequestHeader(value="Authorization") String token ) throws IllegalStateException, IOException {
+        if (memberId == 1 || !checkMember.checkMemberMemberId(memberId, token)) {
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+        }
         FileDto dto = null;
 
         member member = member_repository.findById(memberId).orElse(null);
         if(member==null)
-            return "fail";
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
 
         File newFileName = null;
         if (!file.isEmpty()) {
@@ -64,13 +70,17 @@ public class controller {
 
 
 
-        return "suc";
+        return new ResponseEntity("suc", HttpStatus.OK);
     }
 
 
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/DBtest/download")
-    public ResponseEntity download(@RequestParam Integer memberId) throws IOException {
+    public ResponseEntity download(@RequestParam Integer memberId
+            ,@RequestHeader(value="Authorization") String token) throws IOException {
+        if (memberId == 1 || !checkMember.checkMemberMemberId(memberId, token)) {
+            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+        }
         System.out.println("download request");
         String filename;
         if(member_repository.findById(memberId).orElse(null) == null)
