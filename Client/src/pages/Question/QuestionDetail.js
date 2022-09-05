@@ -1,389 +1,297 @@
-import { Fragment, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Nav from '../../components/Nav';
-import MyButton from '../../components/MyButton';
-import { useNavigate, Link } from 'react-router-dom';
-import MyFooter from '../../components/MyFooter';
-import axios from 'axios';
-import DeleteModal from '../../components/DeleteModal';
-import PostBodyTextarea from '../../components/PostBodyTextarea';
-import { getLoginCookie } from '../../lib/cookie';
 /* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-key */
-const HeaderRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 1000px;
-  height: 100px;
-  padding: 30px 30px;
-  padding-bottom: 0px;
-`;
-
-const StyledHeader = styled.header`
-  display: flex;
-  padding-bottom: 10px;
-  margin-bottom: 5px;
-  h1 {
-    margin-bottom: -16px;
-    padding-bottom: 3px;
-  }
-`;
-
-const StyledAnswerHeader = styled.h2`
-  font-size: 1.6rem;
-  padding-top: 10px;
-  padding-left: 30px;
-  padding-bottom: 5px;
-`;
-
-const BtnWrapper = styled.div`
-  height: 200px;
-  width: 150px;
-  padding-left: 30px;
-`;
-
-const StyledMain = styled.main`
-  display: flex;
-  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-  font-family: Roboto, sans-serif;
-`;
-
-const MainWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StatusBar = styled.div`
-  display: flex;
-  border-bottom: 1px solid lightgray;
-  padding-bottom: 15px;
-  margin-top: 0px;
-  padding-left: 30px;
-  color: gray;
-  p {
-    padding-right: 10px;
-  }
-`;
-
-const StyledComment = styled.button`
-  color: blue;
-  padding-left: 30px;
-  padding-bottom: 10px;
-  border: none;
-  background-color: white;
-`;
-
-const Linkbar = styled.div`
-  padding-left: 30px;
-  padding-bottom: 50px;
-  a {
-    padding-right: 10px;
-    text-decoration-line: none;
-    color: blue;
-  }
-  button {
-    border: none;
-    color: blue;
-    background-color: white;
-    padding-right: 10px;
-    font-size: 1rem;
-  }
-`;
-
-const Info = styled.div`
-  padding-top: 40px;
-  padding-left: 30px;
-  padding-bottom: 3px;
-  border-bottom: 1px solid lightgray;
-`;
-
-const DetailBody = styled.div`
-  padding-left: 20px;
-  padding-top: 20px;
-`;
-
-const ColumnDivide = styled.div`
-  display: flex;
-`;
-
-const PostBodyTextareaWrapper = styled.div`
-  padding-left: 30px;
-`;
-
-const CommentOutter = styled.div`
-  padding-left: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-`;
-
-const CommentBox = styled.div`
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  font-size: 0.8rem;
-`;
-
-const StyledTextarea = styled.textarea`
-  background: none;
-  border: 1px solid #777;
-  border-radius: 3px;
-  display: block;
-  width: 97%;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-  margin-left: 30px;
-  color: #fff;
-`;
-
-const AnswerWrapper = styled.div`
-  padding-left: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-`;
-
-const AnswerBtnWrapper = styled.div`
-  button {
-    border: none;
-    color: red;
-    background-color: white;
-    padding-right: 10px;
-    font-size: 1rem;
-    padding-left: 30px;
-  }
-`;
-
-const CommentBtnWrapper = styled.div`
-  button {
-    border: none;
-    color: red;
-    background-color: white;
-    padding-right: 10px;
-    font-size: 1rem;
-    padding-left: 30px;
-  }
-`;
-
-const QuestionDetail = () => {
-  const [question, setQuestion] = useState({});
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [answerBody, setAnswerBody] = useState('');
-  const [answerComments, setAnswerComments] = useState([]);
-  const [showCommentForm, setShowCommentForm] = useState(false);
-  // const [showButton, setShowButton] = useState(false);
-  const [answers, setAnswers] = useState([]);
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import Nav from '../../components/Nav';
+import MyFooter from '../../components/MyFooter';
+import MyButton from '../../components/MyButton';
+import Answers from '../../components/Answers';
+import styled from 'styled-components';
+import PostAnswer from '../../components/PostAnswer';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+// import DeleteModal from '../../components/DeleteModal';
+import PostVote from '../../components/PostVote';
+import { getLoginCookie } from '../../lib/cookie';
+import { useSelector } from 'react-redux';
+const QuestionDetail = ({ getAllPost }) => {
+  const state = useSelector((state) => state.signInReducer);
+  const userData = localStorage.getItem('userData');
+  const userinfo = JSON.parse(userData);
+  let memberid = userinfo.memberId;
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [pid, setPid] = useState(0);
+  const [answerList, setAnswerList] = useState([]);
+  const [count, setCount] = useState(0);
+  const [votes, setVotes] = useState(0);
+  const [loading, setLoading] = useState(true);
+  let params = useParams();
+
+  const createdAt = new Date(data.write_date).toLocaleDateString('en-us', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  });
+  const updatedAt = new Date(data.modified_date).toLocaleDateString('en-us', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  });
 
   useEffect(() => {
-    getQuestion();
-    getAnswers();
+    getQuestionDetail();
+    getAnswer();
   }, []);
-
-  function getQuestion() {
+  const getQuestionDetail = () => {
     axios
-      .get(`http://3.39.180.45:56178/DBtest/getPost?post_id=1`)
+      .get(`http://3.39.180.45:56178/DBtest/getPost?post_id=${params.id}`)
       .then((res) => {
-        const data = res.data.post;
-        setQuestion({ ...data });
-        console.log(data);
+        console.log(res.data.post);
+        setData(res.data.post);
+        setPid(res.data.post.post_id);
+        setVotes(res.data.post.score);
+        setLoading(false);
       });
-  }
-
-  function getComments() {
-    axios.get('http://3.39.180.45:56178/api/comment/answer/2').then((res) => {
-      setAnswerComments(res.data);
-      console.log('코맨트리스트성공', res.data);
-    });
-  }
-
-  function postAnswer(ev) {
-    ev.preventDefault();
+  };
+  const getAnswer = () => {
     axios
-      .post(
-        `http://3.39.180.45:56178/DBtest/createAnswer`,
-        {
-          post_id: answers.answer_id,
-          member_id: '2',
-          content: answers.content,
-        },
-        { headers: { Authorization: getLoginCookie() } }
+      .get(
+        `http://3.39.180.45:56178/DBtest/findAnswers/${params.id}?page=1&size=15`
       )
       .then((res) => {
-        console.log(res);
-        setAnswerBody('');
-        setAnswers(res.data.data);
-        console.log('답변작성성공', res.data.data);
+        // console.log(res.data.data);
+        setAnswerList([...res.data.data]);
+        setCount(res.data.page_info.total_elements);
       });
-  }
+  };
+  if (loading) return null;
 
-  function getAnswers() {
-    axios
-      .get('http://3.39.180.45:56178/DBtest/findAnswers/1?page=1&size=15')
-      .then((res) => {
-        setAnswers(res.data.data);
-        getComments();
-        console.log('답변받는데성공', res.data.data);
-      });
-  }
-
-  function postAnswerComment(ev) {
-    ev.preventDefault();
+  const onIncreaseVote = () => {
+    let data = {};
     axios
       .post(
-        `http://3.39.180.45:56178/api/comment/answer/1`,
-        {
-          content: answerComments.content,
-          answer_id: answerComments.comment.id,
-        },
+        `http://3.39.180.45:56178/DBtest/post_vote?vote=+1&member_id=${memberid}&post_id=${params.id}`,
+        data,
         { headers: { Authorization: getLoginCookie() } }
       )
-      .then((res) => {
-        console.log('댓글데이터', res);
-        console.log('답변댓글성공', res.data);
+      .then(() => {
+        setVotes(votes + 1);
       });
-  }
-  const deleteAnswer = () => {
+  };
+  const onDecreaseVote = () => {
     axios
-      .delete(`http://3.39.180.45:56178/DBtest/deleteAnswer/1`, {
+      .post(
+        `http://3.39.180.45:56178/DBtest/post_vote?vote=-1&member_id=${memberid}&post_id=${params.id}`,
+        data,
+        { headers: { Authorization: getLoginCookie() } }
+      )
+      .then(() => {
+        setVotes(votes - 1);
+      });
+  };
+  const deleteQuestion = () => {
+    axios
+      .delete(`http://3.39.180.45:56178/DBtest/delete/${params.id}`, {
         headers: { Authorization: getLoginCookie() },
       })
       .then((res) => {
-        console.log(res);
-        console.log('답변삭제 성공');
-      })
-      .catch((err) => console.log(err, 'Error'));
+        console.log(res.data);
+        console.log('question deletelte');
+        getAllPost();
+        navigate('/');
+      });
   };
-
-  const deleteComment = () => {
-    axios
-      .delete(`http://3.39.180.45:56178/api/comment/`, {
-        headers: { Authorization: getLoginCookie() },
-      })
-      .then((res) => {
-        console.log(res);
-        console.log('코멘트삭제 성공');
-      })
-      .catch((err) => console.log(err, 'Error'));
-  };
-
   return (
-    <Fragment>
-      <StyledMain>
+    <Container>
+      <Wrapper>
         <Nav />
-        <MainWrapper>
-          <HeaderRow>
-            <StyledHeader>
-              <h1>{question.post_name}</h1>
-            </StyledHeader>
-            <BtnWrapper>
-              <MyButton
-                text={`Ask Question`}
-                type={'blue'}
-                onClick={() => {
-                  navigate('/questionwrite');
-                }}
+        <Detail>
+          <div className="quesitonBox">
+            <div className="top">
+              <div className="title">
+                <h1>질문제목 {data.post_name}</h1>
+                <MyButton
+                  text={'Ask Question'}
+                  type={'blue'}
+                  onClick={() => navigate('/questionwrite')}
+                />
+              </div>
+              <div className="info">
+                <span>Asked {createdAt}</span>
+                <span>Modified {updatedAt}</span>
+                <span>Viewed {data.view_count}</span>
+              </div>
+            </div>
+            <div className="bottom">
+              <PostVote
+                votes={votes}
+                setVotes={setVotes}
+                onIncreaseVote={onIncreaseVote}
+                onDecreaseVote={onDecreaseVote}
+                pid={pid}
               />
-            </BtnWrapper>
-          </HeaderRow>
-          <StatusBar>
-            <p>Asked: {question.write_date}</p>
-            <p>Modified: {question.modified_date}</p>
-            <p>Viewed {question.view_count} times</p>
-          </StatusBar>
-          <ColumnDivide>
-            <DetailBody>{question.post_content}</DetailBody>
-          </ColumnDivide>
-
-          <Linkbar>
-            <button
-              onClick={() => {
-                setDeleteModal(true);
-              }}
-            >
-              delete
-            </button>
-            <Link to={`/questionedit`} state={{ question: question }}>
-              edit
-            </Link>
-          </Linkbar>
-          <Info>
-            Know someone who can answer? Share a link to this question via
-            email, Twitter, or Facebook.
-          </Info>
-          {answers.map((answer) => (
-            <AnswerWrapper>{answer.content}</AnswerWrapper>
-          ))}
-
-          <AnswerBtnWrapper>
-            <MyButton
-              text={`delete`}
-              type={'red'}
-              onClick={(e) => {
-                deleteAnswer(e);
-              }}
+              <div className="content">
+                <p>질문내용 {data.post_content}</p>
+                <div className="tags">
+                  {data.tags.map((tag, idx) => (
+                    <div key={idx} className="tagwrapper">
+                      <div className="tag">{tag}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="content-bottom">
+                  <div className="btns">
+                    {state.loginState &&
+                    parseInt(memberid) === parseInt(data.writer.member_id) ? (
+                      <>
+                        <Link
+                          to={`/editquestion/${data.post_id}`}
+                          state={{ data: data }}
+                        >
+                          Edit
+                        </Link>
+                        <button onClick={deleteQuestion}>Delete</button>
+                      </>
+                    ) : null}
+                  </div>
+                  <div>
+                    <span>Asked</span>
+                    <span className="name">{data.writer.nick_name}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="answerBox">
+            <Answers
+              pid={pid}
+              answerList={answerList}
+              setAnswerList={setAnswerList}
+              count={count}
+              getAnswerAnswer={getAnswer}
             />
-          </AnswerBtnWrapper>
-
-          <CommentOutter>
-            {answerComments &&
-              answerComments.length > 0 &&
-              answerComments.map((answerComment) => (
-                <CommentBox>{answerComment.content}</CommentBox>
-              ))}
-            <CommentBtnWrapper>
-              <MyButton
-                text={`delete`}
-                type={'red'}
-                onClick={(e) => {
-                  deleteComment(e);
-                }}
-              />
-            </CommentBtnWrapper>
-            {showCommentForm && (
-              <StyledTextarea
-                type="text"
-                value={answerComments}
-                onChange={(e) => {
-                  setAnswerComments(e.target.value);
-                }}
-              ></StyledTextarea>
-            )}
-            {!showCommentForm && (
-              <StyledComment
-                onClick={(e) => {
-                  setShowCommentForm(true);
-                  postAnswerComment(e);
-                }}
-              >
-                Add comment
-              </StyledComment>
-            )}
-          </CommentOutter>
-          <StyledAnswerHeader>Your Answer</StyledAnswerHeader>
-          <PostBodyTextareaWrapper>
-            <PostBodyTextarea
-              value={answerBody}
-              handlePostBodyChange={(value) => setAnswerBody(value)}
-            />
-          </PostBodyTextareaWrapper>
-          <BtnWrapper>
-            <MyButton
-              text={`Post Your Answer`}
-              type={'blue'}
-              onClick={(e) => {
-                postAnswer(e);
-              }}
-            />
-          </BtnWrapper>
-        </MainWrapper>
-      </StyledMain>
-      {deleteModal ? (
-        <DeleteModal
-          deleteModal={deleteModal}
-          setDeleteModal={setDeleteModal}
-        />
-      ) : null}
-
+          </div>
+          <div>
+            <PostAnswer pid={pid} getAnswerAnswer={getAnswer} />
+          </div>
+        </Detail>
+      </Wrapper>
       <MyFooter />
-    </Fragment>
+    </Container>
   );
 };
 
 export default QuestionDetail;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const Wrapper = styled.div`
+  display: flex;
+`;
+const Detail = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 1070px;
+  .quesitonBox {
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+    .top {
+      display: flex;
+      flex-direction: column;
+      width: 1070px;
+      border-bottom: 1px solid lightgray;
+      .title {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        h1 {
+          font-weight: 500;
+        }
+      }
+      .info {
+        width: auto;
+        margin-bottom: 10px;
+        margin-left: 3px;
+        span {
+          margin-right: 15px;
+          font-size: 14px;
+        }
+      }
+    }
+    .bottom {
+      display: flex;
+      width: 1000px;
+      align-items: flex-start;
+      .content {
+        padding: 20px;
+        width: 1000px;
+        min-height: 100px;
+        .tags {
+          display: flex;
+          justify-content: flex-start;
+          margin-top: 20px;
+          margin-bottom: 20px;
+          .tagwrapper {
+            cursor: pointer;
+            margin-right: 5px;
+            display: flex;
+            padding-left: 5px;
+            padding-right: 5px;
+            border-radius: 3px;
+            list-style: none;
+            background-color: #e1ecf4;
+          }
+          .tagwrapper:hover {
+            background-color: #d0e3f1;
+          }
+          .tag {
+            border: none;
+            padding: 3px;
+            font-size: 13px;
+            height: 23px;
+            border-radius: 3px;
+            background-color: transparent;
+            white-space: nowrap;
+            color: #39739d;
+          }
+        }
+      }
+      .content-bottom {
+        width: 1000px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        font-weight: 400;
+        button {
+          background-color: transparent;
+          border: none;
+          color: gray;
+          margin-right: 7px;
+          cursor: pointer;
+        }
+        a {
+          text-decoration: none;
+          color: gray;
+          margin-right: 7px;
+          cursor: pointer;
+        }
+        .name {
+          color: #0a95ff;
+          margin-left: 5px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .answerBox {
+    margin-left: 30px;
+  }
+`;
