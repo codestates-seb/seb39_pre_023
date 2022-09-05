@@ -6,6 +6,7 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import gfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
+import { getLoginCookie } from '../../lib/cookie';
 
 const PostContainer = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
@@ -120,12 +121,16 @@ const EditQuestion = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .put('http://3.39.180.45:56178/DBtest/update/1', {
-        post_name: title,
-        post_content: body,
-        member_id: '2',
-        tags: ['java', 'java2'],
-      })
+      .put(
+        'http://3.39.180.45:56178/DBtest/update/1',
+        {
+          post_name: title,
+          post_content: body,
+          member_id: '2',
+          tags: ['java', 'java2'],
+        },
+        { headers: { Authorization: getLoginCookie() } }
+      )
       .then((res) => {
         console.log(res.data);
         console.log('글수정 성공');

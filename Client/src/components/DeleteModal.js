@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { getLoginCookie } from '../lib/cookie';
 /* eslint-disable react/prop-types */
 
 const ModalBackdrop = styled.div`
@@ -79,7 +80,9 @@ export default function DeleteModal({ setDeleteModal }) {
 
   const DeletePost = () => {
     axios
-      .delete(`http://3.39.180.45:56178/DBtest/delete/7`)
+      .delete(`http://3.39.180.45:56178/DBtest/delete/7`, {
+        headers: { Authorization: getLoginCookie() },
+      })
       .then((res) => {
         console.log(res);
         console.log('삭제 성공');

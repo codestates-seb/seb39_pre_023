@@ -121,8 +121,6 @@ const MyHeader = ({
   );
 };
 const Container = styled.header`
-  /* position: fixed;
-  z-index: 5; */
   background-color: #f8f9f9;
   border-top: solid 3px #f2740d;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);

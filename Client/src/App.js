@@ -17,6 +17,7 @@ import { getLoginCookie } from './lib/cookie';
 import { setSignState, setUserData } from './action/action';
 import RequireAuth from './components/RequireAuth';
 import SearchResult from './pages/Search/SearchResult';
+
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();

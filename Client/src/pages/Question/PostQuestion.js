@@ -5,7 +5,7 @@ import Widget from '../../components/Widget';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PostBodyTextarea from '../../components/PostBodyTextarea';
-
+import { getLoginCookie } from '../../lib/cookie';
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key */
 
@@ -91,11 +91,15 @@ const PostQuestion = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post('http://3.39.180.45:56178/DBtest/post', {
-        post_name: title,
-        post_content: body,
-        member_id: '2',
-      })
+      .post(
+        'http://3.39.180.45:56178/DBtest/post',
+        {
+          post_name: title,
+          post_content: body,
+          member_id: '2',
+        },
+        { headers: { Authorization: getLoginCookie() } }
+      )
       .then((res) => {
         console.log(res.data);
         console.log('글작성 성공');

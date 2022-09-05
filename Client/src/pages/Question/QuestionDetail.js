@@ -7,7 +7,7 @@ import MyFooter from '../../components/MyFooter';
 import axios from 'axios';
 import DeleteModal from '../../components/DeleteModal';
 import PostBodyTextarea from '../../components/PostBodyTextarea';
-
+import { getLoginCookie } from '../../lib/cookie';
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key */
 const HeaderRow = styled.div`
@@ -196,11 +196,15 @@ const QuestionDetail = () => {
   function postAnswer(ev) {
     ev.preventDefault();
     axios
-      .post(`http://3.39.180.45:56178/DBtest/createAnswer`, {
-        post_id: answers.answer_id,
-        member_id: '2',
-        content: answers.content,
-      })
+      .post(
+        `http://3.39.180.45:56178/DBtest/createAnswer`,
+        {
+          post_id: answers.answer_id,
+          member_id: '2',
+          content: answers.content,
+        },
+        { headers: { Authorization: getLoginCookie() } }
+      )
       .then((res) => {
         console.log(res);
         setAnswerBody('');
@@ -222,10 +226,14 @@ const QuestionDetail = () => {
   function postAnswerComment(ev) {
     ev.preventDefault();
     axios
-      .post(`http://3.39.180.45:56178/api/comment/answer/1`, {
-        content: answerComments.content,
-        answer_id: answerComments.comment.id,
-      })
+      .post(
+        `http://3.39.180.45:56178/api/comment/answer/1`,
+        {
+          content: answerComments.content,
+          answer_id: answerComments.comment.id,
+        },
+        { headers: { Authorization: getLoginCookie() } }
+      )
       .then((res) => {
         console.log('댓글데이터', res);
         console.log('답변댓글성공', res.data);
@@ -233,7 +241,9 @@ const QuestionDetail = () => {
   }
   const deleteAnswer = () => {
     axios
-      .delete(`http://3.39.180.45:56178/DBtest/deleteAnswer/1`)
+      .delete(`http://3.39.180.45:56178/DBtest/deleteAnswer/1`, {
+        headers: { Authorization: getLoginCookie() },
+      })
       .then((res) => {
         console.log(res);
         console.log('답변삭제 성공');
@@ -243,7 +253,9 @@ const QuestionDetail = () => {
 
   const deleteComment = () => {
     axios
-      .delete(`http://3.39.180.45:56178/api/comment/`)
+      .delete(`http://3.39.180.45:56178/api/comment/`, {
+        headers: { Authorization: getLoginCookie() },
+      })
       .then((res) => {
         console.log(res);
         console.log('코멘트삭제 성공');
