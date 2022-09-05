@@ -20,8 +20,8 @@ const Logout = () => {
           </BtnContainer>
           <Pcontainer>
             <p>
-              If you’re on a shared computer, remember to log out of your Open
-              ID provider (Facebook, Google, Stack Exchange, etc.) as well.
+              If you&apos;re on a shared computer, remember to log out of your
+              Open ID provider (Facebook, Google, Stack Exchange, etc.) as well.
             </p>
           </Pcontainer>
         </BoxWrapper>

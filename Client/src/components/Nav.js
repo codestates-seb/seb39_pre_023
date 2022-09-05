@@ -11,12 +11,12 @@ const StyledNav = styled.div`
   flex-direction: column;
   margin-top: 3px;
   height: 100vh;
-  width: 206px;
+  width: 164px;
   border-right: 1px solid #cccdce;
 
   ol {
     margin-top: 30px;
-    padding-left: 0px;
+    padding-left: 10px;
     list-style: none;
     padding-bottom: 20px;
   }
@@ -48,7 +48,7 @@ function Nav() {
       <ol>
         Public
         <li className="question">
-          <Link to="/question">
+          <Link to="/">
             <FontAwesomeIcon className="earth" icon={faEarthAmerica} />
             Questions
           </Link>

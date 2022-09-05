@@ -1,5 +1,155 @@
+import { Fragment, useState } from 'react';
+import MyButton from '../../components/MyButton';
+import styled from 'styled-components';
+import Widget from '../../components/Widget';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import PostBodyTextarea from '../../components/PostBodyTextarea';
+
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-key */
+
+const PostContainer = styled.div`
+  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+  font-family: Roboto, sans-serif;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin-left: 30px;
+  padding: 30px 30px 30px;
+  width: 876px;
+  height: 587.17px;
+  border-radius: 10px;
+  position: center;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  h3 {
+    font-weight: 600;
+  }
+`;
+
+const QuestionTitleInput = styled.input`
+  background: none;
+  border: 1px solid #777;
+  border-radius: 3px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin-bottom: 20px;
+  h3 {
+    font-weight: 600;
+  }
+`;
+
+const QuestionTagInput = styled.input`
+  background: none;
+  border: 1px solid #777;
+  border-radius: 3px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin-bottom: 20px;
+  h3 {
+    font-weight: 100;
+  }
+`;
+
+const StyledMyButton = styled.div`
+  margin-top: 30px;
+
+  display: flex;
+`;
+
+const StyledHeaderRow = styled.header`
+  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+  font-family: Roboto, sans-serif;
+  display: flex;
+  background-color: #f1f2f3;
+  align-items: center;
+  height: 130px;
+  background-image: url('https://cdn.sstatic.net/img/ask/background.svg?v=2e9a8205b368');
+  background-repeat: no-repeat;
+  background-position: right bottom !important;
+  padding-top: 24px !important;
+  padding-bottom: 24px !important;
+  padding-left: 31px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  background-color: #f1f2f3;
+`;
+
 const PostQuestion = () => {
-  return <div>글작성페이지</div>;
+  const [title, setTitle] = useState('');
+  const [body, setBody] = useState('');
+  const [tags, setTags] = useState([]);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .post('http://3.39.180.45:56178/DBtest/post', {
+        post_name: title,
+        post_content: body,
+        member_id: '2',
+      })
+      .then((res) => {
+        console.log(res.data);
+        console.log('글작성 성공');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    navigate('/questiondetail');
+  };
+  return (
+    <Fragment>
+      <StyledHeaderRow>
+        <h1>Ask a Public question</h1>
+      </StyledHeaderRow>
+      <Container>
+        <PostContainer>
+          <h3>Title</h3>
+          <div>
+            Be specific and imagine you &apos; re asking a question to another
+            person
+          </div>
+          <QuestionTitleInput
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            type="text"
+            placeholder="e.g Is there an R function for finding the index of an element in a vector?"
+            title={title}
+          />
+          <h3>Body</h3>
+          <span>
+            Include all the information someone would need to answer your
+            question
+          </span>
+          <PostBodyTextarea value={body} handlePostBodyChange={setBody} />
+          <h3>Tag Name</h3>
+          <span>Add up to 5 tags to describe what your question is about</span>
+          <QuestionTagInput
+            type="text"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+          ></QuestionTagInput>
+
+          <StyledMyButton>
+            <MyButton
+              text={'Post your question'}
+              type={'blue'}
+              onClick={(event) => handleSubmit(event)}
+            />
+          </StyledMyButton>
+        </PostContainer>
+        <Widget />
+      </Container>
+    </Fragment>
+  );
 };
 
 export default PostQuestion;

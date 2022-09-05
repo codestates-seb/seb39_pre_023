@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 /* eslint-disable react/prop-types */
 
 const StyledPost = styled.div`
@@ -117,7 +118,7 @@ const PostList = ({ lists }) => {
           </div>
           <div className="summary">
             <div>
-              <h2>{el.post_name}</h2>
+              <Link to="/questiondetail">{el.post_name}</Link>
               <div>{el.post_content}</div>
               <div>{el.write_date}</div>
             </div>

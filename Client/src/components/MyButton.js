@@ -1,9 +1,14 @@
 /* eslint-disable react/prop-types */
 
 const MyButton = ({ text, type, onClick }) => {
-  const btnType = ['orange', 'blue', 'skyblue', 'selected', 'default'].includes(
-    type
-  )
+  const btnType = [
+    'orange',
+    'blue',
+    'skyblue',
+    'read',
+    'selected',
+    'default',
+  ].includes(type)
     ? type
     : 'default';
   return (
