@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -31,10 +32,11 @@ public class profile_controller {
     com.team23.PreProject.checkMember checkMember;
     @Autowired
     profile_repository profile_repository;
-    @PreAuthorize("hasRole('ROLE_USER')")
+
+    @PermitAll
     @GetMapping("/DBtest/getProfile")
-    public ResponseEntity getMemberProfile(HttpServletRequest request,
-                                           @RequestHeader(value="Authorization") String token)
+    public ResponseEntity getMemberProfile(HttpServletRequest request
+                                           )
 
     {
         System.out.println("=========================================="+request.getHeader("Authorization")+"\n\n\n");
