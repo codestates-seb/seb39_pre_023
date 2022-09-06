@@ -103,7 +103,7 @@ const AnswerItem = ({ data, pid }) => {
               <span>Answered </span>
               <br />
               <span>{createdAt}</span>
-              <p className="name">{data.memid}</p>
+              <p className="name">{data.id}</p>
             </div>
           </div>
           {isEdit ? (
