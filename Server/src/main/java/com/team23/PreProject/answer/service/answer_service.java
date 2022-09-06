@@ -186,6 +186,7 @@ public class answer_service {
         {
             temp= new answer_info();
             System.out.println("answers====================");
+
             temp.setAnswer_id(answ.getAnswerId());
             temp.setAnswer_content(answ.getAnswer_content());
             temp.setAccepted(answ.getAccepted());
@@ -203,6 +204,7 @@ public class answer_service {
             member_info mtemp = new member_info();
             mtemp.setMember_id(member.getMemberId());
             mtemp.setNickName(member.getNickName());
+            mtemp.setProfile_id(member.getMemberId());
             temp.setMember(mtemp);
             temp.setPost_id(answ.getPostId());
             temp.setAccepted(answ.getAccepted());
