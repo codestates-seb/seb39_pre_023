@@ -37,7 +37,7 @@ const Login = () => {
         setLoginCookie(data.token);
         localStorage.setItem('token', JSON.stringify(data.token));
         delete data.token;
-        // msg boolean
+
         const res2 = await axios.get(
           'http://3.39.180.45:56178/DBtest/refreshToken',
           { headers: { Authorization: getLoginCookie() } }
@@ -45,14 +45,10 @@ const Login = () => {
         const data2 = res2.data; // true
         dispatch(setSignState(data2.msg));
         delete data2.msg;
-        // data userid, memeberid
-        dispatch(setUserData(data));
-        console.log(data);
+        dispatch(setUserData(data)); // data userid, memeberid
         localStorage.setItem('userData', JSON.stringify(data));
-        let useruser = localStorage.getItem('userData');
-        let p = JSON.parse(useruser);
-        console.log(p);
         navigate('/');
+        console.log('login succed');
       }
     } catch (err) {
       if (err.response.status >= 400) {

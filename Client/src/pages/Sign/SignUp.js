@@ -55,16 +55,14 @@ const SignUp = () => {
         const data = res.data;
         if (data) {
           setIdMsg(<p>사용가능한 아이디입니다</p>);
-          console.log(data);
         } else {
           setIdMsg(<p>중복된 아이디입니다</p>);
-          console.log(data);
         }
       } else {
         setIdMsg(<p>아이디 조건을 만족해주세요</p>);
       }
     } catch (err) {
-      console.log(err);
+      if (err) setIdMsg(<p>아이디 조건을 만족해주세요</p>);
     }
   };
   // pw 유효성검사
@@ -73,7 +71,7 @@ const SignUp = () => {
     if (isValidPw(e.target.value)) {
       setPwMsg(<p>비밀번호가 조건에 만족합니다</p>);
     } else {
-      setPwMsg(<p>8 ~ 16자 사이의 영문, 숫자, 특수문자를 조합하세요</p>);
+      setPwMsg(<p>8~16자 사이의 영문, 숫자, 특수문자를 조합하세요</p>);
     }
   };
   // rePw 유효성검사
@@ -98,6 +96,7 @@ const SignUp = () => {
           { headers: { Authorization: getLoginCookie() } }
         )
         .then(() => {
+          console.log('sign up suceed');
           navigate('/login');
         });
     }

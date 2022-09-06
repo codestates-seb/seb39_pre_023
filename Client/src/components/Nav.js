@@ -53,13 +53,13 @@ function Nav() {
           </Link>
         </li>
         <li>
-          <Link to="/tags">Tags</Link>
+          <div>Tags</div>
         </li>
         <li>
-          <Link to="/users">Users</Link>
+          <div>Users</div>
         </li>
         <li>
-          <Link to="/companies">Companies</Link>
+          <div>Companies</div>
         </li>
       </ol>
     </StyledNav>

@@ -12,14 +12,12 @@ import Tags from '../../components/Tags';
 const EditQuestion = () => {
   const location = useLocation();
   const data = location.state.data;
-
   const [title, setTitle] = useState(data.post_name);
-
   const [body, setBody] = useState(data.post_content);
   const navigate = useNavigate();
   const [tagList, setTagList] = useState([]);
   const [tags, setTags] = useState([]);
-  const [tagData, setTagData] = useState([...data.tags]);
+  const [tagData, setTagData] = useState([]);
   const [msg, setMsg] = useState(<p></p>);
 
   useEffect(() => {
@@ -27,7 +25,6 @@ const EditQuestion = () => {
       setTagList(res.data.tags);
     });
   }, []);
-
   useEffect(() => {
     setTagData(tags.map((el) => el.name));
   }, [tags]);

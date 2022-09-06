@@ -14,7 +14,7 @@ import SignUp from './pages/Sign/SignUp';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { getLoginCookie } from './lib/cookie';
-import { setSignState, setUserData } from './action/action';
+import { setSignState } from './action/action';
 import RequireAuth from './components/RequireAuth';
 import SearchResult from './pages/Search/SearchResult';
 
@@ -22,12 +22,25 @@ function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [viewModal, setModal] = useState(false);
-  const token = localStorage.getItem('token');
   const [searchList, setSearchList] = useState([]);
   const [searchCount, setSearchCount] = useState(0);
   const [keyword, setkeyword] = useState('');
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const func = async () => {
+      const res = await axios.get(
+        `http://3.39.180.45:56178/DBtest/tokenLogin`,
+        {
+          headers: { authorization: getLoginCookie() },
+        }
+      );
+      dispatch(setSignState(res.data));
+    };
+    func();
+  }, []);
+
   useEffect(() => {
     getAllQuestion();
   }, []);
@@ -39,29 +52,6 @@ function App() {
         setLoading(false);
       });
   };
-
-  useEffect(() => {
-    if (token) {
-      dispatch(setSignState(true));
-    } else {
-      dispatch(setSignState(false));
-    }
-    async () => {
-      const res = await axios.get(
-        `http://3.39.180.45:56178/DBtest/tokenLogin`,
-        {
-          headers: { authorization: getLoginCookie() },
-        }
-      );
-      console.log(res.data);
-      dispatch(setSignState(res.data.msg));
-      delete res.data.msg;
-      console.log(res.data);
-      dispatch(setUserData(res.data));
-      setLoading(false);
-    };
-  }, []);
-
   useEffect(() => {
     if (!keyword) {
       return;

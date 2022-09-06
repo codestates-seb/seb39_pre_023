@@ -26,7 +26,7 @@ const MyQuestionListItem = ({ data }) => {
           <span>{data.view_count} views</span>
         </div>
         <div className="title">
-          <a href={`/${data.post_id}`}>
+          <a href={`questiondetail/${data.post_id}`}>
             <span className="myTitle">{data.post_name}</span>
           </a>
         </div>

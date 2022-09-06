@@ -3,11 +3,13 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { getLoginCookie } from '../lib/cookie';
 import MyButton from './MyButton';
+import { useSelector } from 'react-redux';
 /* eslint-disable react/prop-types */
 const PostAnswer = ({ pid, getAnswerAnswer }) => {
   const [content, setContent] = useState('');
+  const state = useSelector((state) => state.signInReducer);
   const userData = JSON.parse(localStorage.getItem('userData'));
-  let memberid = userData.memberId;
+  let memberId = parseInt(userData.memberId);
   const submitAnswer = () => {
     if (content === '') {
       return;
@@ -17,15 +19,12 @@ const PostAnswer = ({ pid, getAnswerAnswer }) => {
           `http://3.39.180.45:56178/DBtest/createAnswer/`,
           {
             post_id: pid,
-            member_id: memberid,
+            member_id: memberId,
             content: content,
           },
           { headers: { Authorization: getLoginCookie() } }
         )
-        .then((res) => {
-          console.log(res.data);
-          console.log('답변 제출 성공');
-          // getAnswer();
+        .then(() => {
           getAnswerAnswer();
         });
     }
@@ -41,7 +40,7 @@ const PostAnswer = ({ pid, getAnswerAnswer }) => {
       <MyButton
         text={'Post Your Answer'}
         type={'blue'}
-        onClick={submitAnswer}
+        onClick={state.loginState ? submitAnswer : null}
       />
       <p>
         Not the answer you&apos;re looking for? Browse other relative questions
