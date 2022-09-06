@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 /* eslint-disable react/prop-types */
@@ -21,11 +22,28 @@ const Container = styled.div`
   }
 `;
 const AnswerVote = ({ votes, onIncreaseVote, onDecreaseVote }) => {
+  const [count, setCount] = useState(0);
   const onPlus = () => {
-    onIncreaseVote();
+    if (count === 0) {
+      onIncreaseVote();
+      setCount(count + 1); // +1
+    } else if (count === 1) {
+      return;
+    } else if (count === -1) {
+      onIncreaseVote();
+      setCount(count + 1); // 0
+    }
   };
   const onMinus = () => {
-    onDecreaseVote();
+    if (count === 0) {
+      onDecreaseVote();
+      setCount(count - 1); // -1
+    } else if (count === -1) {
+      return;
+    } else if (count === 1) {
+      onDecreaseVote();
+      setCount(count - 1); // 0
+    }
   };
   return (
     <Container>
