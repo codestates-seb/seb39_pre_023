@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+
 import javax.annotation.security.PermitAll;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -75,10 +77,12 @@ public class controller {
     }
 
 
+
     @PermitAll
     @GetMapping("/DBtest/download")
     public ResponseEntity download(@RequestParam Integer memberId
             ) throws IOException {
+
 
         System.out.println("download request");
         String filename;
