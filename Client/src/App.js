@@ -30,7 +30,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     getAllQuestion();
-  }, [lists, setLists]);
+  }, []);
   const getAllQuestion = () => {
     axios
       .get(`http://3.39.180.45:56178/DBtest/findAllPost?page=1&size=-2`)
@@ -53,8 +53,10 @@ function App() {
           headers: { authorization: getLoginCookie() },
         }
       );
+      console.log(res.data);
       dispatch(setSignState(res.data.msg));
       delete res.data.msg;
+      console.log(res.data);
       dispatch(setUserData(res.data));
       setLoading(false);
     };

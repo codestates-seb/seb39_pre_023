@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getLoginCookie } from '../../lib/cookie';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import MyFooter from '../../components/MyFooter';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 const MyPage = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [nickname, setNickname] = useState('');
   const [location, setLocation] = useState('');
   const [about, setAbout] = useState('');
@@ -18,53 +18,55 @@ const MyPage = () => {
   const [questions, setQuestions] = useState([]);
   const [infoData, setInfoData] = useState({});
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem('token');
-  const state = useSelector((state) => state.signInReducer);
-  // 파라미터는 profile_id 로 받기.
-  useEffect(() => {
-    if (state.loginState) {
-      axios
-        .get(`http://3.39.180.45:56178/DBtest/getProfile`, {
-          headers: { Authorization: getLoginCookie() },
-        })
-        .then((res) => {
-          setInfoData(res.data);
-          setNickname(res.data.displayname);
-          setLocation(res.data.location);
-          setAbout(res.data.about);
-          axios
-            .get(
-              `http://3.39.180.45:56178/DBtest/findPost/${res.data.profile_id}?page=1`,
-              {
-                headers: { Authorization: getLoginCookie() },
-              }
-            )
-            .then((res) => {
-              setQuestions(res.data.posts);
-            })
-            .catch(() => {
-              console.log('findpost error from mypage');
-            });
-          axios
-            .get(
-              `http://3.39.180.45:56178/DBtest/findAnswersBymember/${res.data.profile_id}?page=1&size=15`,
-              {
-                headers: { Authorization: getLoginCookie() },
-              }
-            )
-            .then((res) => {
-              setAnswers(res.data.answers);
-              setLoading(false);
-            });
-        })
-        .catch((err) => {
-          navigate('/');
-          if (err.response.status === 500) return navigate('/mypage');
-        });
-    }
-  }, [token]);
-  if (loading) return null;
+  // const token = localStorage.getItem('token');
+  // const state = useSelector((state) => state.signInReducer);
+  let userData = localStorage.getItem('userData');
+  let userinfo = JSON.parse(userData);
+  let pid = userinfo.memberId;
 
+  // 파라미터는 profile_id 로 받기.
+  const getprofile = () => {
+    axios
+      .get(`http://3.39.180.45:56178/DBtest/getProfile`, {
+        headers: { Authorization: getLoginCookie() },
+      })
+      .then((res) => {
+        setInfoData(res.data);
+        setNickname(res.data.displayname);
+        setLocation(res.data.location);
+        setAbout(res.data.about);
+      });
+  };
+  const getquestion = () => {
+    axios
+      .get(`http://3.39.180.45:56178/DBtest/findPost/${pid}?page=1`, {
+        headers: { Authorization: getLoginCookie() },
+      })
+      .then((res) => {
+        setQuestions(res.data.posts);
+      });
+  };
+  const getanswer = () => {
+    axios
+      .get(
+        `http://3.39.180.45:56178/DBtest/findAnswersBymember/${pid}?page=1&size=15`,
+        {
+          headers: { Authorization: getLoginCookie() },
+        }
+      )
+      .then((res) => {
+        setAnswers(res.data.answers);
+        console.log(res.data.answers);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getprofile();
+    getquestion();
+    getanswer();
+  }, []);
+  if (loading) return null;
   return (
     <Container>
       <Main>

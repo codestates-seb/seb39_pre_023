@@ -3,14 +3,12 @@ import styled from 'styled-components';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { getLoginCookie } from '../lib/cookie';
-// import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 /* eslint-disable react/prop-types */
 
 const MyProfileImg = ({ userId }) => {
-  // const state = useSelector((state) => state.signInReducer);
-  const userData = JSON.parse(localStorage.getItem('userData'));
-  let memberid = userData.memberId;
-  const [preview, setPreview] = useState(null);
+  const navigate = useNavigate();
+  const [preview, setPreview] = useState(undefined);
   const imgInput = useRef(null);
   const onChangeImgBtnClick = (e) => {
     e.preventDefault();
@@ -42,10 +40,12 @@ const MyProfileImg = ({ userId }) => {
           'content-type': 'multipart/form-data',
         },
       };
-      axios.post('http://3.39.180.45:56178/DBtest/upload', formData, config);
+      axios
+        .post('http://3.39.180.45:56178/DBtest/upload', formData, config)
+        .then(() => {});
     } catch (err) {
       if (err.reponse.status >= 400) {
-        return;
+        navigate('/');
       }
     }
   };
@@ -56,8 +56,8 @@ const MyProfileImg = ({ userId }) => {
         <h4>Profile image</h4>
         <img
           src={
-            !preview
-              ? `http://3.39.180.45:56178/DBtest/download?memberId=${memberid}`
+            preview === undefined
+              ? `http://3.39.180.45:56178/DBtest/download?memberId=${userId}`
               : preview
           }
           alt="profileImage"
