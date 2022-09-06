@@ -22,6 +22,7 @@ public interface answer_mapper {
                         .modified_date(answer.getModifiedDate())
                         .Accepted(answer.getAccepted())
                         .memberId(answer.getMember().getMemberId())
+                        .id(answer.getMember().getId())
 //                        .profileImageLink(answer.getMember().getProfile().getProfileImageLink())
                         .build())
                 .collect(Collectors.toList());

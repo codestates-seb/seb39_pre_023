@@ -265,6 +265,7 @@ public class post_service {
             System.out.println("\n\n\n"+post_tag_repository.findByPostPostId(post_id).size()+"\n\n\n\n");
             dto = new post_get_dto(post,member.getProfile(),post_tag_repository.findByPostPostId(post_id),member_post_repository,answer_repository,comment_repository);
 
+
             return dto;
 
 

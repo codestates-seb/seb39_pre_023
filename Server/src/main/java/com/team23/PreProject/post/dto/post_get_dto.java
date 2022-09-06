@@ -60,6 +60,7 @@ public class post_get_dto {
         List<comment> coList= new ArrayList<>();
         answer_info ai=new answer_info();
         comment_info ci = new comment_info();
+        this.post.setAnswerCount(ansList.size());
         for(answer atemp : ansList)
         {
             ai = new answer_info();
