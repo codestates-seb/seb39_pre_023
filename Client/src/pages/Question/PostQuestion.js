@@ -32,17 +32,13 @@ const PostQuestion = () => {
   }, [tags]);
 
   const handleSubmit = (event) => {
-    console.log(tagData);
     event.preventDefault();
     for (let i = 0; i < tagData.length; i++) {
       if (tagData[0] === '') {
-        console.log('1번');
         setMsg(<p>Please check your title or body.. Some data is missing.</p>);
       } else if (title === '' || body === '') {
-        console.log('2번');
         setMsg(<p>Please check your title or body.. Some data is missing.</p>);
       } else {
-        console.log('3번');
         setMsg(<p></p>);
         axios
           .post(
@@ -55,8 +51,7 @@ const PostQuestion = () => {
             },
             { headers: { Authorization: getLoginCookie() } }
           )
-          .then((res) => {
-            console.log(res.data);
+          .then(() => {
             navigate(`/`);
           })
           .catch((err) => {

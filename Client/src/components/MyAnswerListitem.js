@@ -22,7 +22,7 @@ const MyAnswerListItem = ({ data }) => {
             )}
           </span>
         </div>
-        <a href={`/${data.answer_i}`}>
+        <a href={`questiondetail/${data.post_id}`}>
           <h4 className="myTitle">{data.answer_content}</h4>
         </a>
       </PostInfo>

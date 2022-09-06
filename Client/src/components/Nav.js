@@ -6,62 +6,61 @@ import { faEarthAmerica } from '@fortawesome/free-solid-svg-icons';
 const StyledNav = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
   font-family: Roboto, sans-serif;
-  color: black;
+  color: #525960;
   display: flex;
   flex-direction: column;
   margin-top: 3px;
-  height: 100vh;
+  min-height: 100vh;
   width: 164px;
-
-  ol {
-    margin-top: 30px;
-    padding-left: 10px;
-    list-style: none;
-    padding-bottom: 20px;
-  }
-  li {
-    margin-top: 0px;
-    margin: 20px;
-  }
-  div {
-    padding-bottom: 20px;
-  }
+  border-right: 1px solid #d2d2d2;
   a {
-    margin-top: 20px;
-    padding-top: 10px;
-    text-decoration-line: none;
-    color: black;
+    text-decoration: none;
+    color: #525960;
   }
-  .question {
-    margin-left: 1px;
+  .home {
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
-  .earth {
-    padding: 0 1px 1px;
+  .category {
+    font-size: 14px;
+  }
+  .menu {
+    margin-top: 2px;
+    display: flex;
+    flex-direction: column;
+    height: 120px;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: left;
+
+    .question {
+      width: 164px;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .question:hover {
+      background-color: #f1f2f3;
+      border-right: 5px solid #f48225;
+    }
   }
 `;
 
 function Nav() {
   return (
     <StyledNav>
-      <Link to="/">Home</Link>
-      <ol>
-        Public
-        <li className="question">
-          <Link to="/">
-            <FontAwesomeIcon className="earth" icon={faEarthAmerica} />
-            Questions
-          </Link>
-        </li>
-        <li>
-          <Link to="/tags">Tags</Link>
-        </li>
-        <li>
-          <Link to="/users">Users</Link>
-        </li>
-        <li>
-          <Link to="/companies">Companies</Link>
-        </li>
-      </ol>
+      <Link to="/" className="home">
+        Home
+      </Link>
+      <div className="category">PUBLIC</div>
+      <div className="menu">
+        <Link to="/" className="question">
+          <FontAwesomeIcon icon={faEarthAmerica} />
+          Questions
+        </Link>
+        <div className="question">Tags</div>
+        <div className="question">Users</div>
+        <div className="question">Companies</div>
+      </div>
     </StyledNav>
   );
 }

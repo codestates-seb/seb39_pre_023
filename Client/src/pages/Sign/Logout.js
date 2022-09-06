@@ -13,8 +13,8 @@ const Logout = () => {
       .get(`http://3.39.180.45:56178/DBtest/Logout`, {
         headers: { Authorization: getLoginCookie() },
       })
-      .then((res) => {
-        console.log(res.data);
+      .then(() => {
+        // console.log(res.data);
         deleteCookie();
         dispatch(trySignout());
         localStorage.removeItem('token');
@@ -61,6 +61,8 @@ const Container = styled.div`
   background-color: #f1f2f3;
   height: 100vh;
   display: flex;
+  min-width: auto;
+  width: 100%;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -77,7 +79,7 @@ const LogoutBox = styled.div`
   align-items: center;
   padding: 30px;
   width: 300px;
-  height: 260px;
+  height: 280px;
   border-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 `;
@@ -85,7 +87,7 @@ const BtnContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 270px;
-  height: 200px;
+  height: 250px;
   justify-content: space-between;
   align-items: flex-start;
   margin-left: 20px;
@@ -97,6 +99,7 @@ const BtnContainer = styled.div`
     font-weight: 500;
   }
   .btnWrapper {
+    margin-top: 25px;
     button {
       width: 70px;
       height: 38px;

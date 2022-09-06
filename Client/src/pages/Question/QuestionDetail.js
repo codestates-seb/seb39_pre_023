@@ -8,15 +8,11 @@ import Answers from '../../components/Answers';
 import styled from 'styled-components';
 import PostAnswer from '../../components/PostAnswer';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-// import DeleteModal from '../../components/DeleteModal';
 import PostVote from '../../components/PostVote';
 import { getLoginCookie } from '../../lib/cookie';
 import { useSelector } from 'react-redux';
 const QuestionDetail = ({ getAllPost }) => {
   const state = useSelector((state) => state.signInReducer);
-  const userData = localStorage.getItem('userData');
-  const userinfo = JSON.parse(userData);
-  let memberid = userinfo.memberId;
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [pid, setPid] = useState(0);
@@ -24,6 +20,8 @@ const QuestionDetail = ({ getAllPost }) => {
   const [count, setCount] = useState(0);
   const [votes, setVotes] = useState(0);
   const [loading, setLoading] = useState(true);
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  let memberId = parseInt(userData.memberId);
   let params = useParams();
 
   const createdAt = new Date(data.write_date).toLocaleDateString('en-us', {
@@ -42,6 +40,10 @@ const QuestionDetail = ({ getAllPost }) => {
     hour: 'numeric',
     minute: 'numeric',
   });
+  const createdAt2 = new Date(data.write_date).toLocaleDateString('en-us', {
+    hour: 'numeric',
+    minute: 'numeric',
+  });
 
   useEffect(() => {
     getQuestionDetail();
@@ -51,7 +53,6 @@ const QuestionDetail = ({ getAllPost }) => {
     axios
       .get(`http://3.39.180.45:56178/DBtest/getPost?post_id=${params.id}`)
       .then((res) => {
-        console.log(res.data.post);
         setData(res.data.post);
         setPid(res.data.post.post_id);
         setVotes(res.data.post.score);
@@ -64,7 +65,6 @@ const QuestionDetail = ({ getAllPost }) => {
         `http://3.39.180.45:56178/DBtest/findAnswers/${params.id}?page=1&size=15`
       )
       .then((res) => {
-        // console.log(res.data.data);
         setAnswerList([...res.data.data]);
         setCount(res.data.page_info.total_elements);
       });
@@ -75,7 +75,7 @@ const QuestionDetail = ({ getAllPost }) => {
     let data = {};
     axios
       .post(
-        `http://3.39.180.45:56178/DBtest/post_vote?vote=+1&member_id=${memberid}&post_id=${params.id}`,
+        `http://3.39.180.45:56178/DBtest/post_vote?vote=+1&member_id=${memberId}&post_id=${params.id}`,
         data,
         { headers: { Authorization: getLoginCookie() } }
       )
@@ -86,7 +86,7 @@ const QuestionDetail = ({ getAllPost }) => {
   const onDecreaseVote = () => {
     axios
       .post(
-        `http://3.39.180.45:56178/DBtest/post_vote?vote=-1&member_id=${memberid}&post_id=${params.id}`,
+        `http://3.39.180.45:56178/DBtest/post_vote?vote=-1&member_id=${memberId}&post_id=${params.id}`,
         data,
         { headers: { Authorization: getLoginCookie() } }
       )
@@ -99,9 +99,7 @@ const QuestionDetail = ({ getAllPost }) => {
       .delete(`http://3.39.180.45:56178/DBtest/delete/${params.id}`, {
         headers: { Authorization: getLoginCookie() },
       })
-      .then((res) => {
-        console.log(res.data);
-        console.log('question deleted');
+      .then(() => {
         getAllPost();
         navigate('/');
       });
@@ -148,7 +146,7 @@ const QuestionDetail = ({ getAllPost }) => {
                 <div className="content-bottom">
                   <div className="btns">
                     {state.loginState &&
-                    parseInt(memberid) === parseInt(data.writer.member_id) ? (
+                    parseInt(memberId) === parseInt(data.writer.member_id) ? (
                       <>
                         <Link
                           to={`/editquestion/${data.post_id}`}
@@ -160,8 +158,10 @@ const QuestionDetail = ({ getAllPost }) => {
                       </>
                     ) : null}
                   </div>
-                  <div>
-                    <span>Asked</span>
+                  <div className="userinfo">
+                    <span>Asked </span>
+                    <br />
+                    <span>{createdAt2}</span>
                     <span className="name">{data.writer.nick_name}</span>
                   </div>
                 </div>
@@ -268,11 +268,17 @@ const Detail = styled.div`
         }
       }
       .content-bottom {
-        width: 1000px;
+        width: 1030px;
         display: flex;
         justify-content: space-between;
         font-size: 14px;
         font-weight: 400;
+
+        .userinfo {
+          border-radius: 5px;
+          padding: 10px;
+          background-color: #d9eaf7;
+        }
         button {
           background-color: transparent;
           border: none;

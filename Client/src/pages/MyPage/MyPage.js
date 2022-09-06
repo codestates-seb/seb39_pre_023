@@ -5,12 +5,9 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getLoginCookie } from '../../lib/cookie';
-// import { useNavigate } from 'react-router-dom';
 import MyFooter from '../../components/MyFooter';
-// import { useSelector } from 'react-redux';
 
 const MyPage = () => {
-  // const navigate = useNavigate();
   const [nickname, setNickname] = useState('');
   const [location, setLocation] = useState('');
   const [about, setAbout] = useState('');
@@ -18,8 +15,6 @@ const MyPage = () => {
   const [questions, setQuestions] = useState([]);
   const [infoData, setInfoData] = useState({});
   const [loading, setLoading] = useState(true);
-  // const token = localStorage.getItem('token');
-  // const state = useSelector((state) => state.signInReducer);
   let userData = localStorage.getItem('userData');
   let userinfo = JSON.parse(userData);
   let pid = userinfo.memberId;
@@ -56,7 +51,6 @@ const MyPage = () => {
       )
       .then((res) => {
         setAnswers(res.data.answers);
-        console.log(res.data.answers);
         setLoading(false);
       });
   };

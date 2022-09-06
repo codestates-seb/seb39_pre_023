@@ -6,6 +6,8 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: auto;
+  width: 100%;
   .msgContainer {
     margin-right: 40px;
     height: 300px;

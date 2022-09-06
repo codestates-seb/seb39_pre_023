@@ -65,15 +65,15 @@ const MyFooter = () => {
 export default MyFooter;
 
 const Container = styled.div`
-  margin-top: 40px;
   background-color: #24262a;
   height: 320px;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
 const Footer = styled.footer`
-  width: 1070px;
+  width: 1330px;
   height: 200px;
   display: flex;
   justify-content: center;

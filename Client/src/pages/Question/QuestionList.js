@@ -49,13 +49,29 @@ const HeaderRow = styled.div`
   display: flex;
   justify-content: space-between;
   height: 100px;
-  padding: 30px 30px;
-  width: 1000px;
+  padding-top: 30px;
+  padding-left: 20px;
+  width: 1070px;
 `;
 const ButtonRow = styled.div`
   display: flex;
   height: 100px;
-  padding: 30px 30px;
+  padding-top: 30px;
+  padding-left: 20px;
+  button {
+    width: 50px;
+    font-size: 12px;
+    height: 35px;
+    border-left: 0.5px solid #54595e;
+    border-top: 0.5px solid #54595e;
+    border-bottom: 0.5px solid #54595e;
+    color: #54595e;
+    border-radius: 0px;
+  }
+  button:nth-of-type(4) {
+    color: white;
+    border: 0.5px solid #0a95ff;
+  }
 `;
 const StyledHeader = styled.header`
   display: flex;
@@ -65,8 +81,9 @@ const BtnWrapper = styled.div`
   height: 200px;
   width: 150px;
   button {
-    width: 120px;
-    height: 30px;
+    width: 150px;
+    height: 40px;
+    font-size: 16px;
   }
 `;
 
@@ -80,7 +97,6 @@ const StyledMain = styled.main`
 const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  border-left: 1px solid #cccdce;
 `;
 const QuestionCountRow = styled.div`
   margin-bottom: 12px;
@@ -89,5 +105,4 @@ const QuestionCountRow = styled.div`
   justify-content: space-between;
   padding-left: 24px;
   padding-right: 3px;
-  border-bottom: 1px solid #4a4e51;
 `;

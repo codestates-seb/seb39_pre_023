@@ -12,14 +12,12 @@ import Tags from '../../components/Tags';
 const EditQuestion = () => {
   const location = useLocation();
   const data = location.state.data;
-
   const [title, setTitle] = useState(data.post_name);
-
   const [body, setBody] = useState(data.post_content);
   const navigate = useNavigate();
   const [tagList, setTagList] = useState([]);
   const [tags, setTags] = useState([]);
-  const [tagData, setTagData] = useState([...data.tags]);
+  const [tagData, setTagData] = useState([]);
   const [msg, setMsg] = useState(<p></p>);
 
   useEffect(() => {
@@ -27,7 +25,6 @@ const EditQuestion = () => {
       setTagList(res.data.tags);
     });
   }, []);
-
   useEffect(() => {
     setTagData(tags.map((el) => el.name));
   }, [tags]);
@@ -130,9 +127,7 @@ const PostContainer = styled.div`
   margin-left: 30px;
   padding: 30px 30px 30px;
   width: 876px;
-  height: 587.17px;
   border-radius: 10px;
-  position: center;
 
   h1 {
     margin-bottom: 20px;
@@ -145,6 +140,7 @@ const PostContainer = styled.div`
 `;
 
 const QuestionTitleInput = styled.input`
+  margin-top: 5px;
   background: none;
   border: 1px solid #777;
   border-radius: 3px;
@@ -153,21 +149,47 @@ const QuestionTitleInput = styled.input`
   box-sizing: border-box;
   padding: 10px;
   margin-bottom: 20px;
+  font-size: 14px;
+  color: #363b3f;
+  border-radius: 5px;
+
+  &:focus {
+    border: 1px solid cornflowerblue;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: 0 0 0 3px #cde9fe;
+  }
+
   h3 {
     font-weight: 600;
   }
 `;
 
 const QuestionBodyTextarea = styled.textarea`
+  margin-top: 5px;
   background: none;
-  border: 1px solid #777;
   border-radius: 3px;
   display: block;
   width: 100%;
+  text-indent: 10px;
+  padding-top: 10px;
   box-sizing: border-box;
   padding-bottom: 20px;
-  height: 200px;
+  min-height: 150px;
   margin-bottom: 20px;
+
+  font-size: 14px;
+  color: #363b3f;
+  text-indent: 10px;
+
+  border-radius: 5px;
+
+  &:focus {
+    border: 1px solid cornflowerblue;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: 0 0 0 3px #cde9fe;
+  }
   h3 {
     font-weight: 600;
   }
@@ -203,13 +225,15 @@ const Container = styled.div`
 const StyledForm = styled.div`
   padding-top: 10px;
   padding-bottom: 30px;
-  border-left: 1px solid #cccdce;
-  height: 100vh;
 `;
 
 const ButtonRow = styled.div`
   display: flex;
   margin-left: 60px;
+  button {
+    height: 40px;
+    font-size: 18px;
+  }
 `;
 
 const StyledBody = styled.div`
@@ -228,8 +252,8 @@ const StyledLink = styled.div`
     text-decoration-line: none;
     color: #066ac8;
     width: 120px;
-    height: 35px;
-    padding: 10px;
+    height: 40px;
+    padding-top: 5px;
     text-align: center;
     border-radius: 5px;
   }
