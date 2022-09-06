@@ -20,7 +20,7 @@ const PostList = ({ data }) => {
             {data.score} votes
             <div className="vote">
               <span className="vote-count">{data.answered}</span>
-              <div className="count-text">{data.answers.length} answers</div>
+              <div className="count-text2">{data.answers.length} answers</div>
             </div>
             <div className="vote">
               <div className="count-text">{data.view_count} views</div>
@@ -29,8 +29,10 @@ const PostList = ({ data }) => {
         </div>
         <div className="summary">
           <div>
-            <Link to={`/questiondetail/${data.post_id}`}>{data.post_name}</Link>
-            <div>{data.post_content}</div>
+            <Link className="link" to={`/questiondetail/${data.post_id}`}>
+              {data.post_name}
+            </Link>
+            <div className="content">{data.post_content}</div>
             <div className="right-bottom">
               <div className="tags">
                 {data.tags.map((tag, idx) => (
@@ -88,9 +90,13 @@ const StyledPost = styled.div`
       font-size: 14px;
       margin-right: 2px;
     }
+    .count-text2 {
+      color: gray;
+    }
 
     .count-text {
       font-size: 12px;
+      color: #f48225;
     }
   }
 
@@ -131,7 +137,7 @@ const StyledPost = styled.div`
     .views {
       .count-text {
         font-size: 12px;
-        color: #ffa600;
+        color: #f48225;
       }
     }
   }
@@ -140,6 +146,14 @@ const StyledPost = styled.div`
     margin-left: 30px;
     width: 90%;
 
+    .link {
+      color: #257ed8;
+      font-weight: 500;
+      font-size: 18px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
     h3 {
       font-weight: 400;
       font-size: 15px;
@@ -147,10 +161,24 @@ const StyledPost = styled.div`
       margin-bottom: 7.5px;
     }
   }
+  .content {
+    color: #4c5155;
+    margin-bottom: 3px;
+    font-size: 14px;
+  }
   .right-bottom {
     display: flex;
     justify-content: space-between;
+    .userinfo {
+      .username {
+        color: #257ed8;
+      }
+      .date {
+        color: #4c5155;
+      }
+    }
   }
+
   .tags {
     display: flex;
     justify-content: flex-start;

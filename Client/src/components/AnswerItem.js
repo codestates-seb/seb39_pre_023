@@ -23,7 +23,9 @@ const AnswerItem = ({ data, pid }) => {
     axios
       .delete(
         `http://3.39.180.45:56178/DBtest/deleteAnswer/${data.answer_id}`,
-        { headers: { Authorization: getLoginCookie() } }
+        {
+          headers: { Authorization: getLoginCookie() },
+        }
       )
       .then((res) => {
         console.log(res.data);
@@ -72,6 +74,7 @@ const AnswerItem = ({ data, pid }) => {
         setVotes(votes - 1);
       });
   };
+  console.log(data);
   return (
     <>
       <Container>
@@ -88,7 +91,8 @@ const AnswerItem = ({ data, pid }) => {
           </div>
           <div className="content-bottom">
             <div className="btns">
-              {state.loginState && memberid === parseInt(data.member_id) ? (
+              {state.loginState &&
+              parseInt(memberid) === parseInt(data.member_id) ? (
                 <>
                   <button onClick={() => setIsEdit(true)}>Edit</button>
                   <button onClick={() => deleteAnswer()}>Delete</button>
@@ -99,7 +103,7 @@ const AnswerItem = ({ data, pid }) => {
               <span>Answered </span>
               <br />
               <span>{createdAt}</span>
-              <p className="name">답변자 {data.id}</p>
+              <p className="name">{data.memid}</p>
             </div>
           </div>
           {isEdit ? (
