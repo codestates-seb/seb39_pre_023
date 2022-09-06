@@ -173,7 +173,7 @@ public class member_service {
 
     public boolean checkExistId(String id) {
         member member =  member_repository.findByid(id);
-        boolean result;
+        boolean result =false;
         if(member == null)
         {
             result = false;
