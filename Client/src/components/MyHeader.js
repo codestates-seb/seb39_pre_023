@@ -22,11 +22,9 @@ const MyHeader = ({
   handleKeyword,
 }) => {
   const state = useSelector((state) => state.signInReducer);
-
-  const userData = localStorage.getItem('userData');
-  const userinfo = JSON.parse(userData);
-  let memberId = userinfo ? userinfo.memberId : '';
-  let userId = userinfo ? userinfo.userId : '';
+  // const userData = JSON.parse(localStorage.getItem('userData'));
+  // let memberId = parseInt(userData.memberId);
+  // let userId = state.loginState.userid;
 
   const navigate = useNavigate();
   const viewLogout = () => {
@@ -44,9 +42,7 @@ const MyHeader = ({
             <>
               <button className="logoWrapper" onClick={() => navigate('/')}>
                 <FontAwesomeIcon icon={faStackOverflow} className="logo" />
-                <span>
-                  stack<strong>overflow</strong>
-                </span>
+                <span>stack overflow</span>
               </button>
               <div className="deactivemenu">
                 <span>Products</span>
@@ -68,11 +64,12 @@ const MyHeader = ({
                   style={{ textDecoration: 'none' }}
                   className="imgWrapper"
                 >
-                  <img
+                  {/* <img
                     src={`http://3.39.180.45:56178/DBtest/download?memberId=${memberId}`}
                     alt="profile"
                   ></img>
-                  <span className="loginMypage">{userId}</span>
+                  <span className="loginMypage">{userId}</span> */}
+                  mypage
                 </Link>
                 <FontAwesomeIcon icon={faInbox} className="icon" />
                 <FontAwesomeIcon icon={faTrophy} className="icon" />
@@ -137,6 +134,7 @@ const Container = styled.header`
   justify-content: center;
   height: 50px;
   min-width: auto;
+  width: 100%;
 `;
 const Wrapper = styled.div`
   max-width: 100%;
@@ -147,8 +145,8 @@ const Wrapper = styled.div`
   height: 100%;
   margin: 0 auto;
   .logoWrapper {
-    width: 150px;
-    padding: 9px;
+    width: 165px;
+    padding: 8px;
     background-color: transparent;
     border: none;
     color: black;
@@ -163,7 +161,7 @@ const Wrapper = styled.div`
     }
     span {
       font-size: 18px;
-      margin-top: 7px;
+      margin-top: 3px;
       margin-left: 3px;
       strong {
       }
@@ -202,9 +200,15 @@ const Wrapper = styled.div`
     align-items: center;
     margin-left: 10px;
     white-space: nowrap;
+    a {
+      text-decoration: none;
+      color: #0f0f0f;
+      font-size: 15px;
+      padding: 13px;
+    }
     .imgWrapper {
-      padding: 11px 0px;
-      display: flex;
+      /* padding: 11px 3px; */
+      /* display: flex; */
       align-items: center;
       img {
         height: 25px;

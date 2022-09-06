@@ -55,7 +55,7 @@ const Container = styled.div`
   flex-direction: column;
   margin-left: 30px;
   margin-bottom: 30px;
-  width: 1070px;
+  width: 1050px;
   h3 {
     font-weight: 500;
     margin-bottom: 15px;
@@ -77,6 +77,10 @@ const Container = styled.div`
     box-shadow: 0 0 0 3px #cde9fe;
   }
   button {
+    margin-top: 10px;
+    height: 45px;
+    width: 150px;
+    font-size: 16px;
     margin-bottom: 15px;
   }
 `;

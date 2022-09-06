@@ -43,7 +43,7 @@ const PostList = ({ data }) => {
               </div>
               <div className="userinfo">
                 <span className="username">{data.writer.nick_name}</span>
-                <span className="date">asked {createdAt}</span>
+                <span className="date"> asked {createdAt}</span>
               </div>
             </div>
           </div>
@@ -58,12 +58,13 @@ export default PostList;
 const StyledPost = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
   font-family: Roboto, sans-serif;
+
   .posts {
-    padding: 12px 8px 12px 8px;
+    padding: 15px 0;
     width: 1070px;
     box-sizing: border-box;
     display: flex;
-    border-bottom: 1px solid #4a4e51;
+    border-top: 1px solid #d2d2d2;
   }
 
   .stats {
@@ -72,6 +73,7 @@ const StyledPost = styled.div`
     flex-shrink: 0;
     flex-wrap: wrap;
     align-items: flex-end;
+    font-size: 15px;
   }
 
   .stats-container {
@@ -87,7 +89,7 @@ const StyledPost = styled.div`
     display: flex;
 
     .vote-count {
-      font-size: 14px;
+      font-size: 15px;
       margin-right: 2px;
     }
     .count-text2 {
@@ -95,7 +97,7 @@ const StyledPost = styled.div`
     }
 
     .count-text {
-      font-size: 12px;
+      font-size: 15px;
       color: #f48225;
     }
   }
@@ -109,7 +111,7 @@ const StyledPost = styled.div`
 
     .vote-count {
       color: white;
-      font-size: 12px;
+      font-size: 15px;
       padding: 1px;
     }
     .count-text {
@@ -126,17 +128,17 @@ const StyledPost = styled.div`
     display: flex;
 
     .vote-count {
-      font-size: 12px;
+      font-size: 15px;
       margin-right: 2px;
     }
 
     .count-text {
-      font-size: 12px;
+      font-size: 15px;
     }
 
     .views {
       .count-text {
-        font-size: 12px;
+        font-size: 15px;
         color: #f48225;
       }
     }
@@ -149,9 +151,12 @@ const StyledPost = styled.div`
     .link {
       color: #257ed8;
       font-weight: 500;
-      font-size: 18px;
+      font-size: 20px;
       cursor: pointer;
       text-decoration: none;
+    }
+    .link:hover {
+      color: #87c6fe;
     }
 
     h3 {
@@ -163,13 +168,14 @@ const StyledPost = styled.div`
   }
   .content {
     color: #4c5155;
-    margin-bottom: 3px;
-    font-size: 14px;
+    margin-bottom: 10px;
+    font-size: 16px;
   }
   .right-bottom {
     display: flex;
     justify-content: space-between;
     .userinfo {
+      font-size: 14px;
       .username {
         color: #257ed8;
       }
@@ -197,9 +203,10 @@ const StyledPost = styled.div`
     }
     .tag {
       border: none;
-      padding: 3px;
+      padding: 0 3px;
       font-size: 13px;
-      height: 23px;
+      height: 28px;
+      width: auto;
       border-radius: 3px;
       background-color: transparent;
       white-space: nowrap;

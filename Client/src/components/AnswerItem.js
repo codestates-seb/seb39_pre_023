@@ -99,18 +99,20 @@ const AnswerItem = ({ data, pid }) => {
               <span>Answered </span>
               <br />
               <span>{createdAt}</span>
-              <p className="name">{data.id}</p>
+              <span className="name">{data.id}</span>
             </div>
           </div>
           {isEdit ? (
-            <>
-              <input
+            <Edit>
+              <textarea
                 defaultValue={content}
                 onChange={(e) => setContent(e.target.value)}
-              ></input>
-              <button onClick={editAnswer}>수정하기</button>
-              <button onClick={() => setIsEdit(false)}>취소</button>
-            </>
+              ></textarea>
+              <div className="btn">
+                <button onClick={editAnswer}>Edit</button>
+                <button onClick={() => setIsEdit(false)}>Cancel</button>
+              </div>
+            </Edit>
           ) : null}
         </div>
       </Container>
@@ -152,14 +154,49 @@ const Container = styled.div`
       cursor: pointer;
     }
     .userinfo {
-      span {
-        color: #a4a4a4;
-      }
+      color: #a4a4a4;
     }
     .name {
       color: #0a95ff;
       margin-left: 5px;
       cursor: pointer;
     }
+    .name:hover {
+      color: #2d95ff;
+    }
+  }
+`;
+const Edit = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  textarea {
+    min-height: 50px;
+    min-width: 850px;
+    font-size: 14px;
+    color: #363b3f;
+    text-indent: 10px;
+    border: 1px solid #8a939b;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    padding-top: 5px;
+  }
+  textarea:focus {
+    border: 1px solid cornflowerblue;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: 0 0 0 3px #cde9fe;
+  }
+  .btn {
+    display: flex;
+    justify-content: flex-end;
+    min-width: 850px;
+  }
+  button {
+    background-color: transparent;
+    border: none;
+    margin-left: 10px;
+    color: gray;
+    cursor: pointer;
   }
 `;

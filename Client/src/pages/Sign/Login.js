@@ -48,7 +48,7 @@ const Login = () => {
         dispatch(setUserData(data)); // data userid, memeberid
         localStorage.setItem('userData', JSON.stringify(data));
         navigate('/');
-        console.log('login succed');
+        // console.log('login succed');
       }
     } catch (err) {
       if (err.response.status >= 400) {
@@ -109,6 +109,8 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: auto;
+  width: 100%;
 `;
 const SigninBox = styled.div`
   display: flex;

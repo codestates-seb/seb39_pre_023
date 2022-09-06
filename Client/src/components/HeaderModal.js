@@ -11,6 +11,7 @@ const ModalBack = styled.div`
   height: 100%;
   position: absolute;
   right: 70px;
+  top: 47px;
 `;
 const ModalView = styled.div`
   display: flex;

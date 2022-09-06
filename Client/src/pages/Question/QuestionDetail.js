@@ -40,6 +40,10 @@ const QuestionDetail = ({ getAllPost }) => {
     hour: 'numeric',
     minute: 'numeric',
   });
+  const createdAt2 = new Date(data.write_date).toLocaleDateString('en-us', {
+    hour: 'numeric',
+    minute: 'numeric',
+  });
 
   useEffect(() => {
     getQuestionDetail();
@@ -154,8 +158,10 @@ const QuestionDetail = ({ getAllPost }) => {
                       </>
                     ) : null}
                   </div>
-                  <div>
-                    <span>Asked</span>
+                  <div className="userinfo">
+                    <span>Asked </span>
+                    <br />
+                    <span>{createdAt2}</span>
                     <span className="name">{data.writer.nick_name}</span>
                   </div>
                 </div>
@@ -262,11 +268,17 @@ const Detail = styled.div`
         }
       }
       .content-bottom {
-        width: 1000px;
+        width: 1030px;
         display: flex;
         justify-content: space-between;
         font-size: 14px;
         font-weight: 400;
+
+        .userinfo {
+          border-radius: 5px;
+          padding: 10px;
+          background-color: #d9eaf7;
+        }
         button {
           background-color: transparent;
           border: none;
