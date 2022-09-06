@@ -2,8 +2,7 @@ import styled from 'styled-components';
 import MyQuestionListItem from './MyQuestionListItem';
 import MyAnswerListItem from './MyAnswerListitem';
 /* eslint-disable react/prop-types */
-import axios from 'axios';
-axios.defaults.withCredentials = false;
+
 const MyProfile = ({ answers, questions, reputation, reached, about }) => {
   return (
     <Container>
@@ -33,7 +32,7 @@ const MyProfile = ({ answers, questions, reputation, reached, about }) => {
         <div className="box">{about}</div>
       </Wrapper>
       <Wrapper>
-        <div className="title">{answers.legnth}Answers</div>
+        <div className="title">{answers.length} Answers</div>
         <div className={answers.length === 0 ? 'box listbox' : 'box'}>
           {answers.length === 0 ? (
             <div>You have not answered any questions.</div>
@@ -47,7 +46,7 @@ const MyProfile = ({ answers, questions, reputation, reached, about }) => {
         </div>
       </Wrapper>
       <Wrapper>
-        <div className="title">{questions.legnth}questions</div>
+        <div className="title">{questions.length} questions</div>
         <div className={questions.length === 0 ? 'box listbox' : 'box'}>
           {questions.length == 0 ? (
             <div>You have not asked any questions.</div>

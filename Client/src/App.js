@@ -53,8 +53,10 @@ function App() {
           headers: { authorization: getLoginCookie() },
         }
       );
+      console.log(res.data);
       dispatch(setSignState(res.data.msg));
       delete res.data.msg;
+      console.log(res.data);
       dispatch(setUserData(res.data));
       setLoading(false);
     };

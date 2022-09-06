@@ -84,6 +84,7 @@ export const SignupBox = styled.div`
 
   button:first-of-type {
     width: 58px;
+    height: 30px;
     position: absolute;
     top: 29px;
     left: 248px;
