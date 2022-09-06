@@ -23,7 +23,9 @@ const AnswerItem = ({ data, pid }) => {
     axios
       .delete(
         `http://3.39.180.45:56178/DBtest/deleteAnswer/${data.answer_id}`,
-        { headers: { Authorization: getLoginCookie() } }
+        {
+          headers: { Authorization: getLoginCookie() },
+        }
       )
       .then((res) => {
         console.log(res.data);
@@ -88,7 +90,7 @@ const AnswerItem = ({ data, pid }) => {
           </div>
           <div className="content-bottom">
             <div className="btns">
-              {state.loginState && memberid === parseInt(data.member_id) ? (
+              {state.loginState && parseInt(memberid) === parseInt(memberid) ? (
                 <>
                   <button onClick={() => setIsEdit(true)}>Edit</button>
                   <button onClick={() => deleteAnswer()}>Delete</button>

@@ -30,7 +30,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     getAllQuestion();
-  }, [lists, setLists]);
+  }, []);
   const getAllQuestion = () => {
     axios
       .get(`http://3.39.180.45:56178/DBtest/findAllPost?page=1&size=-2`)

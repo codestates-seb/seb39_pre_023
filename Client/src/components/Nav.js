@@ -12,7 +12,6 @@ const StyledNav = styled.div`
   margin-top: 3px;
   height: 100vh;
   width: 164px;
-  border-right: 1px solid #cccdce;
 
   ol {
     margin-top: 30px;

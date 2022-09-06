@@ -101,11 +101,12 @@ const QuestionDetail = ({ getAllPost }) => {
       })
       .then((res) => {
         console.log(res.data);
-        console.log('question deletelte');
+        console.log('question deleted');
         getAllPost();
         navigate('/');
       });
   };
+
   return (
     <Container>
       <Wrapper>
@@ -167,6 +168,7 @@ const QuestionDetail = ({ getAllPost }) => {
               </div>
             </div>
           </div>
+
           <div className="answerBox">
             <Answers
               pid={pid}
@@ -175,9 +177,9 @@ const QuestionDetail = ({ getAllPost }) => {
               count={count}
               getAnswerAnswer={getAnswer}
             />
-          </div>
-          <div>
-            <PostAnswer pid={pid} getAnswerAnswer={getAnswer} />
+            <div>
+              <PostAnswer pid={pid} getAnswerAnswer={getAnswer} />
+            </div>
           </div>
         </Detail>
       </Wrapper>
@@ -198,6 +200,7 @@ const Wrapper = styled.div`
 const Detail = styled.div`
   display: flex;
   flex-direction: column;
+  border-left: 1px solid #cccdce;
   width: 1070px;
   .quesitonBox {
     display: flex;

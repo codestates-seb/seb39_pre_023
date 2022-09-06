@@ -203,11 +203,13 @@ const Container = styled.div`
 const StyledForm = styled.div`
   padding-top: 10px;
   padding-bottom: 30px;
+  border-left: 1px solid #cccdce;
+  height: 100vh;
 `;
 
 const ButtonRow = styled.div`
   display: flex;
-  margin-left: 30px;
+  margin-left: 60px;
 `;
 
 const StyledBody = styled.div`
@@ -221,6 +223,7 @@ const StyledLink = styled.div`
   justify-content: center;
   align-items: center;
   padding-left: 20px;
+
   a {
     text-decoration-line: none;
     color: #066ac8;

@@ -80,6 +80,7 @@ const StyledMain = styled.main`
 const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  border-left: 1px solid #cccdce;
 `;
 const QuestionCountRow = styled.div`
   margin-bottom: 12px;

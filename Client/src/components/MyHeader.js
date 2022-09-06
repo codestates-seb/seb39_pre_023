@@ -25,8 +25,8 @@ const MyHeader = ({
 
   const userData = localStorage.getItem('userData');
   const userinfo = JSON.parse(userData);
-  let memberId = userinfo.memberId;
-  let userId = userinfo.userid;
+  let memberId = userinfo ? userinfo.memberId : '';
+  let userId = userinfo ? userinfo.userId : '';
 
   const navigate = useNavigate();
   const viewLogout = () => {
