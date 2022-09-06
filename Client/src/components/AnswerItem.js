@@ -74,6 +74,7 @@ const AnswerItem = ({ data, pid }) => {
         setVotes(votes - 1);
       });
   };
+  console.log(data);
   return (
     <>
       <Container>
@@ -90,7 +91,8 @@ const AnswerItem = ({ data, pid }) => {
           </div>
           <div className="content-bottom">
             <div className="btns">
-              {state.loginState && parseInt(memberid) === parseInt(memberid) ? (
+              {state.loginState &&
+              parseInt(memberid) === parseInt(data.member_id) ? (
                 <>
                   <button onClick={() => setIsEdit(true)}>Edit</button>
                   <button onClick={() => deleteAnswer()}>Delete</button>
@@ -101,7 +103,7 @@ const AnswerItem = ({ data, pid }) => {
               <span>Answered </span>
               <br />
               <span>{createdAt}</span>
-              <p className="name">답변자 {data.id}</p>
+              <p className="name">{data.memid}</p>
             </div>
           </div>
           {isEdit ? (

@@ -31,7 +31,7 @@ const SearchListItem = ({ data }) => {
       </div>
       <div className="right">
         <div className="question-title">
-          <a href={`/${data.post_id}`}>{data.post_name}</a>
+          <a href={`questiondetail/${data.post_id}`}>{data.post_name}</a>
         </div>
         <p className="content">{data.post_content}</p>
         <div className="right-bottom">

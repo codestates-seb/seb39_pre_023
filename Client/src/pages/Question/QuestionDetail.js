@@ -115,7 +115,7 @@ const QuestionDetail = ({ getAllPost }) => {
           <div className="quesitonBox">
             <div className="top">
               <div className="title">
-                <h1>질문제목 {data.post_name}</h1>
+                <h1>{data.post_name}</h1>
                 <MyButton
                   text={'Ask Question'}
                   type={'blue'}
