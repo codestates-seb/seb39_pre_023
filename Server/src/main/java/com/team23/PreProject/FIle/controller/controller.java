@@ -59,7 +59,7 @@ public class controller {
             dto = new FileDto(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
 
 
-            newFileName = new File(dto.getUuid() + "_" + dto.getFileName());
+            newFileName = new File(dto.getUuid() + "_" + dto.getFileName()+".png");
             // 전달된 내용을 실제 물리적인 파일로 저장해준다.
             file.transferTo(newFileName);
         }

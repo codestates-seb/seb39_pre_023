@@ -2,6 +2,8 @@ package com.team23.PreProject.member.service;
 
 import com.team23.PreProject.answer.entity.answer;
 import com.team23.PreProject.answer.repository.answer_repository;
+import com.team23.PreProject.comment.entity.comment;
+import com.team23.PreProject.comment.repository.comment_repository;
 import com.team23.PreProject.member.dto.member_create_dto;
 import com.team23.PreProject.member.entity.member;
 import com.team23.PreProject.member.repository.member_repository;
@@ -53,6 +55,9 @@ public class member_service {
     @Autowired
     answer_repository answer_repository;
 
+    @Autowired
+    com.team23.PreProject.comment.repository.comment_repository comment_repository;
+
     public member insert_member(member_create_dto dto){
         member member = new member(dto.getPassword(),dto.getNickName(),dto.getId());
         member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
@@ -66,6 +71,7 @@ public class member_service {
         //멤버 수정
         member.setProfile(profile);
         member.setRoles("ROLE_USER");
+        member.setProfileImage("default.png");
         //멤버 업데이트
         member_repository.save(member);
 
@@ -103,52 +109,61 @@ public class member_service {
 
 
     public String deleteMember(Integer member_id) {
-        if(member_id == 1)
-            return "delete fail";
-        member member = member_repository.findById(member_id).get();
+        try {
+            if (member_id == 1)
+                return "delete fail";
+            member member = member_repository.findById(member_id).get();
 
-        member deleted = member_repository.findById(1).get();
-        //post vote -> delted 연결
-        List<post_vote> post_votes;
-        post_votes = member.getPost_votes();
-        List<answer> answers = member.getAnswers();
+            member deleted = member_repository.findById(1).get();
+            //post vote -> delted 연결
+            List<post_vote> post_votes;
+            post_votes = member.getPost_votes();
+            List<answer> answers = member.getAnswers();
+            List<comment> comments = comment_repository.findByMember(member);
+            for (comment com : comments) {
+                com.setMember(deleted);
 
-        for(answer ans : answers)
+
+            }
+            comment_repository.flush();
+            for (answer ans : answers) {
+                ans.setMember(deleted);
+                answer_repository.flush();
+            }
+
+            for (post_vote post_vote : post_votes) {
+                post_vote.setMember(deleted);
+                post_vote_repository.flush();
+            }
+
+            System.out.println("================================post vote flush()\n\n");
+
+            List<member_post> member_posts = member.getMember_posts();
+            member.setMember_posts(null);
+            for (member_post member_post : member_posts) {
+
+                member_post.setMember(deleted);
+                member_post_repository.flush();
+
+            }
+
+            deleted.setMember_posts(member_posts);
+            System.out.println("================================member_post flush()\n\n");
+
+
+            member_repository.flush();
+            member_repository.delete(member);
+
+
+            try {
+                member = member_repository.findById(member_id).get();
+                return "delete fail";
+            } catch (Exception e) {
+                return "delete suc";
+            }
+        }catch(Exception e)
         {
-            ans.setMember(deleted);
-            answer_repository.flush();
-        }
-
-        for(post_vote post_vote : post_votes)
-        {
-            post_vote.setMember(deleted);
-            post_vote_repository.flush();
-        }
-
-        System.out.println("================================post vote flush()\n\n");
-
-        List<member_post> member_posts = member.getMember_posts();
-        member.setMember_posts(null);
-        for(member_post member_post: member_posts){
-
-            member_post.setMember(deleted);
-            member_post_repository.flush();
-
-        }
-
-        deleted.setMember_posts(member_posts);
-        System.out.println("================================member_post flush()\n\n");
-
-
-        member_repository.flush();
-        member_repository.delete(member);
-
-
-        try{
-            member = member_repository.findById(member_id).get();
             return "delete fail";
-        }catch(Exception e){
-            return "delete suc";
         }
 
 

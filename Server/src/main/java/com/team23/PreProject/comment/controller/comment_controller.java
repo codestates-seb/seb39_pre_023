@@ -21,6 +21,8 @@ public class comment_controller {
     private final comment_service commentService;
     private final comment_mapper mapper;
     private final com.team23.PreProject.checkMember checkMember;
+
+    private final com.team23.PreProject.comment.repository.comment_repository comment_repository;
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/answer")
     public ResponseEntity postAnswerComment(@RequestBody comment_dto.PostAnswer requestBody,
@@ -39,6 +41,7 @@ public class comment_controller {
             return new ResponseEntity<>("wrong member info, check login information", HttpStatus.CREATED);
         }
         comment_dto.PostResponse response = mapper.commentToResponse(comment);
+        response.setProfileImageLink(comment.getMember().getProfileImage());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -61,12 +64,15 @@ public class comment_controller {
             return new ResponseEntity<>("wrong member info, check login information", HttpStatus.CREATED);
         }
         comment_dto.PostResponse response = mapper.commentToResponse(comment);
+        response.setProfileImageLink(comment.getMember().getProfileImage());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
     @GetMapping("/answer/{answerId}")
     public ResponseEntity getAnswerComments(@PathVariable("answerId") Integer answerId){
         List<comment> comments = commentService.getAnswerComment(answerId);
         List<comment_dto.GetResponse> getResponses = mapper.commentsToResponse(comments);
+        for(comment_dto.GetResponse response : getResponses)
+            response.setProfileImageLink(comment_repository.findById(response.getCommentId()).get().getMember().getProfileImage());
         return new ResponseEntity<>(getResponses, HttpStatus.OK);
     }
 
@@ -74,6 +80,8 @@ public class comment_controller {
     public ResponseEntity getPostComments(@PathVariable("questionId") Integer questionId){
         List<comment> comments = commentService.getPostComment(questionId);
         List<comment_dto.GetResponse> getResponses = mapper.commentsToResponse(comments);
+        for(comment_dto.GetResponse response : getResponses)
+            response.setProfileImageLink(comment_repository.findById(response.getCommentId()).get().getMember().getProfileImage());
         return new ResponseEntity<>(getResponses, HttpStatus.OK);
     }
 

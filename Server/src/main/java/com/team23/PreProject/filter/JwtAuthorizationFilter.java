@@ -50,26 +50,31 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 }
                 catch(Exception e)
                 {
-                    response.getWriter().write("{\"msg\":\"expired token, Do re-login!\"} ");
+                    response.getWriter().write("{\"msg\":\"expired or invalid token, Do re-login!\"} ");
 //            response.getWriter().write("\"msg\" :"+"\"check token\"}");
                 }
 
             // 토큰에 해당하는 유저 정보로 인증 정보 생성
-            if (username != null) {
-                member memberEntity = member_Repository.findByid(username);
+            try {
+                if (username != null) {
+                    member memberEntity = member_Repository.findByid(username);
 
-                PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
-                Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                    PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
+                    Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                chain.doFilter(request, response);
-            }
-
-            else {
+                    chain.doFilter(request, response);
+                } else {
 //                response.getWriter().write("{ ");
 //                response.getWriter().write("\"msg\" :" + "\"check token\"}");
 //                chain.doFilter(request, response);
 
+                }
+            }catch(Exception e)
+            {
+                response.getWriter().write("{ ");
+                response.getWriter().write("\"msg\" :" + "\"check token or not exists information)\"}");
+                //chain.doFilter(request, response);
             }
         }
     }

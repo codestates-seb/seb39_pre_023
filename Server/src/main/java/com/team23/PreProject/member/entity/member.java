@@ -56,7 +56,7 @@ public class member {
 //    @Column(name = "answer_ID")
 //    String answer_id;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE)
     @JsonIgnore
     List<answer> answers = new ArrayList<>();
 

@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import java.util.List;
 import java.util.Random;
 
@@ -29,7 +30,7 @@ public class member_controller {
     com.team23.PreProject.checkMember checkMember;
 
 
-
+    @PermitAll
     @PostMapping("DBtest/createMember")
     public ResponseEntity insertMember(@RequestBody member_create_dto member_dto)
     {

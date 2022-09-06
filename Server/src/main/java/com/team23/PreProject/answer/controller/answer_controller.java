@@ -90,7 +90,7 @@ public class answer_controller {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("DBtest/deleteAnswer/{answerId}")
-    //answer_repository.findById(answerId).get().getMember().getMemberId()
+
     public ResponseEntity deleteAnswer(@PathVariable("answerId") Integer answerId,
 
                                        @RequestHeader(value="Authorization") String token){
@@ -100,13 +100,14 @@ public class answer_controller {
                 return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
             }
             String result = answerService.deleteAnswer(answerId);
-            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+            return new ResponseEntity(result, HttpStatus.OK);
         }
         catch(Exception e)
         {
-            return new ResponseEntity<>(false, HttpStatus.NO_CONTENT);
+
+            return new ResponseEntity(" false", HttpStatus.NOT_FOUND);
         }
-    }
+            }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("DBtest/answerSelect")

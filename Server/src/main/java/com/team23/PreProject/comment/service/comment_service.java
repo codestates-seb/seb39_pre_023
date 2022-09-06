@@ -44,6 +44,7 @@ public class comment_service {
         post findPost = postRepository.findById(postId).orElseThrow();
         member findMember = memberRepository.findById(memberId).orElseThrow();
         comment comment = new comment(content, findPost, findMember);
+
 //사용자 확인 일시 정지
 //        if(!findMember.getId().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
 //        {

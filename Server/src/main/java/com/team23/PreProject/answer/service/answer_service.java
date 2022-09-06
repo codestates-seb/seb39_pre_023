@@ -130,13 +130,28 @@ public class answer_service {
             profile profile = profile_repository.findById(answer_repository.findById(answerId).get().getMember().getMemberId()).get();
             profile.setAnswers(profile.getAnswers()-1);
             profile_repository.flush();
-            answer answer = answer_repository.findById(answerId).orElse(null);
-            if(answer!=null && answer.getAccepted())
+            System.out.println("\nprofile chageing");
+            answer answer = answer_repository.findById(answerId).get();
+            System.out.println("\nget answer "+answer.getAnswerId());
+            if(answer!=null )
             {
-                post_repository.findById(answer.getPostId()).get().setIs_answered(false);
+                if(answer.getAccepted())
+                {
+                    System.out.println("\npost chageing start ");
+                    post post = post_repository.findById(answer.getPost().getPostId()).get();
+                    System.out.println("\npost "+post.getPostId());
+                    post.setIs_answered(false);
+                    System.out.println("\npost set not acc");
+                    System.out.println("\npost chageing");
+                    post_repository.flush();
+                }
+                answer_repository.deleteById(answerId);
+
+                return "true";
             }
-            answer_repository.deleteById(answerId);
-            return "true";
+            else
+                return "false";
+
         }
         catch(Exception e)
         {
