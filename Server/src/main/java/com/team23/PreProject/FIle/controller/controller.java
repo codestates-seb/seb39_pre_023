@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.annotation.security.PermitAll;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -74,13 +75,11 @@ public class controller {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PermitAll
     @GetMapping("/DBtest/download")
     public ResponseEntity download(@RequestParam Integer memberId
-            ,@RequestHeader(value="Authorization") String token) throws IOException {
-        if (memberId == 1 || !checkMember.checkMemberMemberId(memberId, token)) {
-            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
-        }
+            ) throws IOException {
+
         System.out.println("download request");
         String filename;
         if(member_repository.findById(memberId).orElse(null) == null)
