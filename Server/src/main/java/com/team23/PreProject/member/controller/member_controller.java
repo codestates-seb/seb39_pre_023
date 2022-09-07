@@ -4,6 +4,7 @@ import com.team23.PreProject.member.dto.member_create_dto;
 import com.team23.PreProject.member.dto.member_password_update_dto;
 import com.team23.PreProject.member.dto.tokenLogin;
 import com.team23.PreProject.member.entity.member;
+import com.team23.PreProject.member.repository.member_repository;
 import com.team23.PreProject.member.service.member_service;
 import com.team23.PreProject.post.entity.post;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,8 @@ public class member_controller {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     com.team23.PreProject.checkMember checkMember;
+    @Autowired
+    com.team23.PreProject.member.repository.member_repository member_repository;
 
 
     @PermitAll
@@ -111,14 +114,16 @@ public class member_controller {
     public ResponseEntity jwtTest(@RequestHeader("Authorization") String token)
     {
         boolean logouted = member_service.checkLogout(token);//로그아웃 된 토큰인지 확인
-        System.out.println("===================================logouted "+logouted+"\n\n");
-            if(logouted)
-            {
-                return new ResponseEntity("false",HttpStatus.OK);//로그아웃된 토큰
-            }
+        System.out.println("===================================result "+logouted+"\n\n");
+        if(logouted)
+        {
+            return new ResponseEntity("false",HttpStatus.OK);//로그아웃된 토큰
+        }
 
-            tokenLogin dto = new tokenLogin("true", SecurityContextHolder.getContext().getAuthentication().getName());
-            return new ResponseEntity(dto,HttpStatus.OK);
+        String nickname = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("not logout infromation"+nickname+"\n");
+        tokenLogin dto = new tokenLogin("true", nickname, member_repository.findByid(nickname).getMemberId());
+        return new ResponseEntity(dto,HttpStatus.OK);
     }
 
     @GetMapping("DBtest/Logout")
