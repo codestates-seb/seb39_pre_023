@@ -20,9 +20,10 @@ const QuestionDetail = ({ getAllPost }) => {
   const [count, setCount] = useState(0);
   const [votes, setVotes] = useState(0);
   const [loading, setLoading] = useState(true);
-  const userData = JSON.parse(localStorage.getItem('userData'));
-  let memberId = parseInt(userData.memberId);
+  // const userData = JSON.parse(localStorage.getItem('userData'));
+  // let memberId = parseInt(userData.memberId);
   let params = useParams();
+  // console.log(state);
 
   const createdAt = new Date(data.write_date).toLocaleDateString('en-us', {
     weekday: 'long',
@@ -75,7 +76,7 @@ const QuestionDetail = ({ getAllPost }) => {
     let data = {};
     axios
       .post(
-        `http://3.39.180.45:56178/DBtest/post_vote?vote=+1&member_id=${memberId}&post_id=${params.id}`,
+        `http://3.39.180.45:56178/DBtest/post_vote?vote=+1&member_id=${state.data.memberId}&post_id=${params.id}`,
         data,
         { headers: { Authorization: getLoginCookie() } }
       )
@@ -86,7 +87,7 @@ const QuestionDetail = ({ getAllPost }) => {
   const onDecreaseVote = () => {
     axios
       .post(
-        `http://3.39.180.45:56178/DBtest/post_vote?vote=-1&member_id=${memberId}&post_id=${params.id}`,
+        `http://3.39.180.45:56178/DBtest/post_vote?vote=-1&member_id=${state.data.memberId}&post_id=${params.id}`,
         data,
         { headers: { Authorization: getLoginCookie() } }
       )
@@ -145,8 +146,9 @@ const QuestionDetail = ({ getAllPost }) => {
                 </div>
                 <div className="content-bottom">
                   <div className="btns">
-                    {state.loginState &&
-                    parseInt(memberId) === parseInt(data.writer.member_id) ? (
+                    {state.loginState === true &&
+                    parseInt(state.data.memberId) ===
+                      parseInt(data.writer.member_id) ? (
                       <>
                         <Link
                           to={`/editquestion/${data.post_id}`}

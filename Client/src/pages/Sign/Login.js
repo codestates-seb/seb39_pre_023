@@ -46,6 +46,7 @@ const Login = () => {
         dispatch(setSignState(data2.msg));
         delete data2.msg;
         dispatch(setUserData(data)); // data userid, memeberid
+        // console.log(data);
         localStorage.setItem('userData', JSON.stringify(data));
         navigate('/');
         // console.log('login succed');

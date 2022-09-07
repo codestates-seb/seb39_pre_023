@@ -8,8 +8,8 @@ import { useSelector } from 'react-redux';
 const AnswerItem = ({ data, pid }) => {
   const state = useSelector((state) => state.signInReducer);
   const [content, setContent] = useState(data.content);
-  const userData = JSON.parse(localStorage.getItem('userData'));
-  let memberId = parseInt(userData.memberId);
+  // const userData = JSON.parse(localStorage.getItem('userData'));
+  // let memberId = parseInt(userData.memberId);
   let aid = data.answer_id;
   const [isEdit, setIsEdit] = useState(false);
   const [votes, setVotes] = useState(0);
@@ -53,7 +53,7 @@ const AnswerItem = ({ data, pid }) => {
     let data = {};
     axios
       .post(
-        `http://3.39.180.45:56178/DBtest/answer_vote?vote=+1&member_id=${memberId}&answer_id=${aid}`,
+        `http://3.39.180.45:56178/DBtest/answer_vote?vote=+1&member_id=${state.data.memberId}&answer_id=${aid}`,
         data,
         { headers: { Authorization: getLoginCookie() } }
       )
@@ -64,7 +64,7 @@ const AnswerItem = ({ data, pid }) => {
   const onDecreaseVote = () => {
     axios
       .post(
-        `http://3.39.180.45:56178/DBtest/answer_vote?vote=-1&member_id=${memberId}&answer_id=${aid}`,
+        `http://3.39.180.45:56178/DBtest/answer_vote?vote=-1&member_id=${state.data.memberId}&answer_id=${aid}`,
         data,
         { headers: { Authorization: getLoginCookie() } }
       )
@@ -88,7 +88,8 @@ const AnswerItem = ({ data, pid }) => {
           </div>
           <div className="content-bottom">
             <div className="btns">
-              {state.loginState && memberId === parseInt(data.member_id) ? (
+              {state.loginState &&
+              state.data.memberId === parseInt(data.member_id) ? (
                 <>
                   <button onClick={() => setIsEdit(true)}>Edit</button>
                   <button onClick={() => deleteAnswer()}>Delete</button>

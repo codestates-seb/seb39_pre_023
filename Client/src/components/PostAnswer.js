@@ -8,8 +8,8 @@ import { useSelector } from 'react-redux';
 const PostAnswer = ({ pid, getAnswerAnswer }) => {
   const [content, setContent] = useState('');
   const state = useSelector((state) => state.signInReducer);
-  const userData = JSON.parse(localStorage.getItem('userData'));
-  let memberId = parseInt(userData.memberId);
+  // const userData = JSON.parse(localStorage.getItem('userData'));
+  let memberId = state.data.memberId;
   const submitAnswer = () => {
     if (content === '') {
       return;

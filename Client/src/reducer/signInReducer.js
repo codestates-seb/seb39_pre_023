@@ -1,4 +1,12 @@
-const signInReducer = (state = { loginState: false }, action) => {
+const initialState = {
+  loginState: false,
+  data: {
+    userid: 'guest',
+    memberId: -1,
+  },
+};
+
+const signInReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'CHECK_LOGIN':
       return { ...state, loginState: action.payload.msg };
