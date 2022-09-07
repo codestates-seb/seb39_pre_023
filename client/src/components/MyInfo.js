@@ -58,17 +58,22 @@ const Right = styled.div`
   font-size: 15px;
   color: gray;
   font-weight: 400;
-  margin-top: 5px;
   .displayname {
     font-size: 35px;
     font-weight: 600;
     color: black;
-    margin-top: 10px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
   }
   .wrapper {
     display: flex;
     width: 150px;
+    align-items: center;
+    .signupdate {
+      white-space: nowrap;
+    }
+    .location {
+      white-space: nowrap;
+    }
     span {
       margin-left: 10px;
     }

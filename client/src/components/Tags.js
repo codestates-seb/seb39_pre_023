@@ -176,8 +176,9 @@ const Container = styled.div`
     input {
       display: inline-block;
       min-width: 19px;
+      width: auto;
       border: none;
-      text-indent: 8px;
+      text-indent: 10px;
       outline: none;
       box-shadow: none;
       background-color: transparent;

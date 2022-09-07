@@ -67,6 +67,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 20px;
+  margin-bottom: 200px;
 `;
 const Top = styled.div`
   display: flex;

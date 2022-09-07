@@ -70,6 +70,7 @@ const Container = styled.div`
   flex-direction: column;
   width: 1070px;
   margin-top: 30px;
+
   .title {
     font-size: 25px;
     font-weight: 600;
@@ -84,7 +85,7 @@ const Container = styled.div`
 const StatsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 410px;
+  width: 450px;
   .statsWrapper {
     display: flex;
     flex-direction: column;

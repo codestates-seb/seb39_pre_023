@@ -32,13 +32,22 @@ const StyledNav = styled.div`
     justify-content: space-between;
     align-items: flex-start;
     text-align: left;
-
-    .question {
+    .top {
+      width: 164px;
+      padding: 10px;
+      cursor: pointer;
+      background-color: #f1f2f3;
+      border-right: 5px solid #f48225;
+      span {
+        margin-left: 5px;
+      }
+    }
+    .bottom {
       width: 164px;
       padding: 10px;
       cursor: pointer;
     }
-    .question:hover {
+    .bottom:hover {
       background-color: #f1f2f3;
       border-right: 5px solid #f48225;
     }
@@ -53,13 +62,13 @@ function Nav() {
       </Link>
       <div className="category">PUBLIC</div>
       <div className="menu">
-        <Link to="/" className="question">
+        <Link to="/" className="top">
           <FontAwesomeIcon icon={faEarthAmerica} />
-          Questions
+          <span>Questions</span>
         </Link>
-        <div className="question">Tags</div>
-        <div className="question">Users</div>
-        <div className="question">Companies</div>
+        <div className="bottom">Tags</div>
+        <div className="bottom">Users</div>
+        <div className="bottom">Companies</div>
       </div>
     </StyledNav>
   );

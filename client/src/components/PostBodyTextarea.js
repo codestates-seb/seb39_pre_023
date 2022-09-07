@@ -12,8 +12,16 @@ const QuestionBodyTextarea = styled.textarea`
   width: 100%;
   box-sizing: border-box;
   padding-bottom: 20px;
-  height: 200px;
+  min-height: 130px;
   margin-bottom: 20px;
+  padding-top: 10px;
+  padding-left: 10px;
+  &:focus {
+    border: 1px solid cornflowerblue;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: 0 0 0 3px #cde9fe;
+  }
   h3 {
     font-weight: 600;
   }
