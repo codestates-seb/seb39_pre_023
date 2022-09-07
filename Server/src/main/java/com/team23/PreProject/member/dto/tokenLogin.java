@@ -10,4 +10,5 @@ import lombok.Setter;
 public class tokenLogin {
     String msg;
     String userid;
+    Integer memberid;
 }
