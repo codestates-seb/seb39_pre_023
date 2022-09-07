@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import MyButton from '../../components/MyButton';
 import styled from 'styled-components';
 import Widget from '../../components/Widget';
@@ -7,14 +7,15 @@ import axios from 'axios';
 import PostBodyTextarea from '../../components/PostBodyTextarea';
 import { getLoginCookie } from '../../lib/cookie';
 import Tags from '../../components/Tags';
+import { useSelector } from 'react-redux';
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key */
 
 const PostQuestion = () => {
+  const state = useSelector((state) => state.signInReducer);
+  let memberId = state.data.memberId;
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-  const userData = JSON.parse(localStorage.getItem('userData'));
-  let memberid = userData.memberId;
   const navigate = useNavigate();
   const [tagList, setTagList] = useState([]);
   const [tags, setTags] = useState([]);
@@ -46,13 +47,14 @@ const PostQuestion = () => {
             {
               post_name: title,
               post_content: body,
-              member_id: memberid,
+              member_id: memberId,
               tags: tagData, // body에 보낼 태그
             },
             { headers: { Authorization: getLoginCookie() } }
           )
           .then(() => {
             navigate(`/`);
+            window.location.reload();
           })
           .catch((err) => {
             console.log(err);
@@ -61,7 +63,7 @@ const PostQuestion = () => {
     }
   };
   return (
-    <Fragment>
+    <Back>
       <StyledHeaderRow>
         <h1>Ask a Public question</h1>
       </StyledHeaderRow>
@@ -90,7 +92,6 @@ const PostQuestion = () => {
           <div>
             <Tags tagList={tagList} tags={tags} setTags={setTags} />
           </div>
-
           <StyledMyButton>
             <MyButton
               text={'Post your question'}
@@ -102,11 +103,18 @@ const PostQuestion = () => {
         </PostContainer>
         <Widget />
       </Container>
-    </Fragment>
+    </Back>
   );
 };
 
 export default PostQuestion;
+const Back = styled.div`
+  background-color: #f1f2f3;
+  width: 100%;
+  min-width: auto;
+  height: 100vh;
+  min-height: auto;
+`;
 const PostContainer = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
   font-family: Roboto, sans-serif;
@@ -116,8 +124,10 @@ const PostContainer = styled.div`
   margin-left: 30px;
   padding: 30px 30px 30px;
   width: 876px;
-  height: 587.17px;
+  min-height: 620px;
   border-radius: 10px;
+  width: 100%;
+  min-width: auto;
   position: center;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   h3 {
@@ -134,29 +144,24 @@ const QuestionTitleInput = styled.input`
   box-sizing: border-box;
   padding: 10px;
   margin-bottom: 20px;
+  &:focus {
+    border: 1px solid cornflowerblue;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: 0 0 0 3px #cde9fe;
+  }
   h3 {
     font-weight: 600;
   }
 `;
 
-// const QuestionTagInput = styled.input`
-//   background: none;
-//   border: 1px solid #777;
-//   border-radius: 3px;
-//   display: block;
-//   width: 100%;
-//   box-sizing: border-box;
-//   padding: 10px;
-//   margin-bottom: 20px;
-//   h3 {
-//     font-weight: 100;
-//   }
-// `;
-
 const StyledMyButton = styled.div`
   margin-top: 30px;
-
   display: flex;
+  button {
+    width: 140px;
+    height: 40px;
+  }
 `;
 
 const StyledHeaderRow = styled.header`

@@ -13,7 +13,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import SearchQuestion from './SearchQuestion';
 /* eslint-disable react/prop-types */
-import RequireAuth from './RequireAuth';
+
 const MyHeader = ({
   viewModal,
   setModal,
@@ -22,10 +22,8 @@ const MyHeader = ({
   handleKeyword,
 }) => {
   const state = useSelector((state) => state.signInReducer);
-  // const userData = JSON.parse(localStorage.getItem('userData'));
-  // let memberId = parseInt(userData.memberId);
-  // let userId = state.loginState.userid;
-
+  let memberId = parseInt(state.data.memberId);
+  let userId = state.data.userid;
   const navigate = useNavigate();
   const viewLogout = () => {
     setModal(!viewModal);
@@ -38,89 +36,84 @@ const MyHeader = ({
     <Container>
       <Wrapper>
         {state.loginState ? (
-          <RequireAuth option={true}>
-            <>
-              <button className="logoWrapper" onClick={() => navigate('/')}>
-                <FontAwesomeIcon icon={faStackOverflow} className="logo" />
-                <span>stack overflow</span>
-              </button>
-              <div className="deactivemenu">
-                <span>Products</span>
-              </div>
-              <div className="searchbar">
-                <FontAwesomeIcon
-                  icon={faMagnifyingGlass}
-                  className="magnifying"
-                />
-                <SearchQuestion
-                  keyword={keyword}
-                  setkeyword={setkeyword}
-                  handleKeywordKeyword={handleKeywordKeyword}
-                />
-              </div>
-              <div className="loginIconWrapper">
-                <Link
-                  to="/mypage"
-                  style={{ textDecoration: 'none' }}
-                  className="imgWrapper"
-                >
-                  {/* <img
-                    src={`http://3.39.180.45:56178/DBtest/download?memberId=${memberId}`}
-                    alt="profile"
-                  ></img>
-                  <span className="loginMypage">{userId}</span> */}
-                  mypage
-                </Link>
-                <FontAwesomeIcon icon={faInbox} className="icon" />
-                <FontAwesomeIcon icon={faTrophy} className="icon" />
-                <FontAwesomeIcon icon={faCircleQuestion} className="icon" />
-                <FontAwesomeIcon
-                  icon={faBars}
-                  className="icon"
-                  onClick={viewLogout}
-                />
-              </div>
-            </>
-          </RequireAuth>
+          <>
+            <button className="logoWrapper" onClick={() => navigate('/')}>
+              <FontAwesomeIcon icon={faStackOverflow} className="logo" />
+              <span>stack overflow</span>
+            </button>
+            <div className="deactivemenu">
+              <span>Products</span>
+            </div>
+            <div className="searchbar">
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                className="magnifying"
+              />
+              <SearchQuestion
+                keyword={keyword}
+                setkeyword={setkeyword}
+                handleKeywordKeyword={handleKeywordKeyword}
+              />
+            </div>
+            <div className="loginIconWrapper">
+              <Link
+                to="/mypage"
+                style={{ textDecoration: 'none' }}
+                className="imgWrapper"
+              >
+                <img
+                  src={`http://3.39.180.45:56178/DBtest/download?memberId=${memberId}`}
+                  alt="profile"
+                ></img>
+                <span className="loginMypage">{userId}</span>
+              </Link>
+              <FontAwesomeIcon icon={faInbox} className="icon" />
+              <FontAwesomeIcon icon={faTrophy} className="icon" />
+              <FontAwesomeIcon icon={faCircleQuestion} className="icon" />
+              <FontAwesomeIcon
+                icon={faBars}
+                className="icon"
+                onClick={viewLogout}
+              />
+            </div>
+          </>
         ) : (
-          <RequireAuth option={false}>
-            <>
-              <button className="logoWrapper" onClick={() => navigate('/')}>
-                <FontAwesomeIcon icon={faStackOverflow} className="logo" />
-                <span>
-                  stack<strong>overflow</strong>
-                </span>
-              </button>
-              <div className="logout-deactivemenu">
-                <span>About</span>
-                <span>Products</span>
-                <span>For Teams</span>
-              </div>
-              <div className="searchbar">
-                <FontAwesomeIcon
-                  icon={faMagnifyingGlass}
-                  className="magnifying"
-                />
-                <SearchQuestion
-                  keyword={keyword}
-                  setkeyword={setkeyword}
-                  handleKeywordKeyword={handleKeywordKeyword}
-                />
-              </div>
-              <BtnWapper>
-                <MyButton
-                  text={`Log in`}
-                  type={'skyblue'}
-                  onClick={() => navigate('/login')}
-                />
-                <MyButton
-                  text={`Sign up`}
-                  type={'blue'}
-                  onClick={() => navigate('/signup')}
-                />
-              </BtnWapper>
-            </>
-          </RequireAuth>
+          <>
+            <button className="logoWrapper" onClick={() => navigate('/')}>
+              <FontAwesomeIcon icon={faStackOverflow} className="logo" />
+              <span>
+                stack<strong>overflow</strong>
+              </span>
+            </button>
+            <div className="logout-deactivemenu">
+              <span>About</span>
+              <span>Products</span>
+              <span>For Teams</span>
+            </div>
+            <div className="searchbar">
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                className="magnifying"
+              />
+              <SearchQuestion
+                keyword={keyword}
+                setkeyword={setkeyword}
+                handleKeywordKeyword={handleKeywordKeyword}
+              />
+            </div>
+            <BtnWapper>
+              <MyButton
+                text={`Log in`}
+                type={'skyblue'}
+                onClick={() => navigate('/login')}
+              />
+              <MyButton
+                text={`Sign up`}
+                type={'blue'}
+                onClick={() => navigate('/signup')}
+              />
+            </BtnWapper>
+          </>
         )}
       </Wrapper>
     </Container>
@@ -207,8 +200,8 @@ const Wrapper = styled.div`
       padding: 13px;
     }
     .imgWrapper {
-      /* padding: 11px 3px; */
-      /* display: flex; */
+      padding: 11px 3px;
+      display: flex;
       align-items: center;
       img {
         height: 25px;

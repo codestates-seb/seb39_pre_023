@@ -2,10 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MyButton from '../../components/MyButton';
 import { deleteCookie, getLoginCookie } from '../../lib/cookie';
-import { useDispatch } from 'react-redux';
-import { trySignout } from '../../action/action';
+import { useDispatch, useSelector } from 'react-redux';
+import { trySignout, setUserData } from '../../action/action';
 import axios from 'axios';
 const Logout = () => {
+  const state = useSelector((state) => state.signInReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onSignOut = () => {
@@ -14,14 +15,17 @@ const Logout = () => {
         headers: { Authorization: getLoginCookie() },
       })
       .then(() => {
-        // console.log(res.data);
         deleteCookie();
         dispatch(trySignout());
-        localStorage.removeItem('token');
-        localStorage.removeItem('userData');
+        const data = {
+          userid: 'guest',
+          memberId: -1,
+        };
+        dispatch(setUserData(data)); // userid, memeberid
         navigate('/');
       });
   };
+  console.log(state);
 
   return (
     <Container>

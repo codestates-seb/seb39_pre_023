@@ -62,7 +62,7 @@ const SignUp = () => {
         setIdMsg(<p>아이디 조건을 만족해주세요</p>);
       }
     } catch (err) {
-      if (err) setIdMsg(<p>아이디 조건을 만족해주세요</p>);
+      if (err) setIdMsg(<p>다른 아이디로 가입해주세요</p>);
     }
   };
   // pw 유효성검사
@@ -96,7 +96,6 @@ const SignUp = () => {
           { headers: { Authorization: getLoginCookie() } }
         )
         .then(() => {
-          console.log('sign up suceed');
           navigate('/login');
         });
     }
@@ -135,11 +134,7 @@ const SignUp = () => {
       </div>
       <SignupContainer>
         <div className="btnWrapper">
-          <MyButton
-            text={'Sign up with Google'}
-            type={'default'}
-            onClick={() => {}}
-          />
+          <MyButton text={'Sign up with Google'} type={'default'} />
         </div>
         <SignupBox>
           <>

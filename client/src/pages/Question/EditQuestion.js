@@ -49,9 +49,7 @@ const EditQuestion = () => {
             },
             { headers: { Authorization: getLoginCookie() } }
           )
-          .then((res) => {
-            console.log(res.data);
-            console.log('글수정 성공');
+          .then(() => {
             navigate(`/questiondetail/${data.post_id}`);
           })
           .catch((err) => {

@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getLoginCookie } from '../../lib/cookie';
 import MyFooter from '../../components/MyFooter';
+import { useSelector } from 'react-redux';
 
 const MyPage = () => {
   const [nickname, setNickname] = useState('');
@@ -15,9 +16,8 @@ const MyPage = () => {
   const [questions, setQuestions] = useState([]);
   const [infoData, setInfoData] = useState({});
   const [loading, setLoading] = useState(true);
-  let userData = localStorage.getItem('userData');
-  let userinfo = JSON.parse(userData);
-  let pid = userinfo.memberId;
+  const state = useSelector((state) => state.signInReducer);
+  let memberId = parseInt(state.data.memberId);
 
   // 파라미터는 profile_id 로 받기.
   const getprofile = () => {
@@ -34,7 +34,7 @@ const MyPage = () => {
   };
   const getquestion = () => {
     axios
-      .get(`http://3.39.180.45:56178/DBtest/findPost/${pid}?page=1`, {
+      .get(`http://3.39.180.45:56178/DBtest/findPost/${memberId}?page=1`, {
         headers: { Authorization: getLoginCookie() },
       })
       .then((res) => {
@@ -44,7 +44,7 @@ const MyPage = () => {
   const getanswer = () => {
     axios
       .get(
-        `http://3.39.180.45:56178/DBtest/findAnswersBymember/${pid}?page=1&size=15`,
+        `http://3.39.180.45:56178/DBtest/findAnswersBymember/${memberId}?page=1&size=15`,
         {
           headers: { Authorization: getLoginCookie() },
         }
@@ -104,4 +104,6 @@ const Main = styled.div`
 const MypageContainer = styled.div`
   display: flex;
   flex-direction: column;
+  padding-left: 20px;
+  padding-top: 20px;
 `;
