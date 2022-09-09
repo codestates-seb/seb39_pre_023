@@ -45,7 +45,6 @@
 ## Infrastructure
 
 ## Directory Structure
-## Directory structure
 ### 프론트엔드
 ```
 frontend
@@ -92,13 +91,13 @@ src
     ├── main
     │   ├── java
     │   │   └── com.team23.PreProject
-    │	  │		            │
+    │	│		        │
     │   │      	        │   
     │   │               ├── PreProjectApplication.java
     │   │               │
     │   │               ├── Config
     │   │               │   └── WebConfig.java
-    │	  │	             	│
+    │	│	          	│
     │   │               │─ profile
     │   │               │   ├── controller
     │   │               │   ├── entity
