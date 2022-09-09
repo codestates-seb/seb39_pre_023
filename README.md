@@ -4,7 +4,6 @@
 백엔드 DB 스키마 : https://dbdiagram.io/d/63156bb00911f91ba533fcbb
 
 ## 📚 Intro
-***
 - 배포링크:
 - 테스트 계정
 <br/>id: Iddddddd1
@@ -14,13 +13,11 @@
 ![stack-overflow-wordmark](https://user-images.githubusercontent.com/102936206/189313291-02e6b174-2ef8-43a8-a938-56ed440c752c.svg)
 
 ## 👨‍👩‍👧‍ 팀원소개
----
 장원용(팀장, BE)|남충현(FE)|문도연(FE)
 -|-|-
 <a href="https://github.com/wonyong92">@wonyong92</a>|<a href="https://github.com/davidnam0514">@davidnam0514</a>|<a href="https://github.com/Moondoyeon">@Moondoyeon</a>
 
 ## Demo
----
 회원가입|로그인|
 -|-
 ![회원가입](https://user-images.githubusercontent.com/102936206/189317749-776cf8ef-80e3-48a5-bbcc-34a7ad13f9a5.png)|![로그인](https://user-images.githubusercontent.com/102936206/189317782-d8365441-1573-4047-8c28-f63b355469fe.png)
@@ -36,7 +33,6 @@
 ![마이페이지 -profile](https://user-images.githubusercontent.com/102936206/189318442-5caa09fb-de98-40aa-b330-92d85c4ac2ab.png)|![마이페이지 -settings](https://user-images.githubusercontent.com/102936206/189318466-3a764845-8ba6-4261-80e0-cddf5bbaa0f2.png)
 
 ## Skills
----
 ### Front-end
 <img src="https://user-images.githubusercontent.com/52682603/138834243-fb74d81e-e90d-4c6a-8793-05df588f59ab.png" style="width:150px;"></img>
 <img src="https://camo.githubusercontent.com/9eb91892d3969439e38151d9985cc1709f2bfd6062c4ff9e3518f355d4457cd6/68747470733a2f2f6e6f7469636f6e2d7374617469632e74616d6d6f6c6f2e636f6d2f6467676763726b78712f696d6167652f75706c6f61642f76313536373734393631342f6e6f7469636f6e2f7a6764617870616966356f6a6564756f6e7967622e706e67" style="width:150px;"></img>
