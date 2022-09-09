@@ -7,7 +7,6 @@ import {
   faTrophy,
   faCircleQuestion,
 } from '@fortawesome/free-solid-svg-icons';
-import { faStackOverflow } from '@fortawesome/fontawesome-free-brands';
 import MyButton from './MyButton';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -38,8 +37,11 @@ const MyHeader = ({
         {state.loginState ? (
           <>
             <button className="logoWrapper" onClick={() => navigate('/')}>
-              <FontAwesomeIcon icon={faStackOverflow} className="logo" />
-              <span>stack overflow</span>
+              <img
+                src="https://cdn.worldvectorlogo.com/logos/stack-overflow-wordmark.svg"
+                alt="logo"
+                className="logo"
+              ></img>
             </button>
             <div className="deactivemenu">
               <span>Products</span>
@@ -80,10 +82,11 @@ const MyHeader = ({
         ) : (
           <>
             <button className="logoWrapper" onClick={() => navigate('/')}>
-              <FontAwesomeIcon icon={faStackOverflow} className="logo" />
-              <span>
-                stack<strong>overflow</strong>
-              </span>
+              <img
+                src="https://cdn.worldvectorlogo.com/logos/stack-overflow-wordmark.svg"
+                alt="logo"
+                className="logo"
+              ></img>
             </button>
             <div className="logout-deactivemenu">
               <span>About</span>
@@ -149,8 +152,10 @@ const Wrapper = styled.div`
     &:hover {
       background-color: #e3e6e8;
     }
+
     .logo {
-      font-size: 30px;
+      width: 150px;
+      height: auto;
     }
     span {
       font-size: 18px;
