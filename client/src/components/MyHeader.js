@@ -21,7 +21,7 @@ const MyHeader = ({
   handleKeyword,
 }) => {
   const state = useSelector((state) => state.signInReducer);
-  let memberId = parseInt(state.data.memberId);
+  let memberId = parseInt(state.data.memberid);
   let userId = state.data.userid;
   const navigate = useNavigate();
   const viewLogout = () => {
