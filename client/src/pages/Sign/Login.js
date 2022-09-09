@@ -7,10 +7,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import { setLoginCookie, getLoginCookie } from '../../lib/cookie';
 import { setSignState, setUserData } from '../../action/action';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 /* eslint-disable react/prop-types */
 const Login = () => {
-  const state = useSelector((state) => state.signInReducer);
   const [userInfo, setUserInfo] = useState({
     id: '',
     password: '',
