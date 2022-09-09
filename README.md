@@ -43,3 +43,142 @@
 
 
 ## Infrastructure
+
+## Directory Structure
+## Directory structure
+### 프론트엔드
+```
+frontend
+├── package-lock.json
+├── package.json
+└── src
+    ├── action
+    ├── components ─────────────┐
+    ├── lib.                    ├──AnswerItem
+    ├── pages ───┐              ├──Answers
+    ├── reducer  ├── MyPage     ├──AnswerVote
+    └── store    ├── Question   ├──ChangePassword
+                 ├── Search     ├──DeleteModal
+                 └── Sign       ├──DeleteProfile
+                                ├──EditProfile
+                                ├──HeaderModal
+                                ├──MyAnswerListitem
+                                ├──MyButton
+                                ├──MyContent
+                                ├──MyFooter
+                                ├──MyHeader
+                                ├──MyInfo
+                                ├──MylistItem
+                                ├──MyProfile
+                                ├──MyProfileImg
+                                ├──MyQuestionListItem
+                                ├──MySettings
+                                ├──Nav
+                                ├──PostAnswer
+                                ├──PostBodyTextarea
+                                ├──PsotList
+                                ├──PostVote
+                                ├──RequireAuth
+                                ├──SearchListItem
+                                ├──SearchQuestion
+                                ├──Tags
+                                └──Widget
+
+```
+
+### 백엔드
+```
+src
+    ├── main
+    │   ├── java
+    │   │   └── com.team23.PreProject
+    │	  │		            │
+    │   │      	        │   
+    │   │               ├── PreProjectApplication.java
+    │   │               │
+    │   │               ├── Config
+    │   │               │   └── WebConfig.java
+    │	  │	             	│
+    │   │               │─ profile
+    │   │               │   ├── controller
+    │   │               │   ├── entity
+    │   │               │   ├── dto
+    │   │               │   ├── mapper
+    │   │               │   ├── service
+    │   │               │   └── repository
+    │   │               │	
+    │   │               │─ user
+    │   │               │   ├── controller
+    │   │               │   ├── entity
+    │   │               │   ├── dto
+    │   │               │   ├── mapper
+    │   │               │   ├── service
+    │   │               │   └── repository
+    │   │               │
+    │   │               │─ comment
+    │   │               │   ├── controller
+    │   │               │   ├── entity
+    │   │               │   ├── dto
+    │   │               │   ├── mapper
+    │   │               │   ├── service
+    │   │               │   └── repository
+    │   │               │
+    │   │               │─ tag
+    │   │               │   ├── controller
+    │   │               │   ├── entity
+    │   │               │   ├── dto
+    │   │               │   ├── mapper
+    │   │               │   ├── service
+    │   │               │   └── repository
+    │   │               │
+    │   │               │─ post
+    │   │               │   ├── controller
+    │   │               │   ├── entity
+    │   │               │   ├── dto
+    │   │               │   ├── mapper
+    │   │               │   ├── service
+    │   │               │   └── repository
+    │   │               │
+    │   │               │─ post_vote
+    │   │               │   ├── controller
+    │   │               │   ├── entity
+    │   │               │   ├── dto
+    │   │               │   ├── mapper
+    │   │               │   ├── service
+    │   │               │   └── repository
+    │   │               │
+    │   │               │─ answer
+    │   │               │   ├── controller
+    │   │               │   ├── entity
+    │   │               │   ├── dto
+    │   │               │   ├── mapper
+    │   │               │   ├── service
+    │   │               │   └── repository
+    │   │               │
+    │   │               │─ answer_vote
+    │   │               │   ├── controller
+    │   │               │   ├── entity
+    │   │               │   ├── dto
+    │   │               │   ├── mapper
+    │   │               │   ├── service
+    │   │               │   └── repository
+    │   │               │
+    │   └── resources
+    │		├── schema.sql // not empty
+    │		├── data.sql // not empty
+    │           └── application.properties
+```
+
+### Getting Started
+#### 프론트엔드
+```
+# development
+$ cd frontend
+$ npm install
+$ npm run start
+```
+#### 백엔드
+```
+./gradlew build
+java -jar build/libs/coco-*-SNAPSHOT.jar
+```
