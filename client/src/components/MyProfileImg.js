@@ -4,12 +4,15 @@ import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { getLoginCookie } from '../lib/cookie';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 /* eslint-disable react/prop-types */
 
-const MyProfileImg = ({ userId }) => {
+const MyProfileImg = () => {
   const navigate = useNavigate();
   const [preview, setPreview] = useState(undefined);
   const imgInput = useRef(null);
+  const state = useSelector((state) => state.signInReducer);
+  let memberId = parseInt(state.data.memberid);
   const onChangeImgBtnClick = (e) => {
     e.preventDefault();
     imgInput.current.click();
@@ -33,7 +36,7 @@ const MyProfileImg = ({ userId }) => {
       });
       const formData = new FormData();
       formData.append('file', compressedFile);
-      formData.append('memberId', userId);
+      formData.append('memberId', memberId);
       const config = {
         headers: {
           Authorization: getLoginCookie(),
@@ -57,7 +60,7 @@ const MyProfileImg = ({ userId }) => {
         <img
           src={
             preview === undefined
-              ? `http://3.39.180.45:56178/DBtest/download?memberId=${userId}`
+              ? `http://3.39.180.45:56178/DBtest/download?memberId=${memberId}`
               : preview
           }
           alt="profileImage"

@@ -2,11 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MyButton from '../../components/MyButton';
 import { deleteCookie, getLoginCookie } from '../../lib/cookie';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { trySignout, setUserData } from '../../action/action';
 import axios from 'axios';
 const Logout = () => {
-  const state = useSelector((state) => state.signInReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onSignOut = () => {
@@ -25,7 +24,6 @@ const Logout = () => {
         navigate('/');
       });
   };
-  console.log(state);
 
   return (
     <Container>

@@ -7,9 +7,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import { setLoginCookie, getLoginCookie } from '../../lib/cookie';
 import { setSignState, setUserData } from '../../action/action';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 /* eslint-disable react/prop-types */
 const Login = () => {
+  const state = useSelector((state) => state.signInReducer);
   const [userInfo, setUserInfo] = useState({
     id: '',
     password: '',
@@ -17,6 +18,7 @@ const Login = () => {
   const [loginMsg, setLoginMsg] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const getUserID = (e) => {
     setUserInfo({ ...userInfo, id: e.target.value });
   };
@@ -29,27 +31,22 @@ const Login = () => {
         id: userInfo.id,
         password: userInfo.password,
       });
-      const data = res.data; // accesstoken, userid
+      const data = res.data; //token, userid, memeberid
+
       if (!data.token) {
         setLoginMsg(true);
       } else {
-        //토큰
-        setLoginCookie(data.token);
-        localStorage.setItem('token', JSON.stringify(data.token));
-        delete data.token;
+        setLoginCookie(data.token); //토큰
 
+        delete data.token; // 토큰 삭제
         const res2 = await axios.get(
           'http://3.39.180.45:56178/DBtest/refreshToken',
           { headers: { Authorization: getLoginCookie() } }
         );
-        const data2 = res2.data; // true
-        dispatch(setSignState(data2.msg));
-        delete data2.msg;
-        dispatch(setUserData(data)); // data userid, memeberid
-        // console.log(data);
-        localStorage.setItem('userData', JSON.stringify(data));
+        dispatch(setSignState(res2.data.msg)); // true
+        dispatch(setUserData(data)); // userid, memeberid
+
         navigate('/');
-        // console.log('login succed');
       }
     } catch (err) {
       if (err.response.status >= 400) {
@@ -57,6 +54,7 @@ const Login = () => {
       }
     }
   };
+
   const onPushEnter = (e) => {
     if (e.key === 'Enter') trySignIn();
   };
@@ -65,11 +63,7 @@ const Login = () => {
       <SigninBox>
         <FontAwesomeIcon icon={faStackOverflow} className="stacklogo" />
         <BtnWrapper>
-          <MyButton
-            text={'Log in with Google'}
-            type={'default'}
-            onClick={() => {}}
-          />
+          <MyButton text={'Log in with Google'} type={'default'} />
         </BtnWrapper>
         <LoginBox>
           <span>Id</span>

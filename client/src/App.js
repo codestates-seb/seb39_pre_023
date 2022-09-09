@@ -12,12 +12,11 @@ import Login from './pages/Sign/Login';
 import Logout from './pages/Sign/Logout';
 import SignUp from './pages/Sign/SignUp';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getLoginCookie } from './lib/cookie';
-import { setSignState } from './action/action';
+import { setSignState, setUserData } from './action/action';
 import RequireAuth from './components/RequireAuth';
 import SearchResult from './pages/Search/SearchResult';
-
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ function App() {
   const [keyword, setkeyword] = useState('');
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const state = useSelector((state) => state.signInReducer);
   useEffect(() => {
     const func = async () => {
       const res = await axios.get(
@@ -36,11 +35,14 @@ function App() {
           headers: { authorization: getLoginCookie() },
         }
       );
-      dispatch(setSignState(res.data));
+      dispatch(setSignState(res.data.msg));
+      delete res.data.msg;
+      dispatch(setUserData(res.data)); //userid, memeberid
+      setLoading(false);
     };
     func();
   }, []);
-
+  console.log(state);
   useEffect(() => {
     getAllQuestion();
   }, []);
@@ -49,7 +51,7 @@ function App() {
       .get(`http://3.39.180.45:56178/DBtest/findAllPost?page=1&size=-2`)
       .then((res) => {
         setLists(res.data.posts);
-        setLoading(false);
+        // setLoading(false);
       });
   };
   useEffect(() => {
@@ -66,7 +68,7 @@ function App() {
         setSearchList(res.data.posts);
         setSearchCount(res.data.questions);
         navigate('/search');
-        setLoading(false);
+        // setLoading(false);
       })
       .catch(() => {});
   };

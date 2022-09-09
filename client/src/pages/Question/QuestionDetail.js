@@ -13,7 +13,7 @@ import { getLoginCookie } from '../../lib/cookie';
 import { useSelector } from 'react-redux';
 const QuestionDetail = ({ getAllPost }) => {
   const state = useSelector((state) => state.signInReducer);
-  let memberId = parseInt(state.data.memberId);
+  let memberId = parseInt(state.data.memberid);
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [pid, setPid] = useState(0);

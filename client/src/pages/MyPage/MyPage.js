@@ -17,7 +17,7 @@ const MyPage = () => {
   const [infoData, setInfoData] = useState({});
   const [loading, setLoading] = useState(true);
   const state = useSelector((state) => state.signInReducer);
-  let memberId = parseInt(state.data.memberId);
+  let memberId = parseInt(state.data.memberid);
 
   // 파라미터는 profile_id 로 받기.
   const getprofile = () => {
