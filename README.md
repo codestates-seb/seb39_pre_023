@@ -26,11 +26,15 @@
 글목록페이지|글상세페이지
 ![글목록페이지](https://user-images.githubusercontent.com/102936206/189318044-b56213c2-e7e7-4bf8-a5e7-78a118a8a7de.png)|![글상세페이지](https://user-images.githubusercontent.com/102936206/189318068-b0685315-ea80-4970-8f4f-6ea8e6987790.png)
 글작성페이지|글수정페이지
-![글작성페이지](https://user-images.githubusercontent.com/102936206/189318169-9c21738a-4f6d-40d6-960f-a6e5bb6372c1.png)|![글수정페이지](https://user-images.githubusercontent.com/102936206/189318190-385a1b6d-784f-4865-aff0-85db8df565e8.png)
+![글작성페이지](https://user-images.githubusercontent.com/102936206/189318169-9c21738a-4f6d-40d6-960f-a6e5bb6372c1.png)|![질문수정](https://user-images.githubusercontent.com/102936206/189381091-e599bd87-4e34-41a1-afbb-5ef0a9c7e086.png)
+
 검색결과페이지|답변작성/수정/삭제
-![검색결과페이지](https://user-images.githubusercontent.com/102936206/189318287-97ab0e67-010a-4e3f-b6b7-8f5cfd6077ee.png)|![답변작성,수정,삭제](https://user-images.githubusercontent.com/102936206/189318332-05a6d637-11f8-4188-8ecd-8f43f7aa672e.png)
+![검색결과페이지](https://user-images.githubusercontent.com/102936206/189318287-97ab0e67-010a-4e3f-b6b7-8f5cfd6077ee.png)|![답변생성조회수정삭제](https://user-images.githubusercontent.com/102936206/189381223-2f7ce3e1-054c-49d2-ab7b-3039c5f919fe.png)
+
 마이페이지-profile|마이페이지-settings
-![마이페이지 -profile](https://user-images.githubusercontent.com/102936206/189318442-5caa09fb-de98-40aa-b330-92d85c4ac2ab.png)|![마이페이지 -settings](https://user-images.githubusercontent.com/102936206/189318466-3a764845-8ba6-4261-80e0-cddf5bbaa0f2.png)
+![마이페이지-profile](https://user-images.githubusercontent.com/102936206/189381259-a7da8f33-6e25-4080-af4b-63e687e905dd.png)
+|![마이페이지-setting](https://user-images.githubusercontent.com/102936206/189381288-d7beb73e-40e2-435b-91c6-7141ffd8e500.png)
+
 
 ## Skills
 ### Front-end
