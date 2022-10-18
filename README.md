@@ -1,14 +1,5 @@
-# seb39_pre_023
-백엔드 API 문서 : https://ska40806.gitbook.io/api-docs/
-
-백엔드 DB 스키마 : https://dbdiagram.io/d/63156bb00911f91ba533fcbb
-
 ## 📚 Intro
-- 배포링크:
-- 테스트 계정
-<br/>id: Iddddddd1
-<br/>password: password
-<br/>
+프로그래머를 위한 질의응답 커뮤니티 서비스
 
 ![stack-overflow-wordmark](https://user-images.githubusercontent.com/102936206/189313291-02e6b174-2ef8-43a8-a938-56ed440c752c.svg)
 
@@ -17,7 +8,7 @@
 -|-|-
 <a href="https://github.com/wonyong92">@wonyong92</a>|<a href="https://github.com/davidnam0514">@davidnam0514</a>|<a href="https://github.com/Moondoyeon">@Moondoyeon</a>
 
-## Demo
+## 🕶 Demo
 회원가입|로그인|
 -|-
 ![회원가입](https://user-images.githubusercontent.com/102936206/189317749-776cf8ef-80e3-48a5-bbcc-34a7ad13f9a5.png)|![로그인](https://user-images.githubusercontent.com/102936206/189317782-d8365441-1573-4047-8c28-f63b355469fe.png)
@@ -33,17 +24,36 @@
 ![마이페이지-profile](https://user-images.githubusercontent.com/102936206/189381259-a7da8f33-6e25-4080-af4b-63e687e905dd.png)|![마이페이지-setting](https://user-images.githubusercontent.com/102936206/189381288-d7beb73e-40e2-435b-91c6-7141ffd8e500.png)
 
 
-## Skills
+## 💪 Skills
 ### Front-end
-<img src="https://user-images.githubusercontent.com/52682603/138834243-fb74d81e-e90d-4c6a-8793-05df588f59ab.png" style="width:150px;"></img>
-<img src="https://camo.githubusercontent.com/9eb91892d3969439e38151d9985cc1709f2bfd6062c4ff9e3518f355d4457cd6/68747470733a2f2f6e6f7469636f6e2d7374617469632e74616d6d6f6c6f2e636f6d2f6467676763726b78712f696d6167652f75706c6f61642f76313536373734393631342f6e6f7469636f6e2f7a6764617870616966356f6a6564756f6e7967622e706e67" style="width:150px;"></img>
-<img src="https://camo.githubusercontent.com/ea2326599fe1ad74f07f5c2dd97ccdbd296e825d0ddf3f9fff2c417260a190fe/68747470733a2f2f6e6f7469636f6e2d7374617469632e74616d6d6f6c6f2e636f6d2f6467676763726b78712f696d6167652f75706c6f61642f76313536383835313531382f6e6f7469636f6e2f6c776a336872397631796f6865696d74776331772e706e67" style="width:150px;"></img>
+React, Redux, styled-components
 
 ### Back-end
+Spring Web WEB,Spring REST Docs, Spring Data JPA, H2 Database, Lombok, Spring Security, OAuth2 Client, MySQL Driver,Validation
 
 
-## Infrastructure
 
+## 🧮 <a href="https://dbdiagram.io/d/63156bb00911f91ba533fcbb">DB 스키마</a> 
+![스크린샷 2022-10-18 오후 9 10 42](https://user-images.githubusercontent.com/102936206/196425712-ea90f62d-ab31-4228-9da0-2920b07e8e5c.png)
+
+## 📚 팀 문서
+ <a href="https://ska40806.gitbook.io/api-docs/">API 문서</a>
+ 
+## 📌 깃 커밋 컨벤션
+```
+Add : 새로운 파일 추가
+Feat : 새로운 기능 추가
+Fix : 버그 수정
+Docs : 문서 수정
+Style : 코드 formatting, 세미콜론(;) 누락, 코드 변경이 없는 경우
+Design : css 수정
+Rename : 파일 및 폴더 구조 변경
+Refactor : 코드 리팩토링
+Test : 테스트 코드, 리팽토링 테스트 코드 추가
+Chore : 빌드 업무 수정, 패키지 매니저 수정
+Remove : 파일 삭제
+Modify : 코드 단순 수정
+```
 ## Directory Structure
 ### 프론트엔드
 ```
@@ -166,18 +176,4 @@ src
     │		├── schema.sql // not empty
     │		├── data.sql // not empty
     │           └── application.properties
-```
-
-### Getting Started
-#### 프론트엔드
-```
-# development
-$ cd frontend
-$ npm install
-$ npm run start
-```
-#### 백엔드
-```
-./gradlew build
-java -jar build/libs/coco-*-SNAPSHOT.jar
 ```
