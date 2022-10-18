@@ -1,5 +1,6 @@
 ## 📚 Intro
 프로그래머를 위한 질의응답 커뮤니티 서비스
+| 개발기간 220819 ~ 220906
 
 ![stack-overflow-wordmark](https://user-images.githubusercontent.com/102936206/189313291-02e6b174-2ef8-43a8-a938-56ed440c752c.svg)
 
